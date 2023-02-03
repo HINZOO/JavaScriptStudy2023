@@ -1,0 +1,41 @@
+< My SQL 설치>
+(주의) 반드시 반디집으로 압축 풀것
+1) MySQL검색 -> MySQL Community Server -> windowsDownload
+2) 압축풀고 폴더명 mysql 로 변경후 윈도우가 설치된드라이버에 폴더이동
+3) 환경변수 설정하기
+    -윈도우 검색창에 시스템 환경변수 설정 검색 후 들어가기
+    -시스템 변수 새로만들기 클릭하고 입력
+        변수이름:    MYSQL_HOME
+         변수값: C:\mysql
+    -확인 후 path 더블클릭 -> 새로만들기-> %MYSQL_HOME%\bin 입력
+    -확인->확인
+4) CMD(명령프롬포트) 관리자 권한으로 실행
+5) >mysql
+   >mysqld --initialize-insecure --user=root
+   >mysqld --install
+   순서대로 기다리면서 입력하기 (바로 인스톨해버리면 비밀번호 찾아야함)
+6) >net start mysql 입력 (윈도우가 자동으로 실행, 설치시 한번만 해주면 된다)
+7) >mysql -uroot -p
+   >비밀번호: (현재없으니 그냥 엔터치면됨)
+
+<비밀번호 변경>
+>use mysql;
+>select host,user from user;
+>ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'mysql123';
+
+
+
+<🍒MYSQL 데이터 타입>
+    1) 문자열 데이터 타입
+    char, varchar, mediumtext, longtext
+    TinyBlob, Blob, TinyText, Text
+
+    2) 숫자형 데이터 타입
+    Bit , BOOL , BOOLEAN
+    TINYINT (JAVA 에서 byte)
+    SMALLINT (JAVA 에서 short)
+    INT
+    BIGINT(JAVA 에서  LONG)
+    📂 이 이후로 천천히 정리해보자
+
+

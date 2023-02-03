@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>기본형 데이터 타입</title>
+</head>
+<body>
+    <h1>자바스크립트의 기본형 데이터와 타입</h1>
+    <h2>자바의 기본형</h2>
+    <ul>
+        <li>123 : int</li>
+        <li>123423423423423L : long</li>
+        <li>true ,false : boolean</li>
+        <li>byte : byte  b= (byte) 13;</li>
+        <li>short : short b = (short) 13;</li>
+        <li>int : int b = 13;</li>
+        <li>long : long l =1234455663534242342L</li>
+        <li>float : float  f = 123.23f</li>
+        <li>double: double d = 123.23 </li>
+        <li>boolean</li>
+        <li>char : char c = (0~127) 1byte || '\u1231' , '0x1231', '가' 1~4byte </li>
+    </ul>
+
+    <h2>JS의 기본형 7가지 (암기!)</h2>
+    <ul>
+        <li>number : java의 double 과 같은 기본형으로 모든 연산이 가능 (123, 123.123, NaN,Infinity)</li>
+        <li>bigint : number 가 가장 정확하게 표현할 수 있는 정수보다 큰 수를 표기할 때 사용 (9007199254740991n)</li>
+        <li>string : 문자의 배열형태의 자료로 java의 char[]과 같은 타입이다.("안녕",'',`${변수}`)</li>
+        <li>boolean : 논리연산의 결과로 true, false를 나타낸다.</li>
+        <li>null : 자료가 없다. 수로  형변환 하면 0으로 취급</li>
+        <li>undefined : 선언되지 않음, 선언되지 않은 상태의 변수를 참조할 때 발생하는 오류를 예방하기 위해 존재 (NaN)</li>
+        <li>symbol : 고유값을 반환하는 기본 데이터로 Iterable 한 자료의 식별자를 정의할 때 사용 됨. </li>
+    </ul>
+    <p>type of : 기본형의 타입을 문자열로 반환하는 연산으로 자료형은 모두 object로 반환하고 함수는 function으로 반환한다.</p>
+    <h2>number 기본형</h2>
+    <ul>
+        <li>정수 : 정수를 선언해도 실수가 된다.</li>
+        <li>실수 : 8byte 크기의 실수로 java의 double과 똑같다.</li>
+        <li>NaN : Not a Number 의 준말로 수로 변환할 수 없는 데이터를 수로 변환할 때 오류를 발생하지 않으려고 등장.</li>
+        <li>Infinity : 무한대</li>
+    </ul>
+    <h2>string 문자열</h2>
+    <ul>
+        <li>"",'',``으로 선언가능</li>
+        <li>메모리에 char[] 의 형태로 저장되어 자료형이지만 자바스크립트에서는 기본형으로 취급한다.</li>
+        <li>+(concat()) 더하기 연산이 가능</li>
+        <li>자바처럼 리터럴 하게 선언하면 새로운 문자열을 만들지 않고 기존의 문자열을 참조한다. ex)"안녕"==="안녕"//true</li>
+    </ul>
+
+    <h2>수 연산자</h2>
+    <p> *, /, % , **, +, -, ++, --, +=, -=, *=, /=, %= </p>
+    <ul>
+        <li>+ : 더하기 연산은 수와 문자열 둘다 연산할 수 있다. 문자열의 + 연산은 String.concat()을 하는 것과 같다.
+                예)"a"+"b" == String.concat("a","b")</li>
+        <li>문자열과 수를 + 연산 했을 때 수를 문자열로 취급한다.</li>
+        <li> + 연산을 제외한 모든 연산은 수로 변환한다.</li>
+        <li>문자열의 자동형변환 시 문자열이 수가 될 수 없으면 NaN가 반환된다. (Java는 NumberFormatException 오류발생)</li>
+        <li></li>
+    </ul>
+
+    <h2>비교 연산자</h2>
+    <p>(이항 : --, !=, >=, <=, ===), (단항: !), (js는 자료형의 equals가 없다)</p>
+    <ul>
+        <li>1==1 비교 :
+            <script>document.write(1==1)</script>
+        </li>
+        <li>1=='1' 형변환 하여 비교 :
+            <script>document.write(1=="1")</script>
+        </li>
+        <li>1==='1' :
+            <script>document.write(1==="1")</script></br>
+            === :: 형변환 없이 두개가 완전히 같은지 비교 (=완전동등비교)
+        </li>
+
+        <li>"13">=1 :
+            <script>document.write("13">=1)</script>
+        </li>
+        <li>"십삼">=1 :
+            <script>document.write("십삼">=1)</script></br>
+            (NaN>=1)
+        </li>
+        <li>"십삼" == "십삼" :
+            <script>document.write("십삼"=="십삼")</script></br>
+            <!--자바스크립트는 데이터 형태가 같기때문에 같다고 한다. 자바는 String이 리터럴하게 선언하면 같은 값을 참조한다. 따라서 이 경우는 같다. -->
+        </li>
+        <li>"십삼" === "십삼" :
+            <script>document.write("십삼"==="십삼")</script></br>
+        </li>
+        <li>"십삼" == new String("십삼") :
+            <script>document.write("십삼"==new String("십삼"))</script></br>
+            ( new String("십삼") -> "십삼" 으로 형변환 하여 기본값만 참조 후 비교 연산)
+        </li>
+        <li>"십삼" === new String("십삼") :
+            <script>document.write("십삼"===new String("십삼"))</script></br>
+            ( 기본형 != 자료형 이기 때문에 같지 않다. )
+            ( java의 String은 리터럴 하게 선언하면 같은 값을 참조하기 때문)
+            <!--자바는 이 경우 좌 우의 주소가 다름 (새로운 객체 생성) 따라서 false의 결과가 나온다. 결과는 같지만 이유가 다르니 이부분 체크! -->
+        </li>
+    </ul>
+
+    <h2>기본형과 랩퍼클래스와 자동완성!</h2>
+    <ul>
+        <li>랩퍼클래스 Number, BigInt, String Boolean 기본테이터 타입을 도와주는 필드의 집합</li>
+        <li>기본형에서 바로 랩퍼 클래스의 필드를 접근하는 것처럼 사용 가능하다. (자동완성)</li>
+        <li>문자열도 char[]의 형태로 메모리에 저장되어 있기 때문에 랩퍼 클래스 String 에서 필드를 호출한다.</li>
+        <li></li>
+    </ul>
+
+<!-- 🎀  여기 채워오는게 숙제//모던자바스크립트 참고 5-1,2,3,4,5,5 보고/ 2-4,5,7,8,9 4-1,4-4,4-5는 오늘했다요
+        11-1~8시간되면 봐요(예습)-->
+    <h2>Number 랩퍼 클래스의 유용한 함수들</h2>
+    <ul>
+        <li>isNaN("십") : 매개변수가 수로 '형변환'이 불가능한지 확인 (불가능시 true, 가능 false) </li>
+        <li>Number.isNaN(NaN,"십"*3) : 매개변수를 수로 형변환 하지 않고 매개변수가 NaN인지만 체크 (NaN:true)</li>
+        <!--
+             isNaN("십") 이면 이때 십이 형변환이 불가능하므로 true
+             umber.isNaN(NaN,"십"*3) 이때 "십"이 형변환되며 NaN이 되고 NaN*3=NaN 이므로 NaN값이 된다, 따라서 false
+        -->
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <h2>Math 의 유용한 함수들</h2>
+    <h2>String 랩퍼클래스의 유용한 함수들</h2>
+    <script>
+    let num;
+    console.log(num+ " : "+(typeof num));
+    console.log((num+10) + " : "+(typeof num));
+
+    num = 13.33;
+    console.log(num+ " : "+(typeof num)); // type of 는 data의 타입을 문자열로 반환
+    num = 13;
+    console.log(num+ " : "+(typeof num));
+    num = Number("십삼"); // java 의 Integer.parseInt 와 같다 (문자열을 수로 형변환)
+    console.log(num+ " : "+(typeof num)); // NaN: 수와 관련된 오류를 표시
+    console.log((13-"일")+" : "+(typeof num)); //NaN (Not a Number)
+    console.log((1/0)+" : " +(typeof num)); //Infinity
+
+    let bigInt = 123123123123123123123123123123123123123123123132123123123;
+    console.log (bigInt + " : " + (typeof bigInt)); // number 부동 소수점으로 표현
+    bigInt = 123123123123123123123123123123123123123123123132123123123n // 큰정수 bigInt
+    console.log (bigInt + " : " + (typeof bigInt));
+
+    let string ="안녕";
+    console.log(string +" : "+ (typeof string)); // char [] ={'안','녕'};
+    string = new String("안녕");
+    console.log(string +" : "+ (typeof string)); // String s = "안녕"; or new String("안녕");
+    // 배열을 자료형으로 보기가 어렵다.
+    string = '안녕~' ; // js는 "",'' 똑같이 문자열
+    console.log(string +" : "+ (typeof string));
+    let name ='현주';
+    string = `안녕하세요~  ${name} 씨~ ` //``백틱으로 선언하는 문자열은 표현식으로 +연산을 대신할 수 있다.
+    console.log(string +" : "+ (typeof string));
+
+
+    //기본형의 랩퍼 클래스와 자동완성!
+    // 기본형에 필드가 없지만 마치 자료형인것 처럼 사용가능하다.
+    let i =1000.1234564;
+    console.log("i.toFixed(4) : "+i.toFixed(4)) // 기본형에는 필드가 존재하지 않지만 있는 것 처럼 쓸 수 있다.
+                                                // 이 때 필드는 Number것 =>>.toFixed : 4자리 까지 출력하고 반올림
+    console.log(new Number(i).toFixed(4))// 본래모습.
+
+    // js의 자동형변환에 자동완성이 이해를 더욱 어렵게 할 수 있다,
+
+    console.log(`0.1+0.2=${0.1+0.2}`) //정밀도 손실 (모든언어 다 손실이 있음)
+
+    //NaN
+    let input ="십";
+    console.log(`NaN==NaN : ${NaN==NaN}`);
+    console.log(`Number.parseInt("십")==NaN : ${Number.parseInt(input)==NaN}`)
+    console.log(`isNaN("십") : ${isNaN(input)}`); // "십"이 숫자로 형변환 불가능한가?
+    console.log(`Number.isNaN("십") : ${Number.isNaN(input)}`); // data가 NaN인지만 확인 (지금 input은 string값이다) 따라서 false
+    console.log(`Number.parseInt("십") : ${Number.isNaN(parseInt(input))}`); //true
+
+    console.log("isNaN(공백) : " +isNaN(" ")); // 공백을 0으로 취급 즉, 형변환 가능 false.
+    console.log("isNaN(true) : " + isNaN(true)); // true는 1로 변환 즉, 형변환 가능 false.
+
+    //+연산
+    //자바스크립트는 문자열과 수를 연산할때 꼭 수로 형변환 한다. (더하기 연산 제외)
+    console.log("1"+1); // -> '11' //더하기연산은 문자열을 수로 형변환 하지 않고 수를 문자열로 만들고 연산한다. (자바와 같음)
+    console.log("1"-1); // 1-1 =0 //더하기가 아닌 연산은 계산된다. (즉, 문자열이 수로 형변환 되어져 계산된다)
+    console.log("일"-1); //NaN-1 =>NaN (수만 가능한 연산을 할 때 js는 문자열을 수로 형변환 하는데 이때 NaN이 발생한다.)
+
+
+</script>
+
+
+</body>
+</html>

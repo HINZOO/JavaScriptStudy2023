@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>var의 호이스팅 현상</title>
+</head>
+<body>
+    <h1>var 의 호이스팅 현상</h1>
+    <p>hoisting 은 끌어올린다 는 의미로 var를 지역에 선언하여도 전역에서 사용되는 현상을 의미한다.</p>
+    <p>var 변수는 전역의 필드인 window에 선언되기 때문에 scope가 없고 무조건 전역에 호출된다.</p>
+    <p>오류는 아니지만 지역변수가 없는 것은 프로그래밍의 한계를 만들 수 있기 때문에 let을 만들었다.</p>
+
+<script>
+    var a = 10;
+    {
+      var a = 20;
+      console.log("지역의 a: "+ a); //예상 20 //실제 20
+    }
+    console.log("전역의 a: " +a);  //예상 10  //실제 20
+    // 지역변수 a와 전역변수 a가 독립적이라면 전역의 a가 10이어야 하는데 20이 된다.
+    // 지역에서 선언했는데 전역의 변수가 바뀐다고 해서 hosting 현상이라 한다. -> 오류로 취급
+
+    let b = 10;
+    {
+        let b =20;
+        console.log("지역의 b: " +b);
+    }
+    console.log("전역의 b: " +b);
+    // Java는 함수 안에서 부모영역에서 선언한 변수이름을 자식영역에서 사용할 수 없다. (필드는 예외)
+
+    // var 이 윈도우의 필드로 변수를 선언하는 명령어 이기 때문에 hoisting 현상이 발생한다.
+    // window : 브라우저 객체로 js가 실행될때 브라우저와 관련된 모든 필드를 포함하는 최상위 객체로 생성
+    // window.document : 브라우저에서 불러온 html 문서를 객체로 생성하는 것
+    // window.document.(node 개체 : id, getElementBy~,querySelector ..) : html 에 작성된 태그를 객체로 생성한 것.
+    // node : 가지에 달린 무언가
+    // DOMTree : HTML 에 작성된 태그를 tree의 형상으로 구성하는 것 (tag->node)
+    console.log(window); // 자바에서 동일한 의미를 가진것은 없다 자바에서 Object 는 모든 타입의 부모인데 window는 아님.
+                        // 궂이 말하자면 JVM을 구성하는 필드 정도로 생각.
+    console.log(window.document)
+    // var a = 10; window의 필드로 a를 선언함.
+    console.log(window.a); // 결론: 전체영역에 a가 필드로 선언됨. 스코프가 있을 수 없다.
+
+    window.c=100; // == var c=100;
+    {
+        window.c =10; // == var c=10;
+    }
+    console.log("c : " +c);
+
+</script>
+</body>
+</html>

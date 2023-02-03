@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Object와 자료형</title>
+</head>
+<body>
+    <h1>자바스크립트의 자료형들</h1>
+    <p>자료형(참조형) 데이터 : 복수의 데이터를 참조하는 것을 의미 (프로그래밍에서 객체를 의미)</p>
+    <h2>자바 스크립트의 Object</h2>
+    <ul>
+        <li>Object : 모든 프로토타입의 부모 타입(js는 프로토타입(=초기모델) 언어)</li>
+        <li>프로토타입 언어 : 타입을 명시하면 프로토타입(생성자가 명시됨)이 생성되고 객체 생성시 프로토 타입을 참조(객체지향 언어와 크게 다르지 않다) </li>
+        <li>new 연산자 : 프로토타입의 명시된 생성자를 호출해서 객체를 만들어 반환한다.</li>
+        <li>new Object() == {} : 객체 생성을 리터럴하게 할 수 있다.</li>
+        <li>js는 함수가 타입이 되기 때문에 함수를 명시하면 프로토타입이 생성된다.
+            (타입과 함수(실행의모음)의 구분이 없다.)</li>
+    </ul>
+    <h2>객체지향 언어와 프로토타입 언어(함수형 언어;대부분의 함수가 프로토타입일뿐, 같은 말은 아님)의 차이</h2>
+        <!--자바와 자바스크립트의 차이-->
+    <ul>
+        <li> class 를 객체의 타입으로 사용한다.<-> 프로토타입을 타입으로 사용</li>
+        <li> 상속은 부모의 필드를 물려받고 재정의 할 수 있다. <-> 부모 프로토타입을 링크로 사용할 수 있다.</li>
+        <li> class는 오직 타입이다 <-> 프로토타입은 객체처럼 생성되어 있다.</li>
+        <li> 함수가 타입이 될 수 없다 <-> 함수가 타입이 될 수 있다.
+            (매개변수로 함수를 사용할 수 있고, 함수를 변수가 참조할 수도 있다.)</li>
+    </ul>
+<script>
+    function Person(name, age){//타입으로 사용될 함수는 파스칼 표기법으로 명명
+        this.name = name;//this. : 필드접근자(js 에서는 필드를 정의할때도 사용)
+        this.age = age;
+    // type 은 new 연산자 호출시 객체를 반환하도록 이미 명시되어 있어서 return을 작성할 수 없다.
+    }
+
+    console.log(Person)
+    console.log(Person.prototype)// 함수를 명시하면 프로토타입을 생성한다. (js 고급)
+
+    const p = new Person("리현",31);
+    console.log(p)
+    console.log(p.__proto__) //객체의 타입
+    console.log(p.__proto__.__proto__) //객체의 타입의 부모타입 (Object의 프로토타입)
+
+    function sum(a,b){// 연산의 집합으로 사용되는 함수는 카멜표기법으로 명명
+        return a+b;
+    }
+
+    console.log(sum);
+    console.log(sum.prototype);
+    console.log(sum(10.33,2.55));
+</script>
+</body>
+</html>

@@ -1,0 +1,257 @@
+java
+
+1.데이터 (기본형(원시형), 참조형(자료형))
+ - 기본형 데이터 타입(8가지): 수 로 이루어져있음.
+			     (문자는 문자표의 번호;아스키코드(1byte=8bit,128개),
+						   유니코드(1~4byte 유동적,가변크기;char는 유니코드를 사용.)
+				blob = 데이터를 파일로 불러옴(이미지, mp3..)
+				char = 데이터를 문자로 불러옴.
+	byte, short, int, long, float(부동소수점), double,
+
+	실수: 정확도를 포기하고 대략 크기를 표현하는 타입
+	기본형은 컴퓨터의 CPU가 연산을 하기 위한 타입을 정의.
+
+
+ - 참조형 데이터 (자료형) :
+	기본형을 제외한 모든 데이터는 자료형이고,
+	데이터가 복수의 자료로 존재해서 자료형이고 (=메모리 주소가 나온다)
+	데이터를 키가 참조하고 있어서 참조형이고,
+	보통 데이터를 통합 처리하기 위해서 자료형을 명시한다.
+
+    	#.자바에 기본으로 제공하는 자료형의 타입
+	    	-String(문자열) == char[]
+			Ex) "안녕" == {'안','녕'}
+	   	-Array{} : 자료의 순서(index)와 길이가 있는 자료형
+			-Array가 중요한 이유
+				1) 메모리 공간 낭비가 없다.
+				2) key값이 없는 자료형이다.(key를 index가 대신한다). 순서부여
+				3)
+		-컬렉션프레임 워크 java.util
+			-ArrayList => 길이를 변경하거나 데이터처리를 하기 불편한 Array를 대신해서 나온 타입
+					add, remove, indexof, clear, lastindexof, isempty,
+			-LinkedList => 배열자료간의 링크가 존재해서 데이터를 추가,삭제가 유리
+			-HashMap => 지정 key(Set)를 사용해서 데이터를 참조
+			-HashSet => 순서와 관계없이 중복을 허용하지 않고 유일한 값을 관리.
+			-TreeSet => Set을 트리구조로 배치, 자료의 크기에 따라 순서를 정렬
+			-Vector => 배열인데 멀티스레드(동시에 여러일을 한꺼번에 하는것) 환경에 안전한 자료.
+			1 thread : 자바는 순차적 언어(main에 작성한 코드가 순서대로 실행)이고
+				   멀티스레드를 지원합니다.
+
+		만약 일꾼이 2개면, 2 thread 혹은 Multi Thread 라고 한다.
+		그러면 두개의 순서는 없고 동시에 일을 한다.
+		그러면서 연산의 오류가 생긴다.
+		따라서 기본적으로 1thread를 사용.
+	 	필요시 특정한 thread를 불러와 실행
+
+
+		 main(){// main일꾼 1개(1thread) 일꾼이 1명이라 일을 하나씩밖에 실행못함.
+
+			int a=0;
+			a = 1+1;
+ 			new Thread().start();
+			a++;
+			int c =3;
+
+			int sum = c+a;
+		}
+
+
+
+
+	#.개발자가 정의할 수 있는 자료형
+    	-Interface
+	   	-abstract Class
+	   	-Class
+	    	-enum 열거형 (상수의 집합)
+			  enum Math
+				PI; //원주율 정보
+
+	#.디자인 패턴
+	Map처럼 사용할 수 있는 디자인 패턴 POJO
+	-POJO(Plain Old Java Object):
+		private로 캡슐화한 필드를  get/set 함수를 정의해서
+		호출과 정의를 제한하는 디자인 패턴
+	-DTO(DataTransferObject / getset만 정의) ,
+	-VO(VariableObject / getset에 복잡한 제한을 줄 수 있다.)
+		EX)
+		 class PersonVo{
+			private int age;
+			public boolean equals(){}
+			public void setAge(int age){//이런식으로 조건을 걸어주는 것을 VO라고 한다.
+				if(age>=0 && age<=100){
+				this.age = age
+				}
+			}
+			public int getAge(){
+			 	return age;
+			}
+
+	-싱글톤 패턴 Singleton pattern(객체를 재사용하기 위한 구조)
+	 	필드에 private한 정적멤버를 정의하고
+		get메소드에서 해당멤버를 호출시 객체를 생성해서 전달.
+		만약 이미 객체가 생성 되었거나 사용할 수 있는 상태면
+		객체를 새로 생성하지 않고 전달
+	-MVC 패턴
+		배울예정
+		----------------------------------------------
+
+		  class Math{
+			public static final float PI = 3.14; // 정보) 원주율 (원의 둘레,넓이를 구할때 사용)
+
+
+		  }
+		  Main(){
+			//Math m = new Math();
+			//double area = 4*4*m.PI;
+			double area = 4*4*Math.PI;
+		}
+		// 컴파일오류(컴파일시 발견되는 오류)의 장점: 오류를 배포하지 않도록 돕는다.(컴파일되는 언어의장점)
+
+
+
+	#.메소드
+		접근지정자 + 반환타입 + 이름 (매개변수) {구현부};
+		ex) Class Math{
+		 	public int sum(int a, int b){
+		 		return a+b;
+		    	}
+		    }
+		    Class MathPrint{
+			public void print(Math m){
+			  Syetem.out.println(m.sum(10,20));
+			}
+		    }
+		-메소드는 클래스 안에서만 존재.
+	#.연산자// 연산자 순서 (http://www.tcpschool.com/codingmath/priority)
+	 	산술연산자(++,--,*,/,+=,-=)
+		비트연산자
+		비교연산자(>,>=,<,<=,==(기본형))
+		(참조형 비교시)동등비교연산(==)//사실 동등비교연산이라는 말은 없음..
+			13.0 == 13 true: 기본형 간 비교시 산술비교시 같으면 같음.
+			new Integer(13) == new Integer(13) false: 자료형간 비교
+			1) new 연산자는 인스턴스 객체를 생성하기 때문에 두 객체는 다르다.
+			2) 자료형끼리 비교하면 주소를 비교하기 때문에 객체가 다르면 false.
+			3) 자료형을 비교할때는 필드간 비교가 구현된 equals()를 이용해야 한다.
+
+			new Integer(13) ==  13; true
+			new Integer(13).intValue() ==  13; true
+			기본형 int를 지원하는 랩퍼클래스이기 때문에 기본형 int를 지원하는 필드가 다수 존재함
+			랩퍼클래스 객체와 기본형을 비교연산하면 랩퍼클래스가 기본형을 반환하고 비교연산한다.
+			"13"=="13"(true) 이지만 이렇게 비교하면 안됨. 종종 false가 나올 수 있다.
+			{'1','3'}={'1','3'} (false)
+				문자열(String)을 리터럴하게 선언하면 동일한 객체를 찾아서 참조한다.
+
+		---------------------------------------
+		String s1="안녕";
+		String s2="안녕";
+		String s3="안녕";
+		String s4 = new String("안녕");
+
+		System.out.println(s1==s2);
+		System.out.println(s2==s3);
+		//s1,s2,s3 는 하나의 "안녕"만 참조한다. (문자열을 많이 사용하기 때문에 String만의 속성이다)
+
+		//리터럴하게 선언했을 때만, 같다고 하고 아래처럼 자료형처럼 선언하는 경우 같다고 하지않는다.
+		System.out.println(s1==new String("안녕"));//우리가 통신으로 받아오는것은 주로 NEW인스턴스로 받아오는 것이기
+							   //때문에 equals를 사용해야한다.
+		System.out.println(s1==s4);
+		----------------------------------------
+		Q.문자열은 동등비교 할 수 없는 이유가 무엇일까요?
+		A.문자열은 리터럴 하게 선언했을 때만 동등하다 말할수 있다.
+		 자바의 문자열은 리터럴하게 선언하면 동일한 객체를 참조하기 때문입니다.
+		 하지만 문자열은 자료형이기 때문에 equals로 비교해야한다.
+		 우리가 통신으로 받아오는 것은 NEW 인스턴스로 받아오는 것이기 때문에 equals를 사용해야한다.
+
+		Q.기본형은 리터럴하게만 선언가능한가요?
+		A. 네, 대부분의 프로그래밍 언어에서 기본형은 무조건 리터럴 하게 선언한다.
+		 ex) int a = 3;
+		 	 int a = new Integer(3);
+		 	 int a = new Integer(3).intValue();
+		 	 //결국 int a = 3; 과 같다.
+
+	    Q.리터럴하게 선언하면 모두 기본형인가요?
+	    A.아니요, 문자열 String 이나 배열은 자료형이지만 리터럴하게 선언할 수 있습니다.
+	    	ex) String s = "문자열";
+	    		char[] c = {'배','열'};
+
+
+		--------------------Quiz01
+		package 자바복습;
+
+        import java.util.ArrayList;
+        import java.util.Arrays;
+        import java.util.LinkedList;
+        import java.util.List;
+        import java.util.Vector;
+
+        public class Quiz01 {
+        	public static void main(String[] args) {
+
+        		int [] iArr0 = {13,3,10,12,100,50};
+        		int sum =0;
+        		//Q. iArr의 모든 값을 더하세요.
+        		for(int i=0;i<iArr0.length;i++) {
+        			sum += iArr0[i];
+        		}
+        		System.out.println(sum);
+        		System.out.println();
+
+
+        		Object [] iArr = {13,3,10,"12",100,"삼",50};
+        		sum =0;
+        		//Q.iArr의 모든값을 더해서 sum 이라는 결과를 내세요.
+        		// 이때 (정수로 형 불가한 데이터만 제외하고 or 정수만)
+        		// 정수로 형 불가한 데이터만 저장
+        		for(Object o : iArr) {
+        			try{
+        //				int num = Integer.parseInt(o);//기본적으로 문자열만 정수로 바꿔주는데 배열에 정수가 있어서 에러가 뜸.
+        				int num = Integer.parseInt(o+"");//다 문자열로 바꿔줌.
+        				sum +=num;
+
+        			}catch(Exception e) {
+        				System.out.println(o+"은(는) 수가 아닙니다.");
+        			}
+
+        		}
+        		System.out.println(sum);
+
+        		System.out.println();
+        		sum =0;// 초기화
+        		//위와 같은표현 다른식
+        		for(Object o : iArr) {
+        			try{
+        				int num2=0;
+        				if(o instanceof Integer) {
+        					num2=(int)o;
+        				}else {
+        					num2=Integer.parseInt(o+"");
+        				}
+        				sum+=num2;
+        			}catch(Exception e) {
+        				System.out.println(o+"은(는) 수가 아닙니다.");
+        			}
+
+        		}
+        		System.out.println(sum);
+
+        		//정수만 SUM
+        		sum = Arrays.stream(iArr).filter((n)->{return n instanceof Integer;})
+        				.mapToInt(n->(int)n).sum();
+        		System.out.println(sum);
+
+
+        		//기본형과 타입의 다형성은 자료형과 개념이 완전히 다르다!
+        		//기본형은 타입의 다형성이 아닌 형변환이다.(완전히 데이터가 바뀌는것)
+        		//형변환은 object만 바꾸는것.
+        		//타입의 다형성 : 객체가 부모의 타입으로 참조되는것
+        		//Object 는 모든 객체의 부모타입이다-> 모든 객체를 참조 할 수 있다.
+        		Object l = new ArrayList();
+        		List l2 = new LinkedList();
+        		List l3 = new Vector();
+
+        		l= new ArrayList();
+        		l= 13;
+        		l= "안녕";//Object는 여러가지타입을 다 받을 수있다. (해도해도 너무해~)
+
+        	}
+        }
