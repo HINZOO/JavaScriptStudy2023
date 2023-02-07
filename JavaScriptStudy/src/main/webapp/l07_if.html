@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>if switch</title>
+</head>
+<body>
+    <h1>🎀 if 문과 switch와 삼항 연산자</h1>
+    <div>
+        <!--(0~100까지만 입력하게 만들기 type="number" 를 잘 쓰지 않는다.)-->
+        <!--복붙으로 범위외의 값을 넣을수도 있기 때문/디자인제한/믿을수 없다/ 관습적인부분-->
+<!--        성적 입력 : <input id="ex1Score" type="number" min="0" max="100"> -->
+<!--        성적 입력 : <input id="ex1Score" type="range" min="0" max="100">-->
+        성적 입력 : <input id="ex1Score" type="text" >
+        <br>
+        (**1.oninput으로 문자열이 입력되면 입력한 문자열만 삭제하고 입력받은 값이 100보다 작아야 한다.)<br>
+        (**2.onchange 로 입력받은 문자열이 정수가 아니거나 0~100사이가 아니면 alert로 경고를 띄우고 다시 입력하게 한다.)
+    </div>
+    <h2>입력요소에서 발생하는 이벤트</h2>
+    <ul>
+        <li>onchange : 입력요소에 값을 변경하고 focus가 벗어나는 것 (많이쓰임) </li>
+        <li>onfocus : 입력요소에 입력하기 위해 focus 중인 상태</li>
+        <li>onblur : focus 중인 상태에서 벗어나는 것 (onchange는 바뀌고 벗어나고 얘는 그냥 벗어남)</li>
+        <li>oninput :  입력요소에 값을 입력할때마다 발생</li>
+        <li>onselect : 입력요소에 입력한 문자열을 마우스로 드래그해서 선택할 때 발생</li>
+        <li>onsubmit : 폼요소에 submit 버튼을 누르면 폼에 양식을 제출하면서 발생 (자주쓰임)</li>
+    </ul>
+
+    <h2>switch 장점과 특징</h2>
+    <ul>
+        <li>가독성이 좋다(유지보수) (if의 조건을 파악하기 어렵다)</li>
+        <li>if문 보다 훨씬 빠르다.</li>
+        <li>switch는 기본형만 비교연산 가능(단점)</li>
+        <li>복잡한 조건을 사용할 수 없다.</li>
+
+    </ul>
+<script>
+    const ex1Score = document.getElementById("ex1Score");//자동완성이 잘된다.
+    console.log(ex1Score);
+/*
+*   **1 풀이 (못풀겠어..)
+    ex1Score.oninput = function (e){
+        oninput으로 만들기~
+        let val2 = e.target.value;
+        let valtrue="";
+        if(isNaN(val2)){
+            alert("수만 입력하세요.")
+        }else if(isNaN(val2) && !(isNaN(parseFloat(val2)))){
+
+        }else{
+
+        }
+        return "";
+    }*/
+    //**2 풀이
+    ex1Score.onchange=function (e) {
+        let val = e.target.value;
+        let grade = "";
+        if (isNaN(val)) {
+            alert("수만 입력하세요.");
+            e.target.value = 0;
+        }// 수는 될수 있는데 0보다 작거나 100보다 크면 경고창(0~100만 입력)을 띄우세요.
+        else if (val < 0 || val > 100) {//+을 제외한 모든 연산은 문자열을 수로 형변환 한다.
+            alert("0~100만 입력");
+            e.target.value = 0;//입력창 초기화
+        } else {
+            //gradeApp(val)
+            // alert(`성적은 ${gradeApp2(val)} 입니다.`);
+
+            //✨
+            let score = Math.trunc(val / 10);//버림 사용
+            //99->9.9->10 이지만 88->8.8->9 B+어야하는데 B가 나옴 결과적으로 반올림안됨
+            //88/10 -> 9-8 1 (5단위넘어가는것은 항상 "반올림-버림 =1" 이다)
+            //84/10 -> 8-8 0
+
+            const gradeObj = {//🎀 프론트엔드 개발자들이 많이 사용하는 방식 🎀
+                10: "A+",
+                9: "A",
+                8: "B",
+                7: "C",
+                6: "D",
+                5: "F", 4: "F", 3: "F", 2: "F", 1: "F", 0: "F"
+            }
+            let grade = gradeObj[score];
+            if((Math.round(val/10)-score)&&val>50){
+                grade+="+"
+            }
+            //삼항연산자 이용
+            // grade+=((Math.round(val/10)-score)&&val>50)?"+":'';
+            alert(grade);
+        }
+    }
+
+   function gradeApp(score){//if문으로 만들고 switch로 변경 (자바는 수/10 ->정수 // js는 수/10 -> 실수)
+            if(score<=100&&score>=95) grade ="A+";
+            else if(score<95&&score>=90) grade ="A";
+            else if(score<90&&score>=85) grade ="B+";
+            else if(score<85&&score>=80) grade ="B";
+            else if(score<80&&score>=75) grade ="C+";
+            else if(score<75&&score>=70) grade ="C";
+            else if(score<70&&score>=65) grade ="D+";
+            else if(score<65&&score>=60) grade ="D";
+            else  grade ="F";
+
+        return alert(`성적은 ${grade} 입니다.` );
+   }
+    function gradeApp2(score){
+        console.log("반올림 "+Math.round(score/10));//반올림
+        console.log("내림 "+Math.floor(score/10));//내림
+        console.log("버림 "+Math.trunc(score/10));//버림
+        let grade;
+        switch (Math.trunc(score/10)){
+            case 10 : grade="A+"; break;
+            case 9 : grade="A"; break;
+            case 8 : grade="B"; break;
+            case 7 : grade="C"; break;
+            case 6 : grade="D"; break;
+            default : grade="F"; break;
+        }
+        if(Math.round(score/10)-Math.trunc(score/10)){ //반올림과 버림의차가  1이면 true라서 +
+            grade+="+";//이거근데 55점 같은거 넣으면 좀.. ?
+        }
+        return grade
+    }
+/*
+    ex1Score.onfocus=function (e){
+        console.log("입력요소에 focus를 했습니다.");
+    }
+    ex1Score.onblur=function (e){
+        console.log("입력요소에서 벗어났습니다.");
+    }
+    ex1Score.oninput=function (e){
+        console.log("입력한 값", e.target.value);
+    }
+    ex1Score.onchange=function (e){
+        console.log("값을 바꾸고 벗어남",e.target.value);
+    }
+    ex1Score.onselect =function (e){//드래그 방지용으로 사용
+        alert("드래그 하지 마세요!");
+    }
+*/
+
+</script>
+
+</body>
+</html>

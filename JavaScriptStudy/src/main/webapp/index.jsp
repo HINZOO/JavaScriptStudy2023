@@ -21,8 +21,8 @@
         <li><a href="l04_array_list.html">4.배열 (ArrayList [])</a></li>
         <li><a href="l05_function.html">5.함수 </a></li>
         <li><a href="l06_for.html">6.반복문 (for,내부반복문,iterator for)</a></li>
-        <li><a href="">7.배열의 내부 반복문과 정렬</a></li>
-        <li><a href="">8.if,switch</a></li>
+        <li><a href="l07_if.html">7.if,switch</a></li>
+        <li><a href="l08_">8.배열의 내부 반복문과 정렬</a></li> <%--https://www.w3schools.com/js/js_array_const.asp--%>
         <li><a href="">9.함수와 타입</a></li>
         <li><a href="">10.JSON 과 Object</a></li>
         <li><a href="">11.브라우저 객체 window 와 document</a></li>
