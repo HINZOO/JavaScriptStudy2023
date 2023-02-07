@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>자료형과 반복문</title>
+</head>
+<body>
+    <h1>자료형을 반복문으로 검사해 보자~</h1>
+    <h2>Array</h2>
+    <h2>Object</h2>
+
+
+    <h3>문제1 다음 리스트의 모든 값을 더하세요~</h3>
+    <ul id="ex1">
+        <li>1</li>
+        <li>4</li>
+        <li>9</li>
+        <li>16</li>
+        <li>25</li>
+        <li>36</li>
+        <li>49</li>
+    </ul>
+    <p id="ex1Result"></p>
+<script>
+    //js가 어려운 이유~ 방법이 아주아주아주아주 많다~ 다알려준다~
+    //id 선택자는 노드 개체를 바로 선택할 수 있다.
+    //console.log(ex1.childNodes);
+    console.log(ex1.children); //HTMLCollection 배열인데 Array 보다 필드가 적은 배열
+    console.log(ex1.getElementsByTagName("li"));
+    console.log(ex1.children[5].innerText);
+    //Number(문자열) parseInt(문자열) parseFloat(문자열)
+    //li 써진 모든 text 를 수로 더한 결과를 출력하세요! (심화 => 해결하면 배로 실력이 는다~)
+    const liArr = ex1.children;
+    let sumEx1 = 0;
+    for (let i of liArr){
+        sumEx1+= parseInt(i.innerText);
+    }
+    console.log("문제1번 답" + sumEx1);
+</script>
+    <h3 id="ex2H3">
+        문제2. li에 작성된 문자열을 li의 color 로 변경하세요!
+        (마우스포인터가 li에 들어오면,나가면 다시 블랙으로 변경)
+    </h3>
+
+    <ul id="ex2">
+        <li>red</li>
+        <li>lightblue</li>
+        <li>rgb(100,200,150)</li>
+        <li>yellow</li>
+        <li>rgba(0,0,0,.5)</li>
+        <li>#00FF11</li>
+        <li>#0F1</li>
+    </ul>
+
+<script>
+    const ex2Li=ex2.children;
+
+    for(let li of ex2Li){
+        li.style.color=li.innerText;
+    }
+    ex2Li.onmouseenter=function (e) {
+        this.style.color = 'black';
+    }
+
+    ex2H3.onmouseenter=function (e) {
+        this.style.color = 'blue'; //==ex2H3
+    }
+    ex2H3.onmouseout=function (e) {
+        this.style.color = 'black'; //==ex2H3
+    }
+</script>
+
+    <h3>문제3 다음 리스트에서 수를 제외한 모든 값을 더하세요~(힌트 NaN)</h3>
+    <ul id="ex3">
+        <li>18.33em</li>
+        <li>1</li>
+        <li>4.3</li>
+        <li>9.00</li>
+        <li>십오</li>
+        <li>16</li>
+        <li>25.12</li>
+        <li>36</li>
+        <li>null</li>
+        <li>49</li>
+    </ul>
+<script>
+    const ex3Li=ex3.children;
+    let sumEx3 =0;
+    for(let li of ex3Li){
+      if(!isNaN(parseInt(li.innerText))) {
+          sumEx3 += parseInt(li.innerText);
+      }
+    }
+    console.log("문제3번 "+sumEx3);
+</script>
+    <script>
+    const arr=[10,-20,30,55,200,-250]; //모든 값을 더하세요~
+    /*
+    for(int i=0; i<arr.length; i++){ //선어문; 조건식; 증감식}
+    for(int a : arr){ //iterator 반복문, 향상된 for 문
+        sum+=a;
+    }
+    */
+    /* java while
+    int i=0; //선언식
+    while(i<arr.length){ //검사식
+        i++; //증감식
+    }
+    Iterator i=arr; //Iterable 객체
+    while(i.next()){
+        i.nextValue();
+    }
+    while(true){} //application 의 무한 반복문
+     */
+    let sum=0;
+    for(let i=0; i<arr.length; i++){
+        sum+=arr[i];
+    }
+    console.log("for 로 arr의 모든 자료를 더한값 : "+sum)
+    sum=0;
+    for (let a of arr){
+        sum+=a;
+    }
+    console.log("for of 로 arr의 모든 자료를 더한값 : "+sum)
+    //for in js에 밖에 없는 것~~~~
+    sum=0;
+    for (let i in arr){ //in은 key 를 반환하는데 Array 일 때는 index 를 반환
+        sum+=arr[i];
+    }
+    console.log("for in 으로 arr의 모든 자료를 더한값 : "+sum)
+
+</script>
+
+</body>
+</html>
