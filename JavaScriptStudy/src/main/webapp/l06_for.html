@@ -22,20 +22,39 @@
     </ul>
     <p id="ex1Result"></p>
 <script>
-    //js가 어려운 이유~ 방법이 아주아주아주아주 많다~ 다알려준다~
+    //🔋 document
+    //dom traveling 결과 단수가 나오는것과 복수가 나오는 것 (암기)
+    // 단수 : id, formName(==forms["formName"]), parentNode(부모노드) >> 단수가 나오는 dom traveling
+    // 단수 함수 : getElementById("id") , 📌querySelector("cssSelector") '.', '#', '>', ' ', '+','[]',,,
+    // 복수 : children(자식노드(태그)) childNodes(텍스트노드+자식노드=숨겨진) >> HTMLCollection 배열이 반환
+    // 복수 함수 : getElementsByTagName("tag"),getElementsByClassName("class") =>> HTMLCollection
+    //              📌 querySelectorAll("cssSelector") => NodeList(내부반복문을 포함하는 배열 타입)
+
+    //parentNode, children, childNodes : 해당 노드에 포함된 필드 (새롭게 탐색하지 않는다/
+    //                  기본적으로 자식의 정보를 가지고 있기 때문에 getebtn 같은 친구들 처럼 돔트래블링하지않는다. )
+
     //id 선택자는 노드 개체를 바로 선택할 수 있다.
     //console.log(ex1.childNodes);
     console.log(ex1.children); //HTMLCollection 배열인데 Array 보다 필드가 적은 배열
+    console.log([1,2,3,4,5]); // 일반 Array  둘 비교
+    // iterator가 있으면 향상된 반복문(Enhanced for문)을 쓸수 있다!//Array와 HTMLCollection은 interator를 가지고있어.
     console.log(ex1.getElementsByTagName("li"));
     console.log(ex1.children[5].innerText);
+    document.getElementById("ex1").parentElement;
+
+
     //Number(문자열) parseInt(문자열) parseFloat(문자열)
-    //li 써진 모든 text 를 수로 더한 결과를 출력하세요! (심화 => 해결하면 배로 실력이 는다~)
-    const liArr = ex1.children;
+    //문제1) li 써진 모든 text 를 수로 더한 결과를 출력하세요! (심화 => 해결하면 배로 실력이 는다~)
+    const liArr = ex1.children;//[li,li,li,li,li,li]
     let sumEx1 = 0;
     for (let i of liArr){
-        sumEx1+= parseInt(i.innerText);
+        // console.log(li);//텍스트 노드생성
+        sumEx1+= Number(i.innerText);//우리는 텍스트 노드안의 값을 원한다.
     }
     console.log("문제1번 답" + sumEx1);
+    ex1Result.innerHTML=`위의 모든 값을 더한 결과 : <b>${sumEx1}</b>`;
+    //innerHTML : 해당 노드의 자식으로 문자열을 노드 개체로 만들어 추가하는 필드
+    //innerText : 해당 노드의 자식으로 문자열을 텍스트노드로 만들어 추가하는 필드
 </script>
     <h3 id="ex2H3">
         문제2. li에 작성된 문자열을 li의 color 로 변경하세요!
@@ -53,24 +72,55 @@
     </ul>
 
 <script>
-    const ex2Li=ex2.children;
+    //css Cascading Style Sheet : 브라우저에 노드를 그래픽으로 나타내는 명세서
+    // Cascading : 부모 요소의 스타일을 자식이 따르는 것
+    //           : 선택자의 우선순위가 존재한다. tag 1, class.10, id#100 , inline 1000, !important
+    //           : External Style(링크로 다운받은스타일) < Internal Style(내부의 style태그) < Inline Style (라인(요소)에 작성)
+    //             (< 순으로 우선순위 진행 Inline이 제일 우선)
+    //InlineStyle : 요소에 직접쓰거나 자바스크립트로 요소를 찾아서 스타일을 주면 인라인에 적용된다. (js로 요소를 동적으로 만들기 위해 존재)
+    //            : inline의 우선순위가 우선이 되는 것은 js에 동적요소를 주기 위함이다.
+    //브라우저가 HTML을 노드 개체로 만들기 전에 꼭 Dom Tree 를 생성해서 css 명세서(css 선택자의 dom traveling)를 이용해 그래픽을 그린다.
+    //스타일은 노드 개체의 속성이다.
 
-    for(let li of ex2Li){
-        li.style.color=li.innerText;
+    //노드 개체의 이벤트 속성 (GUI가 동작하기 위한 최소의 장치 MouseEvent)
+    //브라우저는 브라우저에 발생하는 모든 것을 이벤트로 정의한다.(EventListener가 너무 훌륭하게 동작해서 모든 이벤트를 처리함)
+    //EventListener : 이벤트가 발생하는 것을 무한히 대기(무한반복문), 실제로는 경량 스레드라 메모리를 작게쓴다.(멀티스레드의 단점인 메모리사용량증가의 문제가없음)
+    //                이벤트를 멀티스레드로 처리하는 객체 (->비동기:순서 상관없이 실행) (cf.동기: 순서대로 실행)
+
+    //cf) EventListener 는 멀티스레드로 동작하지만 물리적으로는 1thread 를 멀티스레드처럼 효율적으로 사용하는 상태이다.
+    //                  이런 상태의 스레드를 경량 스레드라 부른다.node.js가 EventListener 의 경량스레드를 사용하기위해 등장했다.
+
+    //
+    ex2H3.onclick =function(e){// 정의 또는 재정의
+        // 이벤트 필드 함수고 콜백함수를 재정의해야한다.( 재정의한 함수가 이벤트가 발생할때 마다 호출된다)
+        console.log(e);// 이벤트에대한 정보가 들어있다.
+        console.log(e.target);// 이벤트가 발생한 대상
+        e.target.style.color='purple';
+        //== this.style.color ='purple' 과 같다.
+        console.log("눌렀다!");
     }
-    ex2Li.onmouseenter=function (e) {
-        this.style.color = 'black';
+
+
+    const ex2Li=ex2.children;
+    for(let li of ex2Li){
+       li.onmouseenter=function (e){
+            li.style.color = li.innerText;
+        }
+       li.onmouseleave = function (e){
+          this.style.color = "#000";
+       }
+       //css: hover와 같다.
     }
 
     ex2H3.onmouseenter=function (e) {
-        this.style.color = 'blue'; //==ex2H3
+        this.style.color = 'blue'; //this: 객체필드 접근자 (ex2H3노드객체)
     }
     ex2H3.onmouseout=function (e) {
         this.style.color = 'black'; //==ex2H3
     }
 </script>
 
-    <h3>문제3 다음 리스트에서 수를 제외한 모든 값을 더하세요~(힌트 NaN)</h3>
+    <h3>문제3 다음 리스트에서 수가 아닌 값을 제외한 모든 값을 더하세요~(힌트 NaN)</h3>
     <ul id="ex3">
         <li>18.33em</li>
         <li>1</li>
@@ -87,8 +137,12 @@
     const ex3Li=ex3.children;
     let sumEx3 =0;
     for(let li of ex3Li){
-      if(!isNaN(parseInt(li.innerText))) {
-          sumEx3 += parseInt(li.innerText);
+        console.log(li.innerText,parseFloat(li.innerText));//체크
+        let num = parseFloat(li.innerText);
+      //if(!isNaN(parseFloat(li.innerText))) {
+       if(!isNaN(num)){
+           //if(!Number.isNaN(li.innerText)){}// 오류 (형변환이 안되유) isNaN은 형변환없이 돌아가기떄문.
+          sumEx3 += parseFloat(li.innerText);
       }
     }
     console.log("문제3번 "+sumEx3);
