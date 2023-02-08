@@ -53,6 +53,11 @@
         <!--ES6 문법-->
         <li>document(node).querySelector(css) : css 선택자로 노드를 검색 (return node)</li>  <!--복수 선택자를 써도 하나만 출력-->
         <li>document(node).querySelectorAll(css) : css 선택자로 노드들을 검색 (return NodeList)</li>
+        <!--하단부터는 암기X 심화-->
+        <li>node.closest(css) : 해당 노드의 조상중에 해당 선택자와 동일한 노드가 있으면 반환</li>
+        <li>document(node).matches(css) : 해당 선택자의 노드가 있는지 검색(return boolean)</li>
+        <li>node.contains(css) : 해당 선택자의 노드가 조상인지 확인 (return boolean)</li>
+
     </ul>
 
     <script>
@@ -72,6 +77,35 @@
             (만약 type이 radio 면 checked 된 value가 반환)</li>
         <li>document.body : 무조건 1개만 존재하는 모든 요소의 부모</li>
     </ul>
+    <h2>📂 table node에서 행과 셀을 검색</h2>
+    <ul>
+        <li>tableNode.rows[수] : 해당 테이블의 몇번째 tr</li>
+        <li>tableNode.rows[수].cells[tn] : 해당 테이블의 몇번째 tr의 몇번째 td</li>
+    </ul>
+    <table id="userTable">
+        <tr> <!--0-->
+            <td>한영범</td>
+            <td>25</td>
+            <td>조성윤</td>
+        </tr>
+        <tr><!--1-->
+            <td>이창섭</td>
+            <td>40</td>
+            <td>권동호</td>
+        </tr>
+        <tr><!--2-->
+            <td>류순호</td>
+            <td>18</td>
+            <td>김리현</td>
+        </tr>
+    </table>
+    <script>
+        console.log(userTable);
+        userTable.rows[2].style.background="yellow";
+        userTable.rows[1].cells[0].style.border = "1px solid purple";
+    </script>
+    
+
     <form name="loginForm" id="loginFormId" action="">
         <div>
             id : <input name="id" value = " acornCkm">
@@ -93,8 +127,163 @@
     console.log(loginForm.id); // 폼의 필드처럼 찾을 수 있다.
     console.log(loginFormId.id); // 폼의 필드처럼 찾을 수 있다.
     console.log(loginForm.state);
-
 </script>
+
+
+<!--Internal Style : 보통 header에 작성하지만 수업이니까 여기에서 작성-->
+<style>
+    /* boxContainer 안에 .box들을 inline-block에 배경색이 lightgray로 만드세요.*/
+    #boxContainer>.box{
+        /*height: auto; 블럭 내부의 컨텐츠의 높이 만큼 블럭의 높이를 지정*/
+        width: 200px;
+        height: 200px;
+        display:inline-block;
+        background-color: lightgray;
+        text-align:center;
+        line-height: 200px;
+    }
+
+</style>
+
+<h2>선택자 연습 문제</h2>
+    <div id="boxContainer">
+        <p class="box">
+            <span>저는</span>
+            <strong>박스 1</strong>
+            <span>입니다!</span>
+        </p>
+        <p class="box">
+            <span>저는</span>
+            <strong>박스 2</strong>
+            <span>입니다!</span>
+        </p>
+        <p class="box">
+            <span>저는</span>
+            <strong>박스 3</strong>
+            <span>입니다!</span>
+        </p>
+        <p class="box">
+            <span>저는</span>
+            <strong>박스 4</strong>
+            <span>입니다!</span>
+        </p>
+        <p class="box">
+            <span>저는</span>
+            <strong>박스 5</strong>
+            <span>입니다!</span>
+        </p>
+    </div>
+    <script>
+
+        // .box에 마우스를 올리면 border="1px solid red"으로 하세요
+        // .box에 마우스가 떠나면 border="none"으로 하세요
+        // .box를 누르면 (onclick)좌우의 형제의 display를 none으로 만드세요
+      const boxs = boxContainer.children;
+      console.log(boxs);
+
+      const box3 = document.getElementById('boxContainer');
+      console.log(box3.children);
+
+      const boxs2 = document.getElementsByClassName("box");
+      console.log(boxs2);
+
+
+      const boxLi = document.querySelectorAll('#boxContainer>.box');
+      // const boxLi2 = boxContainer.querySelectorAll('.box');
+      console.log(boxLi);
+      Array.from(boxLi).forEach((box)=>{
+          box.onmouseover=(e)=>{
+              e.target.style.border="1px solid red";
+          }
+          box.onmouseleave=(e)=>{
+              e.target.style.border="none"
+          }
+          box.onclick=(e)=>{
+              e.target.previousElementSibling.style.display="none";
+              e.target.nextElementSibling.style.display="none";
+          }
+      })
+
+/*
+      for(let b of boxLi) {
+
+          b.onmouseenter = function (e) {
+              this.style.border = "1px solid red";
+          }
+          b.onmouseleave = function (e) {
+              this.style.border = "none";
+          }
+          b.onclick=function (e){
+              this.previousElementSibling.style.display ="none";
+              this.nextElementSibling.style.display ="none";
+          }
+      }
+*/
+
+
+    </script>
+
+    <h2>선택자 문제2</h2>
+    <table id="ex2Table" style="width: 100%">
+        <tr>
+            <td>1</td>
+            <td>경민</td>
+            <td>38</td>
+            <td>강사</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>윤식</td>
+            <td>24</td>
+            <td>학생</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>은주</td>
+            <td>25</td>
+            <td>학생</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>동홍</td>
+            <td>26</td>
+            <td>학생</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>동일</td>
+            <td>35</td>
+            <td>학생</td>
+        </tr>
+    </table>
+    <script>
+        //ex2Table의 모든 td 를 선택하세요
+        //모든 td에 마우스를 올리면(onmouseover) border를 1px solid 로 지정하세요
+        //이때 td가 속한 tr의 배경색을 lightgray로 바꾸세요
+        //마우스가 td 에서 빠져 나가면 td에 정의된 board와 background를 제거하세요
+
+        const tList=document.getElementById('ex2Table');
+
+        console.log(tList.getElementsByTagName("td"));
+        const tdList = tList.getElementsByTagName("td");
+        const trList = tList.getElementsByTagName("tr")
+        // Array.from(trList).forEach((r)=>{
+        //     r.onmouseover=(e)=>{
+        //        e.target.style.background="lightgray";
+        //     };
+        // })
+        Array.from(tdList).forEach((d)=>{
+           d.onmouseover=(e)=>{
+               e.target.style.border="1px solid";
+               e.target.parentElement.style.background="lightgray";
+           };
+           d.onmouseleave=(e)=>{
+               e.target.style.border="none";
+               e.target.parentElement.style.background="none";
+           }
+        });
+
+   </script>
 
 </body>
 </html>
