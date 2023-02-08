@@ -34,6 +34,29 @@
         <li>복잡한 조건을 사용할 수 없다.</li>
 
     </ul>
+
+    <h2>js의 Boolean()이 true false 를 반환하는 것들 (암기!)</h2>
+    <!--대부분 존재하는 것은 true라고 생각해라-->
+    <!--if문으로 생각해주세요~ -->
+    <ul>
+        <li>null :<script>  document.write(Boolean(null)); </script></li>
+        <li>undefined :<script>  document.write(Boolean(undefined)); </script></li>
+        <li>0 :<script>  document.write(Boolean(0)); </script></li>
+        <li>NaN :<script>  document.write(Boolean(NaN)); </script></li>
+        <li>"" :<script>  document.write(Boolean("")); </script>(기본형)</li>
+        <!--길이가 없다는 의미로 false로 취급, 따라서 길이가 있음 true-->
+
+        <li>new String():<script>  document.write(Boolean(new String())); </script>(자료형)</li>
+        <li>[]:<script>  document.write(Boolean([])); </script>(new Array(),자료형)</li>
+        <li>{}:<script>  document.write(Boolean({})); </script>(new Object(),자료형)</li>
+        <li>Infinity : <script>  document.write(Boolean(Infinity)); </script></li>
+        <li>"  " :<script>  document.write(Boolean("  ")); </script></li>
+        <li>1 :<script>  document.write(Boolean(1)); </script></li>
+        <li>11 :<script>  document.write(Boolean(11)); </script></li>
+        <li>-11 :<script>  document.write(Boolean(-11)); </script></li>
+        <!--js 에서는 0만 false 그외의 수는 다 true로 처리 -->
+
+    </ul>
 <script>
     const ex1Score = document.getElementById("ex1Score");//자동완성이 잘된다.
     console.log(ex1Score);
