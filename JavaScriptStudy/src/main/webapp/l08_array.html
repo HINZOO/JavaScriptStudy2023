@@ -33,6 +33,27 @@
         <li>keys() : js에는 물리적으로 key가 없지만 iterator가 index를 key처럼 반환한다.</li>
         <li>includes() : 값이 포함되었는지 boolean 값으로 반환 </li>
     </ul>
+
+    <h2>📂 Array Iteration </h2>
+    <ul>
+        <li>sort(): 정렬은 문자표 번호순으로 진행(기본 오름차순)</li>
+        <li>reverse() : 역순으로 정렬</li>
+        <li>숫자의 sort() : sort()는 기본적으로 문자를 정렬한다. 숫자를 정렬하고 싶을땐 아래처럼정의
+            <ul>
+                <li>
+                    오름차순 정렬 ] 변수명.sort(function(a,b){return a-b})
+                </li>
+                <li>
+                    내림차순 정렬 ] 변수명.sort(function(a,b){return b-a})
+                </li>
+            </ul>
+        </li>
+        <li>랜덤으로 섞는 함수: function sortRandom(){
+            배열명.sort(function(){return 0.5-Math.random()})}</li>
+        <li>Math.max() : 배열중 가장 큰 값을 얻을 수 있다.</li>
+        <li>sorting Object Array : 배열안의 숫자값을 기준으로 정렬할 수 있다.(수의오름차를 이용)
+            (이 외에도 key를 수로 써도 자동정렬됨)</li>
+    </ul>
 <script>
 //📌 forEach()
     const numbers= [45, 4, 9, 16, 25];
