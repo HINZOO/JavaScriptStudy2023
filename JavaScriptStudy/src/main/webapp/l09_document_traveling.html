@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>document 란?</title>
+</head>
+<body>
+    <h1>📂 document와 window</h1>
+    <p>자바스크립트를 브라우저에서 실행하면 브라우저와 관련된 정보를 window에 저장하고 전역 설정한다.
+        브라우저에서 출력하는 html 문서를 객체로 만들어서 document에 저장한다.
+    </p>
+    <ul>
+        <li>window : BOM Browser Object Model 브라우저정보와 전역</li>
+        <li>window.document :  DOM Document Object Model html 문서를 객체로 제공</li>
+        <li>DOM Tree : 문서에 존재하는 태그들을 중첩(자식)관계로 그래프를 그린 것.</li>
+        <li>DOM Tree root : 모든 태그의 조상 html 또는 body 태그</li>
+        <li>DOM Tree 자식 : 해당 태그의 바로 하위 중첩 태그 CSS] node>childNode</li>
+        <li>DOM Tree 자손 : 해당 태그의 모든 하위 태그 CSS] node childNode</li>
+        <li>DOM Tree 형제 : 해당 태그와 인접한 태그들 CSS] node ~ sibling</li>
+        <li>DOM Tree 부모 : 해당 태그를 중첩하는 태그</li>
+        <li>DOM Tree 조상 : 해당 태그를 중첩하는 태그의 부모 or 부모의 부모 or 부모의 부모의 부모...</li>
+        <li>✨ CSS 선택자 꼭 암기 ✨</li>
+    </ul>
+
+    <h2>📂 node 객체에 필드로 존재하는 부모 자식 관계1</h2>
+    <p> textNode + elementNode 를 찾는 필드</p>
+    <ul>
+        <li>node.parentNode : 부모노드</li>
+        <li>node.childNodes : 자식노드들 []</li>
+        <li>node.firstChild : 첫번째 자식</li>
+        <li>node.lastChild : 마지막 자식</li>
+        <li>node.previousSibling : 인접한 이전 형제</li>
+        <li>node.nextSibling : 인접한 다음 형제</li>
+    </ul>
+
+    <h2>📂 node 객체에 필드로 존재하는 부모 자식 관계2</h2>
+    <p> elementNode 를 찾는 필드</p>
+    <ul id="test">
+        <li>node.parentElement : 부모노드</li>
+        <li>node.children : 자식노드들 []</li>
+        <li>node.firstElementChild : 첫번째 자식</li>
+        <li>node.lastElementChild : 마지막 자식</li>
+        <li>node.previousElementSibling : 인접한 이전 형제</li>
+        <li>node.nextElementSibling : 인접한 다음 형제</li>
+    </ul>
+
+    <h2>📂 document를 탐색하는 함수들</h2>
+    <ul id ="test2">
+        <li>document(node).getElementById("id") : id로 노드를 검색 (return node)</li>
+        <li>document(node).getElementsByTagName("tag") : 요소 이름으로 노드들을 검색(return HTMLCollection)</li>
+        <li>document(node).getElementsByClassName("class") : 클래스 이름으로 노드들을 검색(return HTMLCollection)</li>
+        <li>document.getElementsByName("name") : name 으로 노드들을 검색(return HTMLCollection)</li>
+        <!--ES6 문법-->
+        <li>document(node).querySelector(css) : css 선택자로 노드를 검색 (return node)</li>  <!--복수 선택자를 써도 하나만 출력-->
+        <li>document(node).querySelectorAll(css) : css 선택자로 노드들을 검색 (return NodeList)</li>
+    </ul>
+
+    <script>
+        console.log(test.children);
+        const test2 = document.getElementById('test2') ;
+        const test2Li = test2.getElementsByTagName("li");// 노드(test2)에서 domtraveling할 수 있다.
+        console.log(test2Li);
+
+    </script>
+
+    <h2>📂 미리 지정되는 node 변수들</h2>
+    <ul id ="test3">
+        <li>id를 정의하면 id와 동일한 이름의 변수가 해당 노드를 참조.</li>
+        <li>form 에 name을 정의하면 name과 동일한변수가 해당 form 노드를 참조</li>
+        <li>form 에 중첩된 input 요소에 name 을 작성하면 노드의 자식으로 참조가능(**)</li>
+        <li>form 에 중첩된 여러 input요소에 같은 name을 작성하면 RadioNodeList를 반환
+            (만약 type이 radio 면 checked 된 value가 반환)</li>
+        <li>document.body : 무조건 1개만 존재하는 모든 요소의 부모</li>
+    </ul>
+    <form name="loginForm" id="loginFormId" action="">
+        <div>
+            id : <input name="id" value = " acornCkm">
+        </div>
+        <div> <!--중첩된 여러 input요소에 같은 name을 작성하면 RadioNodeList를 반환-->
+            id : <input name="id" value = " acornCkm">
+        </div>
+        <div>
+            로그인 유지:
+            <input type="radio" name="state"  value="1" checked>
+            로그인 유지X:
+            <input type="radio" name="state"  value="2" >
+        </div>
+    </form>
+<script>
+    console.log(test3);
+    console.log(loginForm);
+    console.log(loginFormId);
+    console.log(loginForm.id); // 폼의 필드처럼 찾을 수 있다.
+    console.log(loginFormId.id); // 폼의 필드처럼 찾을 수 있다.
+    console.log(loginForm.state);
+
+</script>
+
+</body>
+</html>
