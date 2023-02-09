@@ -179,5 +179,49 @@
         elem2.onclick=null;// 삭제
     </script>
 
+    <h2>PointerEvent(MouseEvent) Object 내역 예제</h2>
+    <p>마우스에서 발생하는 이벤트에 대한 정보</p>
+    <style>
+        #ball{
+            border: 4px solid;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            position: absolute;/*absolute 레이아웃과 별도로 움직임(독립적인레이아웃) => 부모가 상대(re)적 위치일때 부모기준으로 바뀐다
+            relative:부모에포함되어있는데상대적으로 움직임*/
+            margin: 0;
+            left:0px;
+            top:0px;
+            transition: all ease-in 1s;
+        }
+    </style>
+    <div id="ex3Container"
+         style="height: 500px;
+         width: 500px;
+         border: 2px solid;
+         position: relative";>
+        <p id="ball"></p>
+    </div>
+    <script>
+        const ball =document.getElementById('ball');
+        const ex3Container = document.getElementById("ex3Container");
+        // ball.onclick=function (e){
+        //     ball.style.left="200px";
+        //     ball.style.top="300px";//px꼭 적어주기
+        // }
+        ex3Container.onclick=function (e){
+            if(e.offsetX>400) {
+                ball.style.left = "400px";
+                ball.style.top = "400px";
+            }
+            else if(e.offsetY>400){
+                ball.style.top = "400px";
+
+            }else {
+                ball.style.left = e.offsetX + "px";
+                ball.style.top = e.offsetY + "px";
+            }
+        }// 여기수정하기 (! 모던자바소스참고)
+    </script>
 </body>
 </html>
