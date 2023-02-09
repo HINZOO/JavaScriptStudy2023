@@ -22,56 +22,93 @@
         <li>✨ CSS 선택자 꼭 암기 ✨</li>
     </ul>
 
-    <h2>📂 node 객체에 필드로 존재하는 부모 자식 관계1</h2>
+    <h2>📂 node 객체에 필드로 존재하는 부모 자식 관계1(암기X : 자주사용하지않음)</h2>
     <p> textNode + elementNode 를 찾는 필드</p>
-    <ul>
-        <li>node.parentNode : 부모노드</li>
-        <li>node.childNodes : 자식노드들 []</li>
-        <li>node.firstChild : 첫번째 자식</li>
-        <li>node.lastChild : 마지막 자식</li>
-        <li>node.previousSibling : 인접한 이전 형제</li>
-        <li>node.nextSibling : 인접한 다음 형제</li>
+    <ul id="domTraveling1">
+            <li>node.parentNode : 부모노드</li>
+            <li>node.childNodes : 자식노드들 []</li> <!--HTML Collection-->
+            <li>node.firstChild : 첫번째 자식</li>
+            <li>node.lastChild : 마지막 자식</li>
+            <li>node.previousSibling : 인접한 이전 형제</li>
+            <li>node.nextSibling : 인접한 다음 형제</li>
     </ul>
+    <script><!--'\n'의 textNode 가 존재함-->
+    // script 도 node 로 취급당하고 객체생성대신 실행을 한다.
+    // >> ul 객체가 생성 된 후 script 가 실행된다.
+        const domTraveling1= document.getElementById("domTraveling1")
+        console.log("자신node", domTraveling1);
+        console.log("부모node", domTraveling1.parentNode);
+        console.log("자식node", domTraveling1.childNodes);
+        console.log("첫번째 자식node", domTraveling1.firstChild);
+        console.log("마지막 자식node", domTraveling1.lastChild);
+        console.log("이전형제 node", domTraveling1.previousSibling);
+        console.log("다음형제 node", domTraveling1.nextSibling);
+    </script>
 
-    <h2>📂 node 객체에 필드로 존재하는 부모 자식 관계2</h2>
+    <h2>📂 node 객체에 필드로 존재하는 부모 자식 관계2(암기✨표시한것만)</h2>
     <p> elementNode 를 찾는 필드</p>
     <ul id="test">
-        <li>node.parentElement : 부모노드</li>
-        <li>node.children : 자식노드들 []</li>
+        <li>✨node.parentElement : 부모노드</li>
+        <li>✨node.children : 자식노드들 []</li>
         <li>node.firstElementChild : 첫번째 자식</li>
         <li>node.lastElementChild : 마지막 자식</li>
         <li>node.previousElementSibling : 인접한 이전 형제</li>
-        <li>node.nextElementSibling : 인접한 다음 형제</li>
+        <li>✨node.nextElementSibling : 인접한 다음 형제</li>
     </ul>
+    <script> //script 태그를 요소노드 (ElementNode) 로 취급한다.
+        const test = document.getElementById("test");// 똑같은 id 가 선언된 여러 요소중 처음 발견된 node 한개만 반환
+        console.log("자신요소 node",test);
+        console.log("부모요소 node",test.parentElement); //부모는 절대 textNode 일수 없기때문에 =parentNode 와 결과값이 같다.
+        console.log("자식요소 node",test.children);//텍스트노드를 제외한다.
+        console.log("첫번째 자식요소 node",test.firstElementChild);
+        console.log("마지막 자식요소 node",test.lastElementChild);
+        console.log("인접한 이전 형제요소 node",test.previousElementSibling);
+        console.log("인접한 다음 형제요소 node",test.nextElementSibling);
+    </script>
 
-    <h2>📂 document를 탐색하는 함수들</h2>
+    <h2>📂 document를 탐색하는 함수들(✨ 암기)</h2>
     <ul id ="test2">
-        <li>document(node).getElementById("id") : id로 노드를 검색 (return node)</li>
-        <li>document(node).getElementsByTagName("tag") : 요소 이름으로 노드들을 검색(return HTMLCollection)</li>
-        <li>document(node).getElementsByClassName("class") : 클래스 이름으로 노드들을 검색(return HTMLCollection)</li>
-        <li>document.getElementsByName("name") : name 으로 노드들을 검색(return HTMLCollection)</li>
+        <li class = "blue">✨document(node).getElementById("id") : id로 노드를 검색 (return node)</li> <!--여러개 중에 처음 찾은 1개만 참조-->
+        <li class ="red">✨document(node).getElementsByTagName("tag") : 요소 이름으로 노드들을 검색(return HTMLCollection)</li>
+        <li>✨document(node).getElementsByClassName("class") : 클래스 이름으로 노드들을 검색(return HTMLCollection)</li>
+        <li class ="red">document.getElementsByName("name") : name 으로 노드들을 검색(return HTMLCollection)</li>
         <!--ES6 문법-->
-        <li>document(node).querySelector(css) : css 선택자로 노드를 검색 (return node)</li>  <!--복수 선택자를 써도 하나만 출력-->
-        <li>document(node).querySelectorAll(css) : css 선택자로 노드들을 검색 (return NodeList)</li>
+        <li>✨document(node).querySelector(css) : css 선택자로 노드를 검색 (return node)</li>  <!--복수 선택자를 써도 하나만 출력-->
+        <li>✨document(node).querySelectorAll(css) : css 선택자로 노드들을 검색 (return NodeList)</li>
         <!--하단부터는 암기X 심화-->
         <li>node.closest(css) : 해당 노드의 조상중에 해당 선택자와 동일한 노드가 있으면 반환</li>
-        <li>document(node).matches(css) : 해당 선택자의 노드가 있는지 검색(return boolean)</li>
-        <li>node.contains(css) : 해당 선택자의 노드가 조상인지 확인 (return boolean)</li>
-
+        <li class ="red">document(node).matches(css) : 해당 선택자의 노드가 있는지 검색(return boolean)</li>
+        <li class = "blue">node.contains(css) : 해당 선택자의 노드가 조상인지 확인 (return boolean)</li>
     </ul>
 
     <script>
-        console.log(test.children);
-        const test2 = document.getElementById('test2') ;
-        const test2Li = test2.getElementsByTagName("li");// 노드(test2)에서 domtraveling할 수 있다.
-        console.log(test2Li);
+        const test2 = document.getElementById('test2');
+        test2.style.textShadow= "1px 1px 2px";
+        const red = test2.getElementsByClassName('red');
+        for (let r of red) {
+            r.style.color='red';
+        }
+        const blue = test2.getElementsByClassName('blue');
+        for (let b of blue) {
+            b.style.color='blue';
+        }
+
+        // const test2Li = test2.getElementsByTagName("li");// 노드(test2)에서 domtraveling할 수 있다.
+        // console.log(test2Li);
 
     </script>
 
     <h2>📂 미리 지정되는 node 변수들</h2>
     <ul id ="test3">
-        <li>id를 정의하면 id와 동일한 이름의 변수가 해당 노드를 참조.</li>
-        <li>form 에 name을 정의하면 name과 동일한변수가 해당 form 노드를 참조</li>
+        <li>id를 정의하면 id와 동일한 이름의 변수가 해당 노드를 참조.(실무에서는 사용하지 않는다. getElementById 권장)
+            <ul>
+                <li>👀 왜 안써?</li>
+                <li>id는 document 유일한 선택자지만 여러개 선언해도 오류가 발생하지 않는다.(여러개 선언가능)</li>
+                <li>만약 id가 여러개일 때 미리 생성된 id 변수를 쓰면 배열이 참조된다.(쓰지않는이유)</li>
+                <li>만약 없는 id를 id 변수로 참조하면 '선언되지않았다'는 오류가 발생! getElementById는 null이 발생 </li>
+            </ul>
+        </li>
+        <li>form 에 name을 정의하면 name과 동일한변수가 해당 form 노드를 참조(document.forms[name] 권장)</li>
         <li>form 에 중첩된 input 요소에 name 을 작성하면 노드의 자식으로 참조가능(**)</li>
         <li>form 에 중첩된 여러 input요소에 같은 name을 작성하면 RadioNodeList를 반환
             (만약 type이 radio 면 checked 된 value가 반환)</li>
