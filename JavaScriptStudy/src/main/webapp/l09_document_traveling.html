@@ -68,7 +68,7 @@
 
     <h2>📂 document를 탐색하는 함수들(✨ 암기)</h2>
     <ul id ="test2">
-        <li class = "blue">✨document(node).getElementById("id") : id로 노드를 검색 (return node)</li> <!--여러개 중에 처음 찾은 1개만 참조-->
+        <li class = "blue">✨document(node).getElementById("id")  : id로 노드를 검색 (return node)</li> <!--여러개 중에 처음 찾은 1개만 참조-->
         <li class ="red">✨document(node).getElementsByTagName("tag") : 요소 이름으로 노드들을 검색(return HTMLCollection)</li>
         <li>✨document(node).getElementsByClassName("class") : 클래스 이름으로 노드들을 검색(return HTMLCollection)</li>
         <li class ="red">document.getElementsByName("name") : name 으로 노드들을 검색(return HTMLCollection)</li>
@@ -84,14 +84,38 @@
     <script>
         const test2 = document.getElementById('test2');
         test2.style.textShadow= "1px 1px 2px";
-        const red = test2.getElementsByClassName('red');
+        const red = test2.getElementsByClassName('red');//HTMLCollection 으로 반환
+
         for (let r of red) {
             r.style.color='red';
         }
+
+/*
+        //😎 HTMLCollection은 forEach가 없다 for Each로 풀고싶으면 (개발자 선호)
+        //   Array.from을 쓰고싶지 않다면 처음부터 querySelectorAll로 받자.NodeList반환되며 forEach가 있다.
+        //   하지만 여기엔 map이나 reduce가 없기 때문에 멀티로 사용하고 싶다면 또 Array.from을 해줘야한다.
+            const redli = Array.from(red);
+            redli.forEach((li)=>{
+                li.style.color="red";
+            });
+*/
+
         const blue = test2.getElementsByClassName('blue');
         for (let b of blue) {
             b.style.color='blue';
         }
+
+        //for(시작;조건;증감) : 잘 안씀
+        // for(let A in ARR) :  배열에서는 사용 안함
+/*
+        // 만약 in을 쓴다면 🔎 Object에서만 사용,
+             //🍒 key 는 필드를 문자열이나 수로 참조하는것
+             //     index key : 0, 1, 2, 3, 4 ,..
+             //     Object key :  person.name (이때 name 은 필드)
+             //                :  person["name"] (이때 "name"은  key)
+            const blueLis = document.getElementsByClassName("blue");
+            for(let i in blueLis){let li = blueLis[i]; li.style.color='blue'}
+*/
 
         // const test2Li = test2.getElementsByTagName("li");// 노드(test2)에서 domtraveling할 수 있다.
         // console.log(test2Li);
