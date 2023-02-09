@@ -67,6 +67,17 @@
     </script>
 
     <h2>📂 document를 탐색하는 함수들(✨ 암기)</h2>
+    <p>-배열로 찾아지는 node는 무조건 반복문으로 제어해야한다.</p>
+    <p>- [node,node..].style.color="red"; (❌)</p>
+    <p>-node.style.color="red"; (⭕)</p>
+    <p>- JQuery 에선 가능하던데? <br>
+        $(".blue").style("color","red"); // [li,li,li].style.color="red"<br>
+        <!--$(".blue") == querySelectorAll(".blue")-->
+         >> 이때 style 이 Iteration function 즉 반복문 함수이다.(cf.event함수도 IterationFunction)</p>
+    <p>window js :  자바스크립트가 브라우저에서 실행될 때 ( window, document 객체를 반환)</p>
+    <p>node js : 자바스크립트가 서버에서 자바처럼 실행되는 언어 (http : 서버객체)</p>
+    <p>spring : 자바의 톰캣 서버를 제어하는 프레임워크 웹앱</p>
+    <p>expressjs, nextjs, reactjs : 자바스크립트이  nodejs 서버를 제어하는 프레임워크 웹앱</p>
     <ul id ="test2">
         <li class = "blue">✨document(node).getElementById("id")  : id로 노드를 검색 (return node)</li> <!--여러개 중에 처음 찾은 1개만 참조-->
         <li class ="red">✨document(node).getElementsByTagName("tag") : 요소 이름으로 노드들을 검색(return HTMLCollection)</li>
@@ -82,13 +93,26 @@
     </ul>
 
     <script>
-        const test2 = document.getElementById('test2');
-        test2.style.textShadow= "1px 1px 2px";
-        const red = test2.getElementsByClassName('red');//HTMLCollection 으로 반환
+        //#test2 요소에 text-shadow 를 적용해보세요 (querySelector(△),getElementById)
+        //  querySelector 는 querySelectorAll 처럼 복수의 node를 검색후 , 맨 위의 것을 반환
+        //  getElementById 는 id 선택자를 1개 찾는다. (복수를 우선으로 찾는 querySelector 보다 성능이 좋다)
+        //#test2 > .red color:red
+        //#test2 > .blue color:blue
 
-        for (let r of red) {
-            r.style.color='red';
+        const test2 = document.getElementById('test2');
+        test2.style.textShadow= "1px 1px 2px rgba(0,0,0,.5)";
+        const redLi = test2.getElementsByClassName('red');//HTMLCollection 으로 반환 => for of 로 반복문 진행
+     // const redLi2 = document.querySelectorAll("#test2 li.blue");//nodeList로 반환
+            // 👓 코드를 보수하다보면 중첩요소가 더 많은 중첩을 하게 될 가능성이 높다.
+            //    때문에 자식선택자보다는 자손선택자를 많이씀 (유지보수는 쉬워지나 성능하락)
+            // 유지보수를 생각하면 선택자가 추상적이고, 성능을 생각하면 선택자를 구체화(ul#test2>li.blue) 한다.
+
+        for (let r of redLi) {
+            r.style.color='rgb(220,70,70)';
         }
+        Array.from(redLi).forEach((li)=>{// 배열에서 Array 필드를 사용하고 싶을때 배열을  Array로 파싱하는 함수 =>Array.from(arr)
+            li.style.textDecoration="underline";
+        })
 
 /*
         //😎 HTMLCollection은 forEach가 없다 for Each로 풀고싶으면 (개발자 선호)
@@ -100,9 +124,9 @@
             });
 */
 
-        const blue = test2.getElementsByClassName('blue');
-        for (let b of blue) {
-            b.style.color='blue';
+        const blueLi = test2.getElementsByClassName('blue');
+        for (let b of blueLi) {
+            b.style.color= 'rgb(70,70,220)';
         }
 
         //for(시작;조건;증감) : 잘 안씀
