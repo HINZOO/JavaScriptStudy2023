@@ -232,7 +232,7 @@
         ex3Container.onclick= function(e) {
             console.log(e); //MouseEvent > PointerEvent(브라우저에서 마우스의 위치)
             //clientInfo,domInfo,nodeInfo,screenInfo
-            clientInfo.innerText = `x:${e.clientX} ,y:${e.clientY} (브라우저 기준)`; //브라우저 기준
+            clientInfo.innerText = `x:${e.clientX} ,y:${e.clientY} (브라우저 기준)`; //노드의 브라우저 기준
             domInfo.innerText = `x:${e.pageX} ,y:${e.pageY} (문서기준)`; // 도큐먼트 기준
             nodeInfo.innerText = `x:${e.offsetX} ,y:${e.offsetY} (노드=ex3Container안) `;//노드기준
             screenInfo.innerText = `x:${e.screenX} ,y:${e.screenX} (컴퓨터 화면 기준)`;//화면기준
@@ -370,6 +370,8 @@
            li.lastElementChild.style.opacity="0%";
        })
     })
+    // max-height를 쓰는데 height를 왜 쓰냐면 메뉴 딜레이가 생기기 때문인데!! 왜 인지는 모르겠어서 찾아보자..!:3)-<
+
 
 </script>
 
