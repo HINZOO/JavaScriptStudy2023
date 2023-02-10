@@ -181,25 +181,41 @@
 
     <h2>PointerEvent(MouseEvent) Object 내역 예제</h2>
     <p>마우스에서 발생하는 이벤트에 대한 정보</p>
+    <p id="clientInfo"></p>
+    <p id="domInfo"></p>
+    <p id="nodeInfo"></p>
+    <p id="screenInfo"></p>
+
     <style>
+        *{
+            margin :0;
+            padding :0;
+            box-sizing: border-box;
+        }
         #ball{
-            border: 4px solid;
+            border: 5px solid;
             border-radius: 50%;
+            background-color: white;
             width: 100px;
             height: 100px;
+            /*지정한 것을 100%인것과 실제 수치는 다르기 때문에 node.clientHeight 로 찾아야한다.*/
             position: absolute;/*absolute 레이아웃과 별도로 움직임(독립적인레이아웃) => 부모가 상대(re)적 위치일때 부모기준으로 바뀐다
             relative:부모에포함되어있는데상대적으로 움직임*/
             margin: 0;
             left:0px;
             top:0px;
-            transition: all ease-in 1s;
+            transition: all ease-in-out 300ms;/*https://cubic-bezier.com/#.17,.67,.83,.67*/
+
         }
     </style>
     <div id="ex3Container"
          style="height: 500px;
+
          width: 500px;
-         border: 2px solid;
-         position: relative";>
+         border: 5px solid;
+         background-color: green;
+         position: relative;
+        box-sizing:border-box;">
         <p id="ball"></p>
     </div>
     <script>
@@ -209,19 +225,101 @@
         //     ball.style.left="200px";
         //     ball.style.top="300px";//px꼭 적어주기
         // }
-        ex3Container.onclick=function (e){
-            if(e.offsetX>400) {
-                ball.style.left = "400px";
-                ball.style.top = "400px";
-            }
-            else if(e.offsetY>400){
-                ball.style.top = "400px";
 
-            }else {
-                ball.style.left = e.offsetX + "px";
-                ball.style.top = e.offsetY + "px";
+
+
+        ex3Container.onclick= function(e) {
+            console.log(e); //MouseEvent > PointerEvent(브라우저에서 마우스의 위치)
+            //clientInfo,domInfo,nodeInfo,screenInfo
+            clientInfo.innerText = `x:${e.clientX} ,y:${e.clientY} (브라우저 기준)`; //브라우저 기준
+            domInfo.innerText = `x:${e.pageX} ,y:${e.pageY} (문서기준)`; // 도큐먼트 기준
+            nodeInfo.innerText = `x:${e.offsetX} ,y:${e.offsetY} (노드=ex3Container안) `;//노드기준
+            screenInfo.innerText = `x:${e.screenX} ,y:${e.screenX} (컴퓨터 화면 기준)`;//화면기준
+
+            console.log(ex3Container.clientWidth,ex3Container.clientHeight);
+           // let containerWidth = Number.parseInt(ex3Container.style.width);// .style시 요소에 직접 적용한 스타일만 찾을 수 있다.
+           // let containerHeight = parseInt(ex3Container.style.height);
+            // console.log(containerWidth,containerHeight);
+
+            //공의 크기 //node의 실제 적용된 너비와 높이 (px생략)
+            let ballWidth=ball.clientWidth;
+            let ballHeight=ball.clientHeight;
+            if ((e.offsetY - ballHeight/2) < 0) {
+                ball.style.top = "0px";
+            } else if((e.offsetY+ballHeight/2) > ex3Container.clientHeight-ballHeight-10) {
+                ball.style.top = ex3Container.clientHeight-ballHeight-10+"px";//border(10)도 빼줘야함
+            }else{
+                ball.style.top = (e.offsetY-ballHeight/2)+"px";
             }
-        }// 여기수정하기 (! 모던자바소스참고)
+
+            if((e.offsetX-ballWidth/2)<0){
+                ball.style.left="0px";
+            }else if ((e.offsetX+ballWidth/2)>ex3Container.clientWidth-ballWidth-10){//500 - 100(공지름) - 10(border/원+컨테이너)
+                ball.style.left=ex3Container.clientWidth-ballWidth-10+"px";
+            }else{
+                ball.style.left = ball.style.left = (e.offsetX - ballWidth) + "px";
+            }
+
+            //✨ 스타일에서 크기는 단위가 무조건 존재해야한다. 0 을 제외하고 단위 꼭 써줘야한다.
+         //html,xml의 모든 값은 문자열.
+
+        }
     </script>
+    <h2>열렸다 닫혔다 하는 메뉴 만들기</h2>
+    <p>#dropDownMenu>li에 마우스를 올리면 li의 형제인 .menu를 화면에 보이게 하세요.</p>
+    <style>
+       .menu li{
+            display: none;
+        }
+    </style>
+    <ul id="dropDownMenu">
+        <li><strong>대메뉴01</strong>
+            <ul class="menu">
+                <li><a href="#">소메뉴01</a></li>
+                <li><a href="#">소메뉴02</a></li>
+                <li><a href="#">소메뉴03</a></li>
+                <li><a href="#">소메뉴04</a></li>
+            </ul>
+        </li>
+        <li><strong>대메뉴02</strong>
+            <ul class="menu">
+                <li><a href="#">소메뉴01</a></li>
+                <li><a href="#">소메뉴02</a></li>
+                <li><a href="#">소메뉴03</a></li>
+                <li><a href="#">소메뉴04</a></li>
+            </ul>
+        </li>
+        <li><strong>대메뉴03</strong>
+            <ul class="menu">
+                <li><a href="#">소메뉴01</a></li>
+                <li><a href="#">소메뉴02</a></li>
+                <li><a href="#">소메뉴03</a></li>
+                <li><a href="#">소메뉴04</a></li>
+            </ul>
+        </li>
+        <li><strong>대메뉴04</strong>
+            <ul class="menu">
+                <li><a href="#">소메뉴01</a></li>
+                <li><a href="#">소메뉴02</a></li>
+                <li><a href="#">소메뉴03</a></li>
+                <li><a href="#">소메뉴04</a></li>
+            </ul>
+        </li>
+    </ul>
+<script>
+    const dropList = document.querySelectorAll('#dropDownMenu>li')
+    for(li of dropList){
+        const smallList = li.querySelectorAll('.menu li');
+        li.onclick=function (e){
+            if(smallList.style.display='block'){
+                smallList.style.display='none';
+            }else if(smallList.style.display='none'){
+                smallList.style.display='block';
+            }
+        }
+    }
+
+</script>
+
 </body>
 </html>
