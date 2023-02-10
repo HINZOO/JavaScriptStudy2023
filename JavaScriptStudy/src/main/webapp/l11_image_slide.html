@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>이미지 슬라이더 예제</title>
+</head>
+<body>
+<style>
+    .imageContainer .images{
+        display: flex;
+        list-style: none;
+        justify-content: center;
+    }
+    .imageContainer .images img{
+        width: 300px;
+        height: 200px;
+        object-fit: cover;
+        display: none;
+    }
+    .imageContainer .images li.active img{
+        display: block;
+    }
+    .imageContainer .navigations{
+        list-style: none;
+        display: flex;
+        justify-content: center;
+    }
+    .imageContainer .navigations>li{
+        width: 25px;
+        height: 25px;
+        margin: 0 5px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 1px solid;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .imageContainer .nextNavigations{
+        display: flex;
+        list-style: none;
+        justify-content: space-between;
+        width: 350px;
+        margin: auto;
+        position: relative;
+        top: -130px;
+        height: 0;
+        font-size: xx-large;
+    }
+    .navigations>li:hover,.nextNavigations>li:hover{
+        cursor: pointer;
+        color: blue;
+    }
+</style>
+<h1>이미지 슬라이더 만들기 1번문제</h1>
+<p>navigations 의 수를 누르면 해당 수와 동일한 위치의 이미지만 화면에 보이게 하세요!</p>
+<div id="imageSlider" class="imageContainer">
+    <ul class="images">
+        <li><img src="img/물총새.jpeg" alt=""></li>
+        <li><img src="img/백조.jpeg" alt=""></li>
+        <li class="active"><img src="img/벌새.jpeg" alt=""></li>
+        <li><img src="img/부엉이.jpeg" alt=""></li>
+        <li><img src="img/올빼미.jpeg" alt=""></li>
+        <li><img src="img/참새.jpeg" alt=""></li>
+    </ul>
+    <ul class="nextNavigations">
+        <li><</li>
+        <li>></li>
+    </ul>
+    <ul class="navigations">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+    </ul>
+</div>
+</body>
+</html>
