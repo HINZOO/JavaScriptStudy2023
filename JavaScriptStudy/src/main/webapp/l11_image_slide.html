@@ -76,5 +76,46 @@
         <li>6</li>
     </ul>
 </div>
+<script>
+    const navLis = document.querySelectorAll(".navigations>li");
+    const images = document.querySelectorAll('.images>li');
+    navLis.forEach((nav,navIndex)=>{
+        nav.onclick = function (e){
+            images.forEach((img,imgIndex)=>{
+                if(navIndex==imgIndex) img.classList.add("active");
+                else img.classList.remove("active");
+            })
+        }
+    })
+</script>
+
+<h1>이미지 슬라이더 만들기 2번문제</h1>
+<p>navigations 의 수를 누르면 이미지 번호의 이미지가 중앙에 오도록 하세요!</p>
+<p>next 와 prev 버튼을 누르면 이전과 다음 이미지가 중앙에 오도록 하세요!</p>
+<div id="imageSlider2" class="sliderContainer">
+    <div class="container">
+        <ul class="images">
+            <li><img src="img/물총새.jpeg" alt=""></li>
+            <li><img src="img/백조.jpeg" alt=""></li>
+            <li class="active"><img src="img/벌새.jpeg" alt=""></li>
+            <li><img src="img/부엉이.jpeg" alt=""></li>
+            <li><img src="img/올빼미.jpeg" alt=""></li>
+            <li><img src="img/참새.jpeg" alt=""></li>
+        </ul>
+    </div>
+    <ul class="nextNavigations">
+        <li class="prevBtn"><</li>
+        <li class="nextBtn">></li>
+    </ul>
+    <ul class="navigations">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+    </ul>
+</div>
+
 </body>
 </html>
