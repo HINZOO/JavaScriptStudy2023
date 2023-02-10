@@ -25,7 +25,7 @@
         <li>...</li>
         <li>이벤트 리스너 : 이벤트 루프로 (무한 반복문) 이벤트가 발생하는 것을 감시한다.</li>
     </ul>
-
+<br>
     <h2>📂 GUI 즉 마우스에서 발생하는 이벤트 속성</h2>
     <!--https://www.w3schools.com/jsref/obj_mouseevent.asp-->
     <ul style = "list-style: none">
@@ -65,7 +65,7 @@
             oncontextmenu : 마우스 오른쪽 클릭(보통 오른쪽 클릭 방지용)
         </li>
     </ul>
-
+<br>
     <h2>📂 이벤트 정의하는 방법</h2>
     <ul>
         <li onclick="this.style.textDecoration='overline'">
@@ -138,6 +138,7 @@
 */
         </script>
     </ul>
+<br>
     <h2>📂 콜백함수의 매개변수 event</h2>
     <p>EventListener가 콜백함수를 실행할 때, 이벤트 정보를 콜백함수에 전달하는 매개변수 (결과적으로는 이벤트 정보)</p>
     <ul>
@@ -147,8 +148,8 @@
         <li>e.preventDefault() : 이벤트의 전달(=이벤트버블링/양식제출)을 막는 함수 </li>
     </ul>
 
-
-    <h2>모던 자바스크립트의 이벤트 예제1</h2>
+<br><br>
+    <h2>😎 모던 자바스크립트의 이벤트 예제1</h2>
     <p>요소의 속성으로 이벤트를 지정한 것과  addEventListener를 같이 사용하면?? alert 3번발생 </p>
 
     <input id="elem" type="button" value="클릭해 주세요."/>
@@ -161,8 +162,8 @@
         elem.addEventListener("click", handler1); // 감사합니다!
         elem.addEventListener("click", handler2); // 다시 한번 감사합니다!
     </script>
-
-    <h2>모던 자바스크립트의 이벤트 예제2</h2>
+<br><br>
+    <h2>😎 모던 자바스크립트의 이벤트 예제2</h2>
     <p>요소의 속성으로 이벤트를 지정한 것과  addEventListener를 같이 사용하면?? alert 3번발생 </p>
 
     <input id="elem2" type="button" value="클릭해 주세요."/>
@@ -178,8 +179,8 @@
         elem2.removeEventListener("click",handler2);
         elem2.onclick=null;// 삭제
     </script>
-
-    <h2>PointerEvent(MouseEvent) Object 내역 예제</h2>
+<br><br>
+    <h2>😎 PointerEvent(MouseEvent) Object 내역 예제</h2>
     <p>마우스에서 발생하는 이벤트에 대한 정보</p>
     <p id="clientInfo"></p>
     <p id="domInfo"></p>
@@ -265,15 +266,55 @@
 
         }
     </script>
-    <h2>열렸다 닫혔다 하는 메뉴 만들기</h2>
-    <p>#dropDownMenu>li에 마우스를 올리면 li의 형제인 .menu를 화면에 보이게 하세요.</p>
+
+    <br><br>
+    <h2>😎 열렸다 닫혔다 하는 메뉴 만들기</h2>
+<!--ul#dropDownMenu>li*4>strong{대메뉴$$}+(ul.menu>(li>a[href='#']{소메뉴$$})*4)       -emmit -->
+
+    <p>#dropDownMenu>li에 마우스를 올리면 li의 마지막 자식인 ul.menu를 화면에 보이게 하세요.</p>
     <style>
-       .menu li{
-            display: none;
+        #dropDownMenu{
+            display: flex;
+            margin-bottom: 500px;
+            list-style: none;
+
+        }
+        #dropDownMenu>li{
+            padding: 10px 20px;
+            border: 1px solid;
+            position: relative;/*absolute의 기준이 되는 위치.*/
+        }
+        #dropDownMenu .menu{
+            list-style: none;
+            border: 1px solid;
+            position: absolute; /*별도의 레이아웃 존재*/
+            left:0px;
+            top:40px;
+            width: 200px;
+            background-color: dimgray;
+            transition: all ease 0.5s;
+            /*수치가 없는 속성은 애니메이션 조정이 안된다.!! (opacity, height, width,..)>>display:none이있으면 안먹힘*/
+            /* opacity: 0; 메뉴가 이미 존재하는 단점이 있다.*/
+            max-height: 0; /*컨텐츠의 높이와 상관없이 해당 노드의 높이의 최댓값 (즉 쓴만큼 높이가 지정)*/
+            /*
+                max-height : 10000px; 내용=20px, 노드=20px
+                max-height : 10000px; 내용=12000px, 노드 = 10000px
+            */
+            overflow: hidden; /*overflow:visiable 기본값. 넘쳐흐르는 아이템들을 가린다.*/
+            opacity: 0;
+        }
+        #dropDownMenu .menu>li{
+            padding: 10px 20px;
+        }
+        #dropDownMenu .menu>li>a{
+            text-decoration: none;
+            color:white;
         }
     </style>
+<!--https://getbootstrap.com/-->
     <ul id="dropDownMenu">
-        <li><strong>대메뉴01</strong>
+        <li>
+            <strong>대메뉴01</strong>
             <ul class="menu">
                 <li><a href="#">소메뉴01</a></li>
                 <li><a href="#">소메뉴02</a></li>
@@ -281,7 +322,8 @@
                 <li><a href="#">소메뉴04</a></li>
             </ul>
         </li>
-        <li><strong>대메뉴02</strong>
+        <li>
+            <strong>대메뉴02</strong>
             <ul class="menu">
                 <li><a href="#">소메뉴01</a></li>
                 <li><a href="#">소메뉴02</a></li>
@@ -289,7 +331,8 @@
                 <li><a href="#">소메뉴04</a></li>
             </ul>
         </li>
-        <li><strong>대메뉴03</strong>
+        <li>
+            <strong>대메뉴03</strong>
             <ul class="menu">
                 <li><a href="#">소메뉴01</a></li>
                 <li><a href="#">소메뉴02</a></li>
@@ -297,7 +340,8 @@
                 <li><a href="#">소메뉴04</a></li>
             </ul>
         </li>
-        <li><strong>대메뉴04</strong>
+        <li>
+            <strong>대메뉴04</strong>
             <ul class="menu">
                 <li><a href="#">소메뉴01</a></li>
                 <li><a href="#">소메뉴02</a></li>
@@ -307,17 +351,25 @@
         </li>
     </ul>
 <script>
-    const dropList = document.querySelectorAll('#dropDownMenu>li')
-    for(li of dropList){
-        const smallList = li.querySelectorAll('.menu li');
-        li.onclick=function (e){
-            if(smallList.style.display='block'){
-                smallList.style.display='none';
-            }else if(smallList.style.display='none'){
-                smallList.style.display='block';
-            }
-        }
-    }
+    //const dropDownMenu= document.getElementById("dropDownMenu");
+    // const dropDownMenuLis = dropDownMenu.getElementsByTagName("li");// 모든 자식노드가 출력되기 때문에 적절하지 않다.
+    const dropDownMenuLis = document.querySelectorAll('#dropDownMenu>li');
+    dropDownMenuLis.forEach((li)=>{
+       li.onmouseenter=function (e){
+
+           li.lastElementChild.style.height="auto"; //default : 컨텐츠의 높이만큼 부모의 높이가 따른다.
+           li.lastElementChild.style.maxHeight="500px"; //li의 자식태그들
+           // height=100% 부모의 높이를 기준으로 자식의 높이가 100%이다.
+           // 그럼 쓴만큼 되려면~ ??? max-height사용. 대충 크게 지정하면 내가 작성한 컨텐츠만큼만 높이가 지정된다.
+           li.lastElementChild.style.opacity="100%"; //li의 자식태그들
+
+       }
+       li.addEventListener("mouseleave",()=>{
+           li.lastElementChild.style.height="0";
+           li.querySelector(".menu").style.maxHeight="0px";
+           li.lastElementChild.style.opacity="0%";
+       })
+    })
 
 </script>
 
