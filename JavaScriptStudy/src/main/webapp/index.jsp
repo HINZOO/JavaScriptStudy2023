@@ -25,10 +25,18 @@
         <li><a href="l08_array_iteration.html">8.배열의 내부 반복문(Iteration)과 정렬(const)</a></li> <%--https://www.w3schools.com/js/js_array_const.asp--%>
         <li><a href="l09_document_traveling.html">9.document DOMTree 와 node 객체</a></li>
         <li><a href="l10_event.html">10.event</a></li>
-        <li><a href="">10.JSON 과 Object</a></li>
-        <li><a href="">11.브라우저 객체 window 와 document</a></li>
-        <li><a href="">13.js를 참조하는 방법들 (태그,파일 (defer async))</a></li>
-
+        <li><a href="l11_image_slide.html">11.이미지 슬라이드 만들기</a></li>
+        <li><a href="">12.자바스크립트의 클래스 문법(static sugar)</a></li>
+        <li><a href="">13.class 와 필드 정의 및 getter setter</a></li>
+        <li><a href="">14.class 의 상속</a></li>
+        <li><a href="">15.prototype 의 상속</a></li>
+        <li><a href="">16.함수의 binding과 this와 화살표 함수</a></li>
+        <li><a href="">17.타이밍 함수 setTimeout 과 setInterval (멀티스레드 new Thread)</a></li>
+        <li><a href="">18.Promise 와 Promise 화로 멀티스레드 동기화</a></li>
+        <li><a href="">19.async 함수와 Promise </a></li>
+        <li><a href="">20.Ajax 와 XMLHttpRequest 객체 </a></li>
+        <li><a href="">21.Ajax 와 fetch api와 Promise</a></li>
+        <li><a href="">22.Ajax 와 async 함수 </a></li>
     </ul>
 
 </nav>

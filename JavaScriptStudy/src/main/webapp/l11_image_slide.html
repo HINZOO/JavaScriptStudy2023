@@ -77,18 +77,112 @@
     </ul>
 </div>
 <script>
-    const navLis = document.querySelectorAll(".navigations>li");
-    const images = document.querySelectorAll('.images>li');
-    navLis.forEach((nav,navIndex)=>{
-        nav.onclick = function (e){
-            images.forEach((img,imgIndex)=>{
-                if(navIndex==imgIndex) img.classList.add("active");
-                else img.classList.remove("active");
+    const imageSlider=document.getElementById("imageSlider");
+    const imgs=imageSlider.querySelectorAll(".images>li");
+    const naviBtns=imageSlider.querySelectorAll(".navigations>li");
+    const nextBtn=imageSlider.querySelector(".nextBtn");
+    const prevBtn=imageSlider.querySelector(".prevBtn");
+
+    naviBtns.forEach((btn,btnIndex)=>{
+        btn.onclick=(e)=>{
+            imgs.forEach((img,imgIndex)=>{
+                if(btnIndex==imgIndex){
+                    img.classList.add("active")
+                }else{
+                    img.classList.remove("active")
+                }
             })
         }
-    })
+    });
+    nextBtn.onclick=function (e){
+        let activeIndex=0;
+        imgs.forEach((img,i)=>{
+            if(img.classList.contains("active")){
+                activeIndex=i;
+                img.classList.remove("active");
+            }
+        });
+        let nextIndex=(activeIndex<(imgs.length-1))?activeIndex+1:0;//0대신 img.length-1을 쓰면 끝에서 멈춘다.
+        imgs[nextIndex].classList.add("active");
+    }
+    prevBtn.onclick=function (e){
+        let activeIndex=0;
+        imgs.forEach((img,i)=>{
+            if(img.classList.contains("active")){
+                activeIndex=i;
+                img.classList.remove("active");
+            }
+        });
+        let prevIndex=(activeIndex>0)?activeIndex-1:0;
+        imgs[prevIndex].classList.add("active");
+    }
 </script>
 
+
+
+<style>
+    .sliderContainer .container{
+        position: relative;
+        width: 400px;
+        height: 230px;
+        border: 1px solid;
+        margin: auto;
+        overflow: hidden;
+    }
+    .sliderContainer .images{
+        display: flex;
+        padding-left: 0;
+        list-style: none;
+        justify-content: center;
+        position: absolute;
+        transition: left ease-in 150ms;
+    }
+    .sliderContainer .images img{
+        width: 250px;
+        height: 200px;
+        margin: 0px 10px;
+        object-fit: cover;
+    }
+    .sliderContainer .images li.active img{
+        display: block;
+    }
+    .sliderContainer .navigations{
+        padding: 0;
+        list-style: none;
+        display: flex;
+        justify-content: center;
+    }
+    .sliderContainer .navigations>li{
+        width: 25px;
+        height: 25px;
+        margin: 0 5px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 1px solid;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .sliderContainer .nextNavigations{
+        padding: 0;
+        display: flex;
+        list-style: none;
+        justify-content: space-between;
+        width: 500px;
+        margin: auto;
+        position: relative;
+        top: -130px;
+        height: 0;
+        font-size: xx-large;
+    }
+    .navigations>li.active{
+        background-color: lightblue;
+    }
+    .navigations>li:hover,.nextNavigations>li:hover{
+        cursor: pointer;
+        color: blue;
+    }
+</style>
 <h1>이미지 슬라이더 만들기 2번문제</h1>
 <p>navigations 의 수를 누르면 이미지 번호의 이미지가 중앙에 오도록 하세요!</p>
 <p>next 와 prev 버튼을 누르면 이전과 다음 이미지가 중앙에 오도록 하세요!</p>
@@ -116,6 +210,35 @@
         <li>6</li>
     </ul>
 </div>
+<script>
+    const imageSlider2=document.getElementById("imageSlider2");
+    const imagesContainer=imageSlider2.querySelector(".container");
+    const imagesUl=imageSlider2.querySelector(".images");
+    const imagesLis=imageSlider2.querySelectorAll(".images>li");
+    const navigationBtns=imageSlider2.querySelectorAll(".navigations>li");
+    const nextBtn2=imageSlider2.querySelector(".nextBtn");
+    const prevBtn2=imageSlider2.querySelector(".prevBtn");
+    navigationBtns.forEach((nav,navIndex)=>{
+        nav.onclick=(e)=>{
+            imgMoveHandler(navIndex);
+        }
+    })
+    imgMoveHandler(0); //화면이 로딩되면 1번 그림을 중앙으로 이동
+    function imgMoveHandler(navIndex){
+        //https://ko.javascript.info/size-and-scroll
+        //node.offsetLeft : 부모의 왼쪽을 기준으로 node 의 위치
+        let padding=(imagesContainer.clientWidth-imagesLis[navIndex].clientWidth)/2; //이미지 여백
+        imagesUl.style.left=-(imagesLis[navIndex].offsetLeft)+(padding)+"px";
+
+        navigationBtns.forEach((nav)=>{
+            nav.classList.remove("active");
+            navigationBtns[navIndex].classList.add("active")
+        })
+    }
+    nextBtn2.onclick=function (){
+    }
+
+</script>
 
 </body>
 </html>
