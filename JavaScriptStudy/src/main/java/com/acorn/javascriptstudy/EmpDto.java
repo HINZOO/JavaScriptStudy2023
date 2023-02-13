@@ -15,13 +15,7 @@ import java.util.Date;
 | COMM     | float(7,2)  | YES  |     | NULL    |       |
 | DEPTNO   | int         | YES  | MUL | NULL    |       |
 +----------+-------------+------+-----+---------+-------+*/
-/*+--------+-------------+------+-----+---------+-------+
-| Field  | Type        | Null | Key | Default | Extra |
-+--------+-------------+------+-----+---------+-------+
-| DEPTNO | int         | NO   | PRI | NULL    |       |
-| DNAME  | varchar(14) | YES  |     | NULL    |       |
-| LOC    | varchar(13) | YES  |     | NULL    |       |
-+--------+-------------+------+-----+---------+-------+*/
+
 public class EmpDto {
     //DB의 자료를 java 에서 처리하기 위해 받아오는 역할
     //이때 db의 type과 유사한 java의 type을 선택해야 한다.
@@ -33,10 +27,6 @@ public class EmpDto {
     private double sal;
     private double comm; //is null (기본형은 null을 참조할 수 없다.)
     private int deptno;//is null fk Dept.deptno
-
-
-
-
 
     public int getEmpno() {
         return empno;
