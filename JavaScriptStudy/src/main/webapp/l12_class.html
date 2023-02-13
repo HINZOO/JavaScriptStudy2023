@@ -68,11 +68,12 @@
 
     <h2>📂 자바스크립트에서 타입(class)을 정의하는 방법4</h2>
     <p>장점: 호이스팅 현상이 없고, js 최초실행이 빠르고 객체지향문법을 사용해서 상속할 수 있다. </p>
+    <p>타입의 멤버(프로퍼티,속성,필드)를 정의할때  전역변수에서는 this를 사용할 수 없다.(함수나 생성자에서 사용가능)</p>
     <pre>
         class Type{
-            job="학생";
+            (this.)job="학생";//📙this.생략, 자바흉내를 낸거야~
             interests = ["독서","농구"];
-            constructor(name,age){
+            constructor(name,age){//📙 생성자로 정의됨
                 this.name = name;
                 this.age = age;
             }

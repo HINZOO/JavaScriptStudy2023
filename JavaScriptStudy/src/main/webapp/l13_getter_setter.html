@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>캡슐화와 getter setter</title>
+</head>
+<body>
+    <h1>📂 객체지향 문법과 캡슐화와 getter setter(디자인 패턴)</h1>
+    <ul>
+        <li>Bean(완두콩): 필드(멤버)를 get/set 으로 캡슐화 하는 모든 타입(객체)를 의미.</li>
+        <li>VO : Bean 인데 유효성 검사나 equals 가 구현된 타입</li>
+        <li>DTO : Bean 인데 데이터 전송에 사용하는 것 </li>
+        <li>POJO : Plain Old Java Object 의 줄인말 포조는 getter setter 디자인 패턴을
+            자바에서 처음 시작해서 부르는 말이다.(Bean, vo, dto 를 통합하여 POJO스타일이라 부른다.)
+        </li>
+    </ul>
+    <pre>
+        //📌DTO: DateTransferObject : 데이터 전송시 보관용 캡슐화.
+        class PersonDto{
+            private String name;
+            private boolean married;
+
+            public String getName(){
+                return this.name;
+            }
+            public void setName(String name){
+            this.name = name;
+            }
+
+            public boolean isMarried(){
+                return this.married;
+            }
+            public void setMarried (boolean married){
+                this.married =married
+            }
+        }
+        //📌VO Variable Object : data를 저장하고 관리하는 용도.(잘 사용하지 않는다)
+        //📌dto는 게터세터에 아무것도 안쓴다.전달용이기 때문
+        //📌vo는 유효성 검사를 할 수 있고, 두 객체를 비교할 수 있도록 equals 를 구현
+        class PersonVo{
+            private int age;
+            public void setAge(int age){
+                if(age>0 && age<140){//유효성검사의 예)
+                    this.age=age;
+                }
+                this.age=0;
+            }
+            public PersonVo parsingPersonVo(PersonDto dto){
+                //DTO를 기반으로 하는 Vo가 있을때 유효성 검사를 위해 형변환하는 함수
+            }
+            public boolean equals(Object o){
+                //두 객체가 같은지 비교연산하는 Object.equals() 를 재정의(오버라이드)
+            }
+        }
+        //📌 dto와 vo 구분이 없는 회사도 있다 (엄청 유명한 책에서 두개를 같은거라 이야기함)
+    </pre>
+    <h2>📂 자바스크립트의 캡슐화와 private protected (default는 없다, 패키지개념이없어서) </h2>
+    <!--아무것도 안쓰면 public-->
+    <p>ES6 에서 추가한 문법이고 class 에서만 사용가능.(function에서는 안된다)</p>
+    <pre>
+        class Person{
+            #password;// '#' : private(객체다이어그램에서는 '-') 필드를 정의
+            _child; // '_' : protected
+            name; //public 필드
+        <!--
+            private : 클래스 내부에서만 접근 가능한 필드
+            protected : 클래스 내부와 상속관계에서 접근 가능한 필드
+                    (같은 패키지, 같은패키지내 상속받은 서로다른 패키지 내에서 사용가능)
+            public : 누구든 접근 가능한 필드
+        -->
+
+        }
+    </pre>
+
+
+    <h2>📂 자바스크립트 class 의 get/set 문법 </h2>
+    <p>POJO(getter setter) 디자인 패턴이 좋아서 문법으로 추가함</p>
+    <pre>
+    class PersonDto{
+        #name; #age;
+        constructor(name,age) {
+            this.#name=name;
+            this.#age=age;
+        }
+        get name(){
+            return this.#name;
+        }
+        set name(name){
+            this.#name = name;
+        }
+    }
+    const p = new PersonDto();
+    p.name = "홍길동"; //setter
+    console.log(p.name); //getter //"홍길동"
+    </pre>
+
+<script>
+    class PersonDto{
+        #name;
+        #age;//JS의 private은 이름에 #을 추가하여 사용한다.(#name 자체가 이름)
+        constructor(name,age) {
+            this.#name=name;
+            this.#age=age;
+        }
+        get name(){//선언은 함수지만 함수가 아니다. ()붙여서 호출하면 안나옴😎
+            return this.#name;
+        }
+        set name(name){//set도 선언은 함수지만 함수가 아니다.
+            this.#name = name;
+        }
+
+    }
+    const p= new PersonDto("리현",30);
+    console.log(p);
+
+    // console.log(p.#name);// 호출불가
+    console.log(p.name);//p.getName(); //get/set을 하고나면 undefined에서 호출가능한 상태로 바뀜.
+    p.name="승우";
+    // p.set name("승우");// 함수처럼 안됨.
+    console.log(p.name);
+    console.log(p);
+
+</script>
+
+
+</body>
+</html>
