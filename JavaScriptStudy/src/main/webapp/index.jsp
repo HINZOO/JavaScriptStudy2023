@@ -26,7 +26,7 @@
         <li><a href="l09_document_traveling.html">9.document DOMTree 와 node 객체</a></li>
         <li><a href="l10_event.html">10.event</a></li>
         <li><a href="l11_image_slide.html">11.이미지 슬라이드 만들기</a></li>
-        <li><a href="">12.자바스크립트의 클래스 문법(static sugar)</a></li>
+        <li><a href="l12_class.html">12.자바스크립트의 클래스 문법(static sugar)</a></li>
         <li><a href="">13.class 와 필드 정의 및 getter setter</a></li>
         <li><a href="">14.class 의 상속</a></li>
         <li><a href="">15.prototype 의 상속</a></li>
