@@ -2,9 +2,97 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>this bind</title>
 </head>
 <body>
+    <h1>🎀 this와 bind와 화살표 함수</h1>
+    <ul>
+        <li>this : 객체의 필드(멤버)접근자, 객체 자신을 가리키는 표현</li>
+        <li>super: 부모의 필드 접근자</li>
+        <li>bind : this 가 정의하고 있는 객체</li>
+        <li>function.bind(Object) : 해당 함수에 this로 특정 Object 를 bind 할 수 있다.</li>
+        <li>😎 js 에서는 this 소실이라는 문제가 종종 발생한다.</li>
+        <li>this 소실 : 타입에서 내부의 필드에서 this가 다른 객체를 가르키는 현상</li>
+    </ul>
+    <h2>📂 this 소실이 발생하는 이유</h2>
+    <ul>
+        <li>콜백함수를 정의할때 this는 콜백함수를 실행하는 객체가된다.</li>
+        <li>이때 this 가 콜백함수를 정의하는 타입이기를 기대할 때 this 소실이 발생했다고 한다.</li>
+        <li>예) 이벤트를 정의한 함수내부의 this가 그 함수를 정의한 타입으로 기대하지만 이벤트가 발생한 노드개체가 this가 된다.</li>
+        <li>예) 타이밍함수를 정의한 함수내부의 this 가 그 함수를 정의한 타입으로 기대하지만 타이밍함수를 실행,생성하는 window가 this가 된다.</li>
+    </ul>
 
+    <h2>📂 this의 소실을 해결하는 2가지 방법</h2>
+    <ul>
+        <li>함수의 bind()로 내가 원하는 this를 고정한다.</li>
+        <li>this를 bind하지 못하는 화살표함수를 사용한다.</li>
+    </ul>
+    <p>Timer : <strong id="timerStr"></strong></p>
+
+<script>
+    //타이머 타입
+    //타이머 객체를 생성후 호출하면 화면에 출력되도록 정의
+    class Timer{
+        constructor(id,time=3) {
+            this.time=time;
+            this.id=id;
+
+        }
+
+        printDom (){
+            //this로 필드가 접근가능.
+            const node=document.getElementById(this.id);
+            node.innerText=this.time;
+        }
+        start(){
+            const newFunc=this.setTime.bind(this); // 📌bind 함수로 this가 Timer를 가리키도록 설정
+           setInterval(newFunc,1000);//window객체안의 setInterval이라는 필드가 있다. this는 window를 가리킨다.
+                //1. setInterval안의 콜백함수 자리에 this를 적는 경우 this로 Timer의 필드를 접근하지 못하고 있음.
+                //2. this는 이 함수를 실행하고 있는 window를 bind 하기 때문이다. 호출하는 대상이 누구인가를 쫓아가면 this가나온다.
+                //   즉, setInterval의 콜백함수의 this는 window를 가리킨다. 이것을 this 소실이라고 한다.
+                //3. this 소실: this가 실행하는 객체를 bind 하면서 생기는 문제
+                //4. 해결 :📌 bind로 this를 Timer의 멤버로 고정한 새로운 함수를 콜백함수로 사용하면 this의 소실을 막을 수 있다.
+        }
+        setTime(){
+            this.time--;
+            this.printDom();
+        }
+    }
+    const timer= new Timer("timerStr",5);
+    timer.printDom();
+    timer.start();
+
+</script>
+
+    <h3>timer 예제2</h3>
+    <div> 스타트하면 타이머가 시작 스탑을 누르면 타이머가 멈춤
+        <button id="startBtn">start</button>
+        <strong id="timerTxt"></strong>
+        <button id="stopBtn">stop</button>
+    </div>
+<script>
+    function TimerApp(startBtnId,stopBtnId,timerTxtId,time=5){
+        this.startBtn=document.getElementById(startBtnId);
+        this.stopBtn=document.getElementById(stopBtnId);
+        this.timerTxt=document.getElementById(timerTxtId);
+        this.time=time;
+        console.log(this)
+        this.startBtn.onclick=function (e){
+            //this 소실 : onclick을 실행하는 버튼을 this가 바인드하고 있다.
+            console.log(this)
+            this.timerTxt.innerText=this.time;//👀bind가 없다면 여기의 this는 startBtn의 this를 가리킨다.
+        } //bind(TimerApp.this) : 하면 함수의 this를 실행하는 객체가 아니라 TimerApp으로 고정
+        //화살표함수를 이용하여 bind에서 헤어나올 수있다.
+/*        this.startBtn.onclick=(e)=>{
+            //화살표 함수의 this는 실행하는 객체를 포함하는 필드를 this로 인식한다 (한번 건너뛴다)
+            //prototype을 생성하는 함수(function)는 실행하는 객체의 필드를 this로 bind 하는 함수를 포함하고있다.
+            //(함수가 타입이기 때문)
+            //화살표함수는 타입(객체)이 될 수 없고 bind함수도 없다. 화살표함수밖에있는 함수의 필드를 this로 bind 한다.
+            //화살표함수의 this는 화살표함수를 포함하는 함수의 this이다.(명확히 말하면 화살표함수의 this는 없다)
+            this.timerTxt.innerText=this.time;//여기서  this는 TimerApp
+        }*/
+    }
+    new TimerApp("startBtn","stopBtn","timerTxt",3);
+</script>
 </body>
 </html>
