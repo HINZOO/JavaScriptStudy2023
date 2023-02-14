@@ -29,14 +29,14 @@
         <li><a href="l12_class.html">12.자바스크립트의 클래스 문법(static sugar)</a></li>
         <li><a href="l13_getter_setter.html">13.class 의 getter setter 와 캡슐화</a></li>
         <li><a href="l14_emp_list.do">14.자바에서 DTO 사용해보기(Emp.List) </a></li>
-        <li><a href="">15.prototype 의 상속</a></li>
+        <li><a href="l15_timing_function.html">15.타이밍 함수 setTimeout 과 setInterval (멀티스레드 new Thread)</a></li>
         <li><a href="">16.함수의 binding과 this와 화살표 함수</a></li>
-        <li><a href="">17.타이밍 함수 setTimeout 과 setInterval (멀티스레드 new Thread)</a></li>
-        <li><a href="">18.Promise 와 Promise 화로 멀티스레드 동기화</a></li>
-        <li><a href="">19.async 함수와 Promise </a></li>
-        <li><a href="">20.Ajax 와 XMLHttpRequest 객체 </a></li>
-        <li><a href="">21.Ajax 와 fetch api와 Promise</a></li>
-        <li><a href="">22.Ajax 와 async 함수 </a></li>
+        <li><a href="">17.Promise 와 Promise 화로 멀티스레드 동기화</a></li>
+        <li><a href="">18.async 함수와 Promise </a></li>
+        <li><a href="">19.Ajax 와 XMLHttpRequest 객체 </a></li>
+        <li><a href="">20.Ajax 와 fetch api와 Promise</a></li>
+        <li><a href="">21.Ajax 와 async 함수 </a></li>
+        <li><a href="">22.prototype 의 상속</a></li>
     </ul>
 
 </nav>

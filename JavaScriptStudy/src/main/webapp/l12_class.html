@@ -27,7 +27,7 @@
                 this.name=name;
                 this.age=age;
             }
-            Type(String name){
+            Type(String name){// 💭 오버로드: 매개변수가 다른 또다른 생성자(메서드)를 재정의
                 this.name=name;
                 this.age=25;
             }
@@ -122,9 +122,10 @@
             this.job=job;
             this.gender=gender;
         }
+        //필드 안에서 함수 선언의 3가지 방법
         hello0=function (){};
         hello1=()=>{};
-        hello2(){};
+        hello2(){};//권장.
 
     }//GC가 존재하는 프로그램밍 언어는 객체를 따로 삭제하면 안된다. (java,js,...)
 
@@ -196,7 +197,7 @@
     console.log(c.__proto__.__proto__.__proto__.__proto__);//Object.prototype
     console.log(c.__proto__.__proto__.__proto__.__proto__.__proto__);//null
 
-    //위에 처럼 프로토타입을 체인을 하려면 조금 어려운 방법이 필요해서 객체르 상속 받음.(결론: 프로토타입도 객체이다)
+    //위에 처럼 프로토타입을 체인을 하려면 조금 어려운 방법이 필요해서 객체를 상속 받음.(결론: 프로토타입도 객체이다)
     console.log(g.__proto__);//g.prototype
     console.log(g.__proto__.__proto__);//new F()
     console.log(g.__proto__.__proto__.__proto__);//new E()
