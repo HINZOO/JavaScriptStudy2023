@@ -172,14 +172,18 @@
             constructor(formName) {
                 this.form=document.forms[formName];
                 this.startBtn=form.start;
+                console.log(this.startBtn);
                 this.stopBtn=form.stop;
                 this.exitBtn=form.exit;
                 this.outNode=form.out;
                 this.timeNode=form.time;
                 this.intervalNode=form.interval;
+                this.startBtn.onclick=(e)=>{
+                    console.log(` 확인용 ${this}`)
+                }
             }
-
         }
+        const timerApp= new TimerApplication(timerForm);
     </script>
 
 
