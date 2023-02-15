@@ -159,8 +159,13 @@
     redBall.onclick=function (e){
         new Promise((res,rej)=>{
             setTimeout(()=>{
-                this.classList.add("small");//화살표함수를 사용했기 때문에 this는 redBall을 가리킴
-                res("안녕");//작아지고 이동하는 시점에 적용되는것을 알수 있다.
+                try{
+                    this.classList.add("small");//화살표함수를 사용했기 때문에 this는 redBall을 가리킴
+                    res("안녕");//작아지고 이동하는 시점에 적용되는것을 알수 있다.//fulfilled 상태
+                }catch (e){
+                    rej(new Error("node찾기 실패"))//rej사용시 new Error를 써주는게 정설~:)
+                    //에러가있을 시 than의 두번재 콜백함수가 실행 된다 //rejected 상태
+                }
             },1000);
 
         }).then((resMsg)=>{//resolve()를 실행할때 보낸 매개변수를 첫번째 콜백함수의 매개변수가 받는다.(본예시에서는 resMsg)
@@ -169,11 +174,23 @@
                 this.classList.add("moveLeft");
                 this.classList.remove("small")
             },1000);
-        },()=>{})
+        },(errMsg)=>{
+            console.log(errMsg);})
+            //😎에러를 발생한경우만 다루고 싶다면
+            // then의 두번째 콜백함수 또는 .catch(콜백함수) 의 콜백함수가 실행( reject 의 매개변수로 Error 를 꼭생성해야함)
+            // .catch((errMsg)=>{
+            // console.log('catch'+errMsg)});
+            .finally(()=>{
+                console.log("성공(fulfilled)이든 실패(rejected)든 실행 finally");
+        });
     }
-
+//🍒 promise는 완벽한 동기화를 하기에는 부족함(async함수보다)이 있고 코드가 더더 복잡해지는 경향이잇다.
+//🍒 reject finally catch 같은 추가 기능을 깊이있게 다루지 않겠습니다.(설명만보세요=>모던자바참고)
+//🍒 모질라사이트(웹표준제시사이트) promise오는 완벽한 동기화의 한계가 있어서 async 함수를 사용하세요.하고 권장함.
 
     </script>
+
+
 
 
 <!--//😎 내가한거/////공이 200*200 에서 100*100까지 작아졌다 이동시키세요~//////////////////////////////////////
@@ -210,7 +227,6 @@
         },()=>{})
     </script>
     -------------------------------------------------------------------------------->
-
 
 
 </body>
