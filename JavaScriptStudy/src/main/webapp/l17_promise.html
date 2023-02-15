@@ -28,6 +28,7 @@
     }
 </script>
 
+<!--------------------------------------------------------------------------------------------------------------------->
     <h2><button id="testBtn2">알람!</button> ❗ 콜백 지옥으로 비동기 코드를 동기화 하기!</h2>
     <p>
         멀티 스레드인 코드의 특정 시점을 동기하고 싶다면 스레드가 종료되는 시점이 아닌,
@@ -50,12 +51,166 @@
         },3000)
     }
 </script>
+    <style>
+        #circleBox{
+            border-radius: 50%;
+            width: 0px;
+            height: 0px;
+            background-color: red;
+            /*animation-name: moveBox;*/
+            /*animation-duration: 2s;*/
+            /*margin-left: 0;*/
+            /*animation-fill-mode: forwards;*/
+        }
+        /*@keyframes moveBox { !*원이 커진후 이동하는 것이 어렵다 js 로 해보자.*!*/
+        /*    20%{ width: 200px; height: 200px;}*/
+        /*    100%{*/
+        /*        width: 200px;*/
+        /*        height: 200px;*/
+        /*        margin-left:calc(100% - 200px) }*/
+        /*}*/
 
-    <h2>❗❗ 멀티스레드간의 동기화를 위한 콜백지옥탈출을 위해 등장한 영웅? promise </h2>
+    </style>
+    <h3>👉  0~200 까지 커지는 원을 만들고 오른쪽 끝으로 이동시키기(꼭 원이 다 커지면 이동하도록 순서지키기)</h3>
+    <div>
+        <p id="circleBox"></p>
+    </div>
+    <script>
+<!--😎브라우저에서 애니메이션 작성법 : 1.transition(복잡한 애니메이션 불가) 2.animation 3.js로 만듦(setInterval)-->
+    let w=0;
+    const circleBox = document.getElementById("circleBox");
+    let leftEnd=circleBox.parentElement.clientWidth-200;
+    let left=0;
+    let circleBoxNum= setInterval(()=>{
+        circleBox.style.width=(++w)+"px";//원의 크기조정
+        circleBox.style.height=(++w)+"px";//원의 크기조정
+        if (w==200){
+            //return; // 해당 함수만 종료하지 다음의 콜백함수를 종료하진 않는다.
+            clearInterval(circleBoxNum);//원 크기 조정스탑!
+            let moveLeftNumber= setInterval(()=>{
+                circleBox.style.marginLeft=(++left)+"px";
+                if(leftEnd==left) clearInterval(moveLeftNumber);
+                // circleBox.style.marginLeft="calc(100% - 200px)";
+                // circleBox.style.transition="1s";
+            },1); //👉 등속만 가능함. 속도조절의 어려움이 있어요~ :)
+        }
+    },10);
+
+    </script>
+
+
+    <h2>❗❗ 멀티스레드간의 동기화를 위한 콜백지옥탈출을 위해 등장한 영웅? Promise </h2>
     <p>콜백지옥을 탈출할 수있으나 코드가 어렵다는단점이..😎=> 이를해결하기 위해 async 함수가 나옴</p>
+    <h3><button id="testBtn3"> 알람!! </button>❓ 3초뒤 알람이 뜨고 2초뒤 알람</h3>
 <script>
-
+    testBtn3.onclick=function (e){
+        const p= new Promise((resolve, reject)=>{//resolve: 해결하다 // reject :거절하다
+            setTimeout(()=>{
+                alert("3초뒤 알람!");
+                //동기하고 싶은 시점에서 resolve 함수를 실행하면 .then 에 오는 첫번째 콜백함수가 동기화 되서 실행된다.
+                //만약에 오류가 발생하거나 동기화가 안될 때 reject 함수를 실행하면 .then에 오는 두번째 콜백함수가 실행된다.
+                resolve("알람성공");
+            },3000)
+        }).then((resolveMsg)=>{
+            setTimeout(()=>{
+                alert(resolveMsg+"2초뒤 알람!")
+            },2000)
+        },(rejectMsg)=>{});// rejectMsg는 안써도 된다.
+    }
 </script>
+
+    <h3>볼을 클릭하면 작아졌다가 커지고 이동하는 볼(애니메이션 효과를 script+transition)</h3>
+    <style>
+        #redBall{
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: red;
+            left:0;
+            position: relative;
+            transition: all ease-in 1s;
+            /* transition은 처음에 지정된 스타일 속성만 애니메이션을 적용
+               따라서  left:0을 지정해야 모션이생김*/
+        }
+        #redBall.small{
+            width: 100px;
+            height: 100px;
+        }
+        #redBall.moveLeft{
+            left:calc(100% - 200px);
+            /*calc 작성시 띄어쓰기를 꼭 해야한다.(규칙)*/
+        }
+    </style>
+    <div>
+        <p id="redBall"></p>
+    </div>
+    <script>
+/* //🎃Promise 없이풀이
+       redBall.onclick=function (e){
+            this.classList.add("small");
+            setTimeout(()=>{
+                this.classList.remove("small")
+                this.classList.add("moveLeft");
+            },1000);
+        };
+ */
+
+//🎃Promise 사용
+    redBall.onclick=function (e){
+        new Promise((res,rej)=>{
+            setTimeout(()=>{
+                this.classList.add("small");//화살표함수를 사용했기 때문에 this는 redBall을 가리킴
+                res("안녕");//작아지고 이동하는 시점에 적용되는것을 알수 있다.
+            },1000);
+
+        }).then((resMsg)=>{//resolve()를 실행할때 보낸 매개변수를 첫번째 콜백함수의 매개변수가 받는다.(본예시에서는 resMsg)
+            setTimeout(()=>{
+                this.innerText=resMsg;
+                this.classList.add("moveLeft");
+                this.classList.remove("small")
+            },1000);
+        },()=>{})
+    }
+
+
+    </script>
+
+
+<!--//😎 내가한거/////공이 200*200 에서 100*100까지 작아졌다 이동시키세요~//////////////////////////////////////
+    <style>
+        #circleBox2{
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            background-color: red;
+        }
+    </style>
+    <h3>공이 200*200 에서 100*100까지 작아졌다 이동시키세요~</h3>
+    <p id="circleBox2"></p>
+    <script>
+        const circleBox2 = document.getElementById("circleBox2");
+        let leftEnd2=circleBox2.parentElement.clientWidth-100;
+        let left2=0;
+        let w2=0;
+        const p2 = new Promise((resolve, reject)=>{
+            let circleNum=setInterval(()=>{
+                circleBox2.style.width=(200-(++w2))+"px";
+                circleBox2.style.height=(200-(++w2))+"px";
+                if(w2==100){
+                    clearInterval(circleNum);
+                }
+            },10)
+            resolve("이동");
+        }).then((resolveMsg)=>{
+            let circleMoveNum=setInterval(()=>{
+                circleBox2.style.marginLeft=(++left2)+"px";
+                if(left2==leftEnd2) clearInterval(circleMoveNum);
+
+            },10)
+        },()=>{})
+    </script>
+    -------------------------------------------------------------------------------->
+
 
 
 </body>
