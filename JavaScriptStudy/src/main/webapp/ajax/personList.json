@@ -1,0 +1,20 @@
+[
+  {
+  "name": "경민",
+  "birth": 1986,
+  "job": "강사",
+  "married": true
+  },
+  {
+    "name": "현주",
+    "birth": 1990,
+    "job": "교육생",
+    "married": false
+  },
+  {
+    "name": "현정",
+    "birth": 1989,
+    "job": "웹디자이너",
+    "married": false
+  }
+]

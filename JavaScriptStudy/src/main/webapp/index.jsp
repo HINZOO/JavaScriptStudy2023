@@ -31,9 +31,9 @@
         <li><a href="l14_emp_list.do">14.자바에서 DTO 사용해보기(Emp.List) </a></li>
         <li><a href="l15_timing_function.html">15.타이밍 함수 setTimeout 과 setInterval (멀티스레드 new Thread)</a></li>
         <li><a href="l16_this_bind.html">16.함수의 binding과 this와 화살표 함수</a></li>
-        <li><a href="l17_promise.html">17.Promise 와 Promise 화로 멀티스레드 동기화</a></li>
-        <li><a href="l18_promise_channing.html">18.Promise 체이닝(비동기코드(멀티스레드)를 계속 동기화하기) </a></li>
-        <li><a href="">19.Ajax 와 XMLHttpRequest 객체 </a></li>
+        <li><a href="l17_promise.html">17.Promise 와 P멀티스레드 동기화</a></li>
+        <li><a href="l18_promise_chaining.html">18.Promise 체이닝과 프라미스화 비동기코드(멀티스레드)를 계속 동기화하기 </a></li>
+        <li><a href="l19_ajax_xmlhttprequest.html">19.Ajax 와 XMLHttpRequest 객체 (😎 front+back이 포함됨) </a></li>
         <li><a href="">20.Ajax 와 fetch api와 Promise</a></li>
         <li><a href="">21.Ajax 와 async 함수 </a></li>
         <li><a href="">22.prototype 의 상속</a></li>

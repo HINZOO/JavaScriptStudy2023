@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>비동기식 통신 ajax</title>
+</head>
+<body>
+    <h1>📂 AJAX(Asynchronous JavaScript And XML)</h1>
+    <p>자바스크립트로 xml 을 비동기식 통신으로 불러오는 것!</p>
+    <ul>
+        <li>
+            http 통신에서 동기식이란? : 브라우저가 url 로 요청한(==톰캣서버로 리소스를 요청한다) 페이지 한개를 로드하는 것.(일반적)
+        </li>
+        <li>
+            http 통신에서 비동기식이란? : 브라우저가 로드한 페이지 내부에서 다른 페이지를 요청하는 것 (특수)
+            <!--예를들면 아이디를 쓸때 중복된 아이디라고 뜨는 것은 자바스크립트가 다른 페이지의 아이디정보가 있는 페이지를 불러들여 비교하고 그 결과를 가져오는 것. -->
+        </li>
+        <li>xml : 비동기식 통신에서의 xml은 html 문서를 의미한다.   </li>
+        <li>자바스크립트로 비동기식 통신 : js의 XMLHTTPRequest 객체가 비동기식 통신을 하도록 지원한다.</li>
+        <li>AJAX : 자바스크립트로 비동기식 통신을 하면 AJAX라 부른다.</li>
+    </ul>
+
+    <h2>👉 AJAX 의 등장이유</h2>
+    <ul>
+        <li>한개의 url의 문서를 1번 로드하는 브라우저의 인터페이스가 불편해서 등장</li>
+        <li>작은 데이터를 얻기위해 전체 페이지를 로드하는 것이 비효율적(비용)이기 때문에 </li>
+        <li>문서를 요청할때 마다 중복되는 리소스를 매번 다운로드 받는다
+            (비용증가,브라우저가 캐시로 저장을 해서 조금 만회하는 중)</li>
+        <li>유저인터페이스를 편하게 하고 비용을 절감한다.</li>
+    </ul>
+    <p>
+        <button id="loadDomBtn"> ajax/imgList.html 불러오기</button>
+    </p>
+    <div id="ajaxContainer" style="border: 1px solid">
+    </div>
+<script>
+    loadDomBtn.onclick=function (e){
+        let url="ajax/imgList.html";
+        //let url="l07_if.html";
+        const req = new XMLHttpRequest(); //다른페이지에 요청한다는 뜻으로 request 라고 짓는 편
+        req.open("GET",url);//1. 준비단계 : 어떤 방식으로 요청할 것인지 기입 (양식으로 요청 POST, url 요청GET)
+        req.onload=function (e){//문서를 send() 불러오자마자 함수실행
+            //통신에 성공했을 때(이벤트) 콜백함수를 정의
+            //통신에 걸린 시간이나 어떤 통신인지에 대한 내역을 포함.
+            //console.log(e);
+            //console.log(req.responseText);//responseText 불러온 문서의 문자열
+            ajaxContainer.innerHTML=req.responseText;
+        }
+        req.send();        //2. 불러오기 : 해당 url의 문서를 불러온다.
+                           //             문서를 요청하면 받아 오는데 까지 시간이 조금 걸린다. 따라서~통신에 성공 했을 때 콜백함수 정의
+    }
+</script>
+<!--👉 ajax/imgList.html 불러오기] imgList.html 을 먼저 불러오고 그안의 img src 를 통해 이미지 리소스들을 다운 받는다.-->
+
+
+    <form action="" name="signupForm">
+        <div>
+            <p>
+                <label>id:
+                    <input  name="userId"
+                            placeholder="id를 입력하세요">
+                </label>
+            </p>
+            <p id="userIdMsg"></p>
+            <!--입력하는것을 input 입력하고 떼는것을 onchange -->
+        </div>
+    </form>
+<script>
+    const signupForm=document.forms["signupForm"];// 폼에서 선택방법
+    signupForm.userId.onchange=function (e){//입력 후 떼었을 때 함수발동
+        let val=this.value;//입력값
+        //입력받은 아이디가 중복되었는지 서버에 물어본다.
+        //idCheck.json
+        let url ="ajax/idCheck.json"; //emp.empno가 중복되어 있는지 확인하는 동적 페이지를 작성하면 된다.
+        const req = new XMLHttpRequest();
+        req.open("GET",url);
+        req.onload=function (e){
+            let jsonStr=req.responseText;
+           const checkObj=JSON.parse(jsonStr);//문자열인 json을 object로 형변환하는 함수 👉JSON.parse
+            let msg =(checkObj.check)?"멋진 아이디 입니다:)":"사용중인 아이디입니다:)";
+            userIdMsg.innerText=msg;
+        }
+
+        req.send();
+
+    }
+
+</script>
+</body>
+</html>
