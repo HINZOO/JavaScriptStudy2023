@@ -47,6 +47,9 @@ public class L14EmpList extends HttpServlet {
             //DriverManager가 db에 접속할 때 주소를 보고 필요한 라이브러리를 찾아서 생성후 접속한다.
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/scott",user,pw);
             pstmt = conn.prepareStatement("SELECT * FROM EMP");
+/*            pstmt = conn.prepareStatement("SELECT * FROM EMP where DEPTNO=?");
+            int deptno=Integer.parseInt(req.getParameter("deptno"));
+            pstmt.setInt(1,deptno);*/
             pstmt2 = conn.prepareStatement("SELECT * FROM DEPT");
             rs=pstmt.executeQuery();//질의어를 실행하는 함수
             rs2=pstmt2.executeQuery();//질의어를 실행하는 함수
@@ -92,7 +95,7 @@ public class L14EmpList extends HttpServlet {
         //이때 인코딩이 없어서 브라우저가 인지하는 인코딩이 다른 값으로 나오는것.
         out.println("<h1>Scott.emp list 출력</h1>");
         out.println("<h2>문제1: 부서번호를 파라미터로 보내면 쿼리로 부서번호에 해당하는 사원만 출력하세요.</h2>");
-        out.println(deptList);
+        //다시해보자.
         out.println("<h2>문제2: deptno와 empno를 조인해서 부서이름과 상사이름을 출력하세요.</h2>");
         out.println("<h2><a href='../l14_dept_list.do'>문제3: 부서리스트를 출력하는 동적 페이지를 만드세요</a></h2>");
         empListStr+="<table>";
