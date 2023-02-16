@@ -130,9 +130,27 @@
 </script>
 
     <h2>👉 동적 페이지(서블릿)를 JSON으로 반환하고 AJAX로 통신해보자.</h2>
-    <p><a href="`empListJson.do`">동기식으로 페이지 불러오기</a></p>
-    <p><a id="loadEmpBtn" href="javascript:void(0);" data-url="empListJson.do">
-            비동기식으로 페이지 불러오기
+    <p><a href="empListJson.do">동기식으로 페이지 불러오기</a></p>
+    <p><a class="loadEmpBtn" href="javascript:void(0);" data-url="empListJson.do">
+            비동기식으로 모든 사원 불러오기
+        </a>
+    </p>
+
+    <p>
+        <a class="loadEmpBtn"  href="javascript:void(0);" data-url="empListJson.do?deptno=10">
+        비동기식으로 deptno=10인 부서의 사원 불러오기
+        </a>
+    </p>
+
+    <p>
+        <a class="loadEmpBtn" href="javascript:void(0);" data-url="empListJson.do?deptno=20">
+            비동기식으로 deptno=20인 부서의 사원 불러오기
+        </a>
+    </p>
+
+    <p>
+        <a class="loadEmpBtn"  href="javascript:void(0);" data-url="empListJson.do?deptno=30">
+            비동기식으로 deptno=30인 부서의 사원 불러오기
         </a>
     </p>
 <!--
@@ -155,5 +173,34 @@
 
         </tbody>
     </table>
+<script>
+    const loadEmpBtns=document.getElementsByClassName("loadEmpBtn");//복수의 버튼값
+    const empTbody=document.getElementById("empTbody");
+    for(const loadEmpBtn of loadEmpBtns){
+        loadEmpBtn.onclick=loadEmp;
+    }
+    function loadEmp(){
+        let url=this.dataset.url;
+        const req = new XMLHttpRequest();
+        req.open("GET",url);
+        req.onload=function (){
+            let empListJson=req.responseText;
+            const empList = JSON.parse(empListJson);
+            printEmpList(empList);
+        }
+        req.send();
+    }
+    function printEmpList(empList){//table 의 문자열로 출력해주는 함수
+        let html ="";
+        empList.forEach((emp)=>{
+            html+="<tr>"
+            for(let key in emp){
+                html+=`<td>${emp[key]}</td>`;
+            }
+            html+="</tr>"
+        })
+        empTbody.innerHTML=html;
+    }
+</script>
 </body>
 </html>
