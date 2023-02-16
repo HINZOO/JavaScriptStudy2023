@@ -33,7 +33,8 @@ public class L14DeptList extends HttpServlet {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jbc:mysql://localhost:3306/scott", user, pw);
-            pstmt = conn.prepareStatement("SELECT * FROM DEPT");
+            String mysql="SELECT * FROM DEPT";
+            pstmt = conn.prepareStatement(mysql);
             rs = pstmt.executeQuery();
             deptList = new ArrayList<DeptDto>();
 

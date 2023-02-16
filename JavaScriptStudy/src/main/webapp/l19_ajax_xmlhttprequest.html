@@ -186,6 +186,7 @@
         req.onload=function (){
             let empListJson=req.responseText;
             const empList = JSON.parse(empListJson);
+            o
             printEmpList(empList);
         }
         req.send();

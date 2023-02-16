@@ -66,11 +66,90 @@
     [과제] dept 리스트를 json 으로 반환하는 서블릿(L19EmpListJson 참고)을 만들고 ajax 로 호출하세요
     </h3>
     <p>
-        <button>XMLHttpRequest 로 호출</button>
-        <button>XMLHttpRequest 의 프라미스화로 호출</button>
-        <button>fetch 로 호출</button>
+        <button id="loadDeptList1">XMLHttpRequest 로 호출</button>
+        <button id="loadDeptList2">XMLHttpRequest 의 프라미스화로 호출</button>
+        <button id="loadDeptList3">fetch 로 호출</button>
     </p>
-    <table></table>
+     <table>
+         <thead>
+            <tr>
+                <th>부서번호</th>
+                <th>부서이름</th>
+                <th>지역명</th>
+            </tr>
+         </thead>
+         <tbody id="deptTbody">
 
+         </tbody>
+     </table>
+<script>
+    const loadDeptList1=document.getElementById("loadDeptList1");
+    const loadDeptList2=document.getElementById("loadDeptList2");
+    const loadDeptList3=document.getElementById("loadDeptList3");
+    const  deptTbody=document.getElementById("deptTbody");
+    let url='deptListJson.do';
+
+    ////////////////////////////////////////////////////
+    loadDeptList1.onclick=deptListLoad;
+    function deptListLoad(){
+        const req = new XMLHttpRequest();
+        req.open("GET",url);
+        req.onload=function (){
+            let deptListJson=req.responseText;
+            let deptList=JSON.parse(deptListJson);
+            printDeptList(deptList);
+        }
+        req.send();
+    }
+
+    function printDeptList(deptList){//반복해서 쓰고있음.
+        let html="";
+        deptList.forEach((dept)=>{
+            html+="<tr>";
+                for(let key in dept){
+                    html+=`<td>${dept[key]}</td>`
+            }
+
+            html+="</tr>";
+        });
+        deptTbody.innerHTML=html;
+    }
+    //2번 ///////////////////////////////////////////////////
+    loadDeptList2.onclick= promisification;
+    function promisification (e){
+        fetchApi(url)
+            .then((deptList)=>{
+            printDeptList(deptList);
+        }).catch((errMsg)=>{
+            alert("호출실패"+errMsg);
+        });
+    }
+    function fetchApi(url,method="GET"){
+        return new Promise((resolve,reject)=>{
+            const req=new XMLHttpRequest();
+            req.open(method,url);
+            req.onload=function (e){
+                if(req.status==200){
+                    let responseText=req.responseText;
+                    let deptList=JSON.parse(responseText);
+                    resolve(deptList);
+                }else{
+                    reject(new Error(req.status+""));
+                }
+            }
+            req.send();
+        });
+    }
+//////////////////////////////////////////////
+    loadDeptList3.onclick=loadDeptListFetch;
+    function loadDeptListFetch(){
+        fetch(url,{method:"GET"})
+            .then((resp)=>{
+                return resp.json();
+            }).then((deptList)=>{
+            printDeptList(deptList);
+        });
+    }
+</script>
 </body>
 </html>
