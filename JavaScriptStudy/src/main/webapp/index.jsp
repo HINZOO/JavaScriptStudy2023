@@ -36,7 +36,7 @@
         <li><a href="l19_ajax_xmlhttprequest.html">19.Ajax 와 XMLHttpRequest 객체 (😎 front+back이 포함됨) </a></li>
         <li><a href="">20.Ajax 와 fetch api와 Promise</a></li>
         <li><a href="">21.Ajax 와 async 함수 </a></li>
-        <li><a href="">22.prototype 의 상속</a></li>
+        <li><a href="">22.document 의 node 생성과 추가 (innerText, innerHTML, append...)</a></li>
     </ul>
 
 </nav>

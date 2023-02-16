@@ -22,7 +22,7 @@
 
     <h2>👉 AJAX 의 등장이유</h2>
     <ul>
-        <li>한개의 url의 문서를 1번 로드하는 브라우저의 인터페이스가 불편해서 등장</li>
+        <li>한개의 url 이 문서를 1번 로드하는 브라우저의 인터페이스(서버 사이드 렌더링)가 불편해서 등장</li>
         <li>작은 데이터를 얻기위해 전체 페이지를 로드하는 것이 비효율적(비용)이기 때문에 </li>
         <li>문서를 요청할때 마다 중복되는 리소스를 매번 다운로드 받는다
             (비용증가,브라우저가 캐시로 저장을 해서 조금 만회하는 중)</li>
@@ -82,9 +82,78 @@
         }
 
         req.send();
-
     }
-
 </script>
+
+    <h2>
+        👉 personList.jason 을 AJAX로 불러와서 table로 출력
+        <button id="personListLoadBtn">로드</button>
+    </h2>
+    <table>
+        <thead>
+            <tr>
+                <th>이름</th>
+                <th>태어난해</th>
+                <th>직업</th>
+                <th>결혼</th>
+            </tr>
+        </thead>
+        <tbody id="personTbody">
+
+        </tbody>
+    </table>
+<script>
+    personListLoadBtn.onclick= personListLoad;
+    function personListLoad() {
+       const req = new XMLHttpRequest(); //요청한다는 뜻으로 req로 지정
+        req.open("GET","./ajax/personList.json"); // url자리에 풀주소를 써도 되지만 상대주소를 쓴다.
+        req.onload=function (e){//send()의 로드 시간이 길어서 로드가 완료된 시점에 값을 반환하는 함수
+            let respText=req.responseText;//문자열인 JSON을 받음 => 객체를 문자열로 표현한것이기 때문에 다시 객체가 될수있다.
+            let personList = JSON.parse(respText);// JSON을 Object로 변환하는 함수
+            console.log(personList);
+
+            //🍒 Object 반복문 (자바에서는 불가능)
+            //in 연산자 : 객체에 해당 키가 있는지 확인하는 연산자
+                console.log("name" in personList[0]);// personList[0] 번째에 "name"이라는 키값이 있는지 체크
+            let tableStr="";
+            personList.forEach((p)=>{
+                tableStr+="<tr>";
+                for(let key in p){
+                    tableStr+=`<td>${p[key]}</td>`;
+                }
+                tableStr+="</tr>";
+            });
+            personTbody.innerHTML=tableStr;
+        }
+        req.send();
+    }
+</script>
+
+    <h2>👉 동적 페이지(서블릿)를 JSON으로 반환하고 AJAX로 통신해보자.</h2>
+    <p><a href="`empListJson.do`">동기식으로 페이지 불러오기</a></p>
+    <p><a id="loadEmpBtn" href="javascript:void(0);" data-url="empListJson.do">
+            비동기식으로 페이지 불러오기
+        </a>
+    </p>
+<!--
+    javascript:void(0); : 자바스크립트가 실행하고 링크이동을 막겠다. 비동기식 페이지를 만들땐 꼭 해야한다.
+    data-* : 유저가 정의하는 속성
+-->
+
+    <h3>사원 리스트</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>사원</th>
+                <th>이름</th>
+                <th>직책</th>
+                <th>급여</th>
+                <th>부서</th>
+            </tr>
+        </thead>
+        <tbody id="empTbody">
+
+        </tbody>
+    </table>
 </body>
 </html>
