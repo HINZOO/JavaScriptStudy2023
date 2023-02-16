@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>fetch API 와 AJAX</title>
+</head>
+<body>
+    <h1>🎀 Promise 화 된 비동기 통신 API fetch</h1>
+    <h2>
+        empListJson.do 와 비동기식 통신
+        <button onclick="loadEmpListJson()">로드!</button>
+    </h2>
+    <pre id="empListCont"></pre>
+    <script>
+        function loadEmpListJson(){
+            fetch("empListJson.do?deptno=10",{method:"GET"})
+                .then((resp)=>{//응답한 내역 전체 (응답한 내역을 어떤 형식으로 처리할지 정해야한다.
+                    return resp.json();//응답한 내역을 JSON(문자열과 Object로 파싱처리하는)으로 promise를 반환)
+                    //resp.text() // 응답한 내역을 문자열로 처리하는 promise를 반환
+                }).then((empList)=>{//Object 가 된 값이 들어옴.
+                empListCont.innerHTML=(empList);
+            });
+        }
+
+        //fetch : promise가 내장된 함수 , url로 통신을 연결하고 { }로 옵션을 줄 수 있다.
+        // promise 가 내장되어있기 때문에  then을 쓸수있다.
+    </script>
+
+    <h2>📂 XMLHttpRequest의 프라미스화</h2>
+    <h3>
+        <a href="javascript:void(0)" id="loadImgListBtn"> <!--👀링크이동못하게 막아둠-->
+            👉프라미스화 한 함수로  ajax/imgList.html imgList 불러오기
+        </a>
+    </h3>
+    <div id="imgCont"></div>
+    <script>
+        loadImgListBtn.onclick=function (e){
+            fetchApi("ajax/imgList.html")
+                .then((responseText)=>{//아래 fetchApi함수에서 resolve 의 첫번째 콜백함수가 옴.
+                    imgCont.innerHTML=responseText;
+            }).catch((errMsg)=>{
+                alert("호출 실패"+errMsg);// 실제  fetch함수에는 catch가 없다. 즉 reject 를 정의하지 않고 있다.
+            });
+        }
+        function fetchApi(url,method="GET"){//😎 fetch함수와 기능이 같은 fetchApi란 이름의 가상함수를 만들어보자
+            return new Promise((resolve,reject)=>{
+                const req= new XMLHttpRequest(); //req.readyState==0;
+                req.open(method,url);//req.readyState==1;
+                req.onload=function (e){
+                    if(req.status==200){//200: 요청이 성공했을 때
+                        let responseText = req.responseText;
+                        resolve(responseText);
+                    }else{// 404 : 요청한 url 리소스가 없는 것, 500 : 요청한 리소스에 오류가 있는 상태
+                        reject(new Error(req.status+""));
+                    }
+                }//통신완료 req.readyState==4; : 응답받은 내역을 모두 처리 했을 때.
+
+                req.send();
+                //통신시작 req.readyState==2; :// 서버가 응답 해더(상태)를 받았을 때
+                //req.readyState==3; // 서버에서 모든 응답을 완료했을 때
+            });
+        }
+    </script>
+
+    <h3>
+    [과제] dept 리스트를 json 으로 반환하는 서블릿(L19EmpListJson 참고)을 만들고 ajax 로 호출하세요
+    </h3>
+    <p>
+        <button>XMLHttpRequest 로 호출</button>
+        <button>XMLHttpRequest 의 프라미스화로 호출</button>
+        <button>fetch 로 호출</button>
+    </p>
+    <table></table>
+
+</body>
+</html>

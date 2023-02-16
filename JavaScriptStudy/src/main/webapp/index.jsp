@@ -34,7 +34,7 @@
         <li><a href="l17_promise.html">17.Promise 와 P멀티스레드 동기화</a></li>
         <li><a href="l18_promise_chaining.html">18.Promise 체이닝과 프라미스화 비동기코드(멀티스레드)를 계속 동기화하기 </a></li>
         <li><a href="l19_ajax_xmlhttprequest.html">19.Ajax 와 XMLHttpRequest 객체 (😎 front+back이 포함됨) </a></li>
-        <li><a href="">20.Ajax 와 fetch api와 Promise</a></li>
+        <li><a href="l20_ajax_fetch.html">20.Ajax 와 fetch api와 Promise</a></li>
         <li><a href="">21.Ajax 와 async 함수 </a></li>
         <li><a href="">22.document 의 node 생성과 추가 (innerText, innerHTML, append...)</a></li>
     </ul>

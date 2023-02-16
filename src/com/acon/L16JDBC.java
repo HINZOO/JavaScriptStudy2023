@@ -24,6 +24,7 @@ public class L16JDBC {
             // 상식적으로는 .getConnection(url,user,pw,new Driver()) 이지만! Driver가 필요할때만 쓰도록 설정.(=>> 동적로딩)
             //🍒쿼리 실행(.createStatement())
             Statement stnt = conn.createStatement();// 쿼리를 실행하는 객체 (=statement) 반환
+
             ResultSet rs= stnt.executeQuery("SELECT * FROM EMP");// executeQuery : 질의어(Select,DQL)을 실행하는 함수
             // ResultSet : table 의 자료구조 (Iterator 로 출력확인 가능 next)
 
