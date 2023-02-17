@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>node 생성과 추가</title>
+</head>
+<body>
+    <h1>🎀 node 생성과 추가하기</h1>
+    <p>
+        html 문서가 화면에 그대로 출력되고 있다는 착각을 많이 하는데..
+        실제 화면에 출력하고 있는 것은 node 개체이다.
+    </p>
+    <h2>📂 document.createElement("TagName"); : 요소노드 개체를 생성하는 함수 </h2>
+    <h2>📂 document.createTextNode("string"); : 텍스트노드 개체를 생성하는 함수 </h2>
+    <h2>📂 노드 개체를 추가해주는 함수</h2>
+    <ul>
+        <li>node.append(node) : 첫번째 자식노드의 맨뒤에 추가 </li>
+        <li>node.prepend(node) : 첫번째 자식노드의 맨 앞에 추가</li>
+        <li>node.after(node) : 형제노드의 바로 뒤에 추가</li>
+        <li>node.before(node) : 형제노드의 바로 앞에 추가</li>
+        <li>node.replaceWith(node) : 해당노드를 대체 </li>
+    </ul>
+<script>
+    console.log("<div>김리현보고싶다.</div>");
+            //노드개체라 생각하지만 태그모양을 하고있는 문자열이다.
+    const div = document.createElement("div");//브라우저에서 출력되는 요소 노드개체 (다른요소 포함가능)
+    const text =document.createTextNode("리현아,잘지내니?");//브라우저에서 출력되는 텍스트 노드개체(다른요소포함X)
+    div.append(text);
+    console.log(div);
+</script>
+</body>
+</html>

@@ -102,7 +102,7 @@
         req.send();
     }
 
-    function printDeptList(deptList){//반복해서 쓰고있음.
+    function printDeptList(deptList){//반복해서 쓰고있음.!!
         let html="";
         deptList.forEach((dept)=>{
             html+="<tr>";
@@ -140,7 +140,7 @@
             req.send();
         });
     }
-//////////////////////////////////////////////
+////3번 //////////////////////////////////////////
     loadDeptList3.onclick=loadDeptListFetch;
     function loadDeptListFetch(){
         fetch(url,{method:"GET"})
