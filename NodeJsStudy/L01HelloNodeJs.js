@@ -23,4 +23,4 @@ setInterval(()=>{
 //npm install --save-dev nodemon 프로젝트에만 까는 코드
 //npx nodemon .\L02HttpModule.js    으로 로딩하면 수정할때마다 재시작을 안해줘도 됨.
 
-
+//mysql 연결코드도 npm에서 다운

@@ -4,7 +4,7 @@ const http=require("http");
 const url=require("url");
  */
 
-const http=require("http");
+const http=require("http2");
 const url=require("url");
 const queryStr = require("querystring");
 const mysql=require("mysql");
@@ -24,15 +24,15 @@ http.createServer((req, resp)=>{
     if(urlObj.pathname=="/"){
         resp.write("<h1>url모듈과 mysql 사용해보기</h1>");
         resp.write(`<p>
-                      <a href="power.do?a=3&b=6">
+                        <a href="power.do?a=3&b=6">
                         파라미터 a,b 로 거듭제곱한 결과물을 반환하는 동적페이지
-                      </a>
+                        </a>
                    </p>`);
         resp.write(`<p>
-                      <a href="deptList.do?a=3&b=6">
+                    <a href="deptList.do?a=3&b=6">
                         부서리스트
-                      </a>
-                   </p>`);
+                    </a>
+                  </p>`);
         resp.end();
     }else if(urlObj.pathname=="/power.do"){
        const params= queryStr.parse(urlObj.query);//{ a: '3', b: '6' }
