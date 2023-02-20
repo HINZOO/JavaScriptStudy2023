@@ -1,0 +1,24 @@
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+    body
+        h1 pug 로 html 을 서버에서 렌더하자!
+        //tab으로 부모자식을 가리키고 텍스트노드는 무조건 띄어쓰기 후 작성 (엔터X)
+
+        h2 템플릿 엔진과 pug
+        p 템플릿 엔진 : view 를 렌더링하는 머신(jvm같은)으로 v8엔진과 별도로 동작
+        p view 렌더 : 서버사이드에 html 을 만들 때 view 와 동적페이지를 분리해서 만드는 것을 말한다.
+        p pug: node와 express 에서 가장 많이 사용되는 템플릿 엔진으로 xml 을 파이썬이나 Sass 처럼 tab 으로 포함관계를 표현
+        table
+            thead
+                tr
+                    th 부서번호
+                    th 부서이름
+                    th 부서위치
+            tbody
+                -for (let dept of deptList)// '-' 반복문을 쓰겠다는 약속
+                    tr
+                        td=dept.DEPTNO
+                        td=dept.DNAME
+                        td=dept.LOC
+
