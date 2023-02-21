@@ -42,7 +42,7 @@ http.createServer((req, resp)=>{
                         //문자열이지만 자동형변환 해준다~
         resp.end();
 
-    }else if(urlObj.pathname=="/deptList.do"){
+    }else if(urlObj.pathname==="/deptList.do"){
         resp.write("<h1>부서리스트 동적페이지(mysql 모듈사용)</h1>");
         try{
             const conn=mysql.createConnection(mysqlConnInfo);

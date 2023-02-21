@@ -98,7 +98,7 @@ server.on("request", async (req, res) => {
 
             res.write(html);
             res.end();
-        }else if(urlObj.pathname==="/empUpdate.do"&&req.method==="GET"){
+        }else if(urlObj.pathname==="/empUpdate.do"&&req.method==="GET"){//🍒수정form
             let empno = Number(params.empno);
             if (Number.isNaN(empno)) {
                 res.statusCode = 400;
@@ -111,7 +111,103 @@ server.on("request", async (req, res) => {
             let html=pug.renderFile("./templates/empUpdate.pug",{emp:rows[0]});
             res.write(html);
             res.end();
-        } else {
+        } else if(urlObj.pathname==="/empUpdate.do"&&req.method==="POST"){//데이터를 수정하는 동적리소스-> '액션페이지' 라 부른다.//🍒수정action
+            //dml 을 실행할때는 오류가 종종 발생하기 때문에 꼭 예외처리를 하세요.
+            //querystring 은 url 에 오는 파라미터만 객체로 파싱중
+            //post 방식은 파라미터로 보내지 않기 때문에
+            //post 로 오는 파라미터는 요청 Header 의 본문을 해석해서 받아와야한다.
+            let postquery="";
+            let update=0; // 0이면 실패, 1이면 성공
+            req.on("data",(param)=>{
+                postquery+=param;//쿼리스트링이 들어감.
+            });//요청해더의 문서를 읽는 이벤트(post 로 넘긴 querystring 불러오기)
+            req.on("end",async ()=>{// 요청해더의 문서를 모두 다 읽었을 때 종료.(비동기코드기때문에 종료해주기)
+                //요청헤더의 문서를 모두 다 읽으면 발생하는 이벤트
+                const postPs=querystring.parse(postquery);//postPs:postParams
+                console.log(postquery);//잘 들어왔는지 체크
+                try{
+                    let sql=`UPDATE EMP SET 
+                                ENAME=?,SAL=?,COMM=?,
+                                JOB=?,MGR=?,DEPTNO=? 
+                                WHERE EMPNO=?`;
+                    const[result]=await pool.execute(sql,[postPs.ename,postPs.sal,postPs.comm,postPs.job,postPs.mgr,postPs.deptno,postPs.empno]);//execute ;실행하다: DML(데이터 조작어)할 때 사용
+                        update=result.affectedRows;//changedRows 를 써도 된다.
+                        console.log(result);//affectedRows 체크
+                }catch (e) {
+                    console.error(e);
+                }
+                //오류없이 잘 실행되고 update 도 잘 되면 update=1
+                if(update>0){
+                    res.writeHead(302,{location:"/empDetail.do?empno="+postPs.empno});//res.writeHead(302,{location: 주소(파라미터꼭)});응답해더를 정의
+                    //👉 302: redirect 이 페이지가 응답하지 않고 다른 페이지가 응답하도록 서버 내부에서 요청
+                    res.end();
+                }else{
+                    res.writeHead(302,{location:"/empUpdate.do?empno="+postPs.empno});
+                    res.end();
+                }
+            });
+
+        }else if(urlObj.pathname==="/empInsert.do"&&req.method==="GET"){//🍒등록 form
+            let html=pug.renderFile("./templates/empInsert.pug");
+            res.write(html);
+            res.end();
+        }else if(urlObj.pathname==="/empInsert.do"&&req.method==="POST"){//🍒등록 action
+            let postQuery=""
+            req.on("data",(p)=>{
+                postQuery+=p;
+            });
+            req.on("end",async ()=>{
+                const postPs=querystring.parse(postQuery);
+                for(let key in postPs){//input value=""-> null 값을 기대하지만 문자열 공백이 온다.(mgr,deptno,comm=>null)
+                    if(postPs[key].trim()==="") postPs[key]=null;
+                    //trim() 메서드는 문자열 양 끝의 공백을 제거하고 원본 문자열을 수정하지 않고 새로운 문자열을 반환합니다.
+                    //본래 Line170에서 해야함.
+                }
+                let sql=`INSERT INTO EMP(EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) 
+                                    VALUE(?,?,?,?,NOW(),?,?,?)`;
+                let insert=0;
+                try{
+                    const [result]=await pool.execute(sql,[postPs.empno,postPs.ename,postPs.job,postPs.mgr,postPs.sal,postPs.comm,postPs.deptno]);
+                    insert=result.affectedRows;
+                }catch (e) {
+                    console.error(e);
+                }
+                if(insert>0){
+                    res.writeHead(302,{location:"/empList.do"});
+                    res.end();
+                }else{
+                    res.writeHead(302,{location:"/empInsert.do"});
+                    res.end();
+                }
+            })
+        }else if(urlObj.pathname==="/empDelete.do"){//🍒 삭제 action page
+            //성공하면리스트 실패하면 수정폼
+            try{
+                let empno=Number(params.empno);
+                let sql="DELETE FROM EMP WHERE EMPNO=?";
+                let del =0;//delete는 필드를 삭제하는 연산자 예약어라 변수로 사용할 수 없다.
+                try {
+                    const [result]=await pool.execute(sql,[empno]);
+                    del=result.affectedRows;
+                }catch (e) {
+                    console.error(e)
+                }
+
+                if(del>0){
+                    res.writeHead(302,{location:"/empList.do"});
+                    res.end();
+                }else{
+                    res.writeHead(302,{location:"/empUpdate.do?empno="+params.empno});
+                    res.end();
+                }
+
+            }catch (e) {
+                console.error(e);
+                res.write("<h1>존재하지 않는 페이지 입니다. 404 😂</h1>");
+                res.end();
+            }
+        }
+        else {
             res.statusCode = 404;
             res.setHeader("content-type", "text/html;charset=UTF-8");
             res.write("<h1>존재하지 않는 페이지 입니다. 404 😂</h1>");
