@@ -83,7 +83,7 @@ server.on("request",async (req,res)=>{
         try {
             const conn = await mysql2.createConnection(mysqlConnInfo);
             const [rows, fields] = await conn.query("SELECT * ,DATE_FORMAT(HIREDATE,'%Y/%m/%d')HIREDATE FROM EMP");
-            let html = pug.renderFile("L05EmpDetail.pug", {empList: rows});
+            let html = pug.renderFile("L05EmpLIst.pug", {empList: rows});
             res.write(html);
             res.end();
         } catch (e) {
