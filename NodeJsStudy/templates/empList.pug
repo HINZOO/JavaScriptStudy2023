@@ -1,0 +1,30 @@
+html(lang="en")
+    head
+        title SCOTT.emp CRUD
+        meta(charset="UTF-8")
+        link(rel="stylesheet" href="/public/css/empList.css")
+    body
+        h1 📁 사원 리스트 (Read)
+            //p=empList//empList가 담겨지는지 체크
+            table
+                thead
+                    tr
+                        th 사번
+                        th 이름
+                        th 급여
+                        th 입사일
+                        th 부서
+                        th 상세
+                tbody
+                    -for(const emp of empList)
+                        tr
+                            td=emp.EMPNO
+                            td=emp.ENAME
+                            td=emp.SAL
+                            td=emp.HIREDATE.toLocaleDateString("ko-KR")
+                            td=emp.DEPTNO
+                            td
+                                a(href="empDetail.do?empno="+emp.EMPNO) 상세
+                                //a(href=`/empDetail.do?empno=${emp.EMPNO}`) 상세 //백틱을 써서 표현할수도있다.
+                                //파라미터(여기서는 사원번호를 기준)를 이용해 상세정보를 볼 수 있다.
+

@@ -1,0 +1,55 @@
+html(lang="en")
+    head
+        title SCOTT.emp CRUD
+        meta(charset="UTF-8")
+        //link(rel="stylesheet" href="/public/css/empDetail.css")
+    body
+        h1 📁 사원 수정 폼 (Read)
+        h2 📕 http 통신에서 요청의 2가지 방식 (method) GET 과 POST
+        h3 👉 GET :  파라미터를 url의 querystring 에 포함해서 보내는 방식.
+            ul
+                li 보통 GET 방식은 동적 리소스의 정보를 추출(SELECT) 하는데 사용되는 파라미터를 보낼 때 사용한다.
+                li 때문에 보통 파라미터의 값은 바뀌지 않고 파라미터가 없다면 동적 리소스는 동작하지 않는다.(http status code: 400)
+                li 저장하거나 공유되는 url의 파라미터는 GET방식으로 보낸다.
+        h3 👉 POST : 양식을 제출하면 파라미터를 요청 Header에 포함해서 보내는 방식.(파라미터는 변하지않는다)
+            ul
+                li 보통 POST 방식은 데이터를 수정,등록하는 양식에서 파라미터를 보낼 때 사용한다.
+                li 이때 사용되는 동적 리소스는 파라미터의 값에 의해서 데이터가 변경될 수 있기 때문에 공유하는 url 로 사용될 수 없다.
+
+        form(name="empUpdateForm",action="/empUpdate.action",method="POST")
+            //action : 어디로 보낼껀지 주소 적는 곳
+
+            p
+                span 사번:
+                input(value=emp.EMPNO,name="empno")
+                //name:파라미터의 key 값이 된다.
+            p
+                span 이름:
+                input(value=emp.ENAME,name="dname")
+            p
+                span 직책:
+                input(value=emp.JOB,name="job")
+            p
+                span 급여:
+                input(value=emp.SAL,name="sal")
+            p
+                span 상여금:
+                input(value=emp.COMM,name="comm")
+            p
+                span 입사일:
+                input(value=emp.HIREDATE.toLocaleDateString("ko-KR"),name="hiredate",type="date")
+                //yyyy-MM-dd -> type이 date인 value
+                //yyyy-MM-dd HH:mm -> type이 datelocaltime인 value
+            p
+                span 상사:
+                input(value=emp.MGR, name="mgr")
+            p
+                span 부서:
+                input(value=emp.DEPTNO, name="deptno")
+            p
+                a(href=`/empDelete.do?empno=${emp.EMPNO}`) 삭제
+                button(type="submit") 수정제출
+
+
+
+
