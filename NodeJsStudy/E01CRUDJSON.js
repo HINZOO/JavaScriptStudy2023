@@ -45,7 +45,7 @@ server.on("request",async (req,res)=>{
         }
     }else{
         if(urlObj.pathname==="/"){
-            let html=pug.renderFile("./templates/index2.pug")
+            let html=pug.renderFile("./view/index.pug")
             res.write(html);
             res.end();
         }
