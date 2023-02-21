@@ -18,7 +18,7 @@ const querystring = require("querystring");
 const fs = require("fs/promises");
 const mysql = require("mysql2");
 const pug = require("pug");
-const {stringify} = require("nodemon/lib/utils");
+//const {stringify} = require("nodemon/lib/utils");
 //v8 또는 jvm 이 실행될 때 메모리에 등록하는 것 : 백그라운드
 //java java.lang*,java.util.* 패키지가 가지고 있는 라이브러리가 많은 편
 //nodejs 는 백그라운드에서 가지고 있는 모듈이 적은편이라 빠르지만 모듈 등록이 귀찮다.
@@ -206,8 +206,119 @@ server.on("request", async (req, res) => {
                 res.write("<h1>존재하지 않는 페이지 입니다. 404 😂</h1>");
                 res.end();
             }
-        }
-        else {
+        }else if (urlObj.pathname==="/deptList.do"){
+            try {
+                const [rows, f] = await pool.query("SELECT * FROM DEPT");
+                let html = pug.renderFile("./templates/deptList.pug", {deptList:rows});
+                res.write(html);
+                res.end();
+            } catch (e) {
+                console.error(e);
+                res.end();
+            }
+        }else if(urlObj.pathname==="/deptDetail.do"){
+             let deptno=Number(params.deptno);
+             if(Number.isNaN(deptno)){
+                 res.statusCode=400;
+                 res.write("<h1>에러코드400: 필요한 파라미터를 보내지 않음</h1>")
+                 res.end();
+                 return;
+             }
+             let sql="SELECT * FROM DEPT WHERE DEPTNO=?";
+             const[rows,f]=await pool.query(sql,[deptno]);
+             let html=pug.renderFile("./templates/deptDetail.pug",{dept:rows[0]});
+             res.write(html);
+             res.end();
+        }else if(urlObj.pathname==="/deptInsert.do"&&req.method==="GET"){
+            let html=pug.renderFile("./templates/deptInsert.pug");
+            res.write(html);
+            res.end();
+        }else if(urlObj.pathname==="/deptInsert.do"&&req.method==="POST"){
+            let postQuery="";
+            req.on("data",(p)=>{
+                postQuery+=p;
+            });
+            req.on("end",async ()=>{
+                const postPs=querystring.parse(postQuery);
+                for(let key in postPs){
+                    if(postPs[key].trim()==="") postPs[key]=null;
+                }
+                let sql=`INSERT INTO DEPT(DEPTNO, DNAME, LOC)VALUE(?,?,?)`;
+                let insert=0;
+                try{
+                    const [result]=await pool.execute(sql,[postPs.deptno,postPs.dname,postPs.loc]);
+                    insert=result.affectedRows;
+                }catch (e) {
+                    console.error(e);
+                }
+                if(insert>0){
+                    res.writeHead(302,{location:"/deptList.do"});
+                    res.end();
+                }else{
+                    res.writeHead(302,{location:"/deptInsert.do"});
+                    res.end();
+                }
+            })
+        }else if(urlObj.pathname==="/deptUpdate.do"&&req.method==="GET"){
+            let deptno=Number(params.deptno);
+            if(Number.isNaN(deptno)){
+                res.statusCode=400;
+                res.write("<h1>에러코드 400: 해당페이지에 꼭 필요한 파라미터를 보내지 않았습니다.!</h1>");
+                res.end();
+                return;
+            }
+            let sql="SELECT * FROM DEPT WHERE DEPTNO=?";
+            const [rows,f]=await pool.query(sql,[deptno]);
+            let html=pug.renderFile("./templates/deptUpdate.pug",{dept:rows[0]});
+            res.write(html);
+            res.end();
+        }else if(urlObj.pathname==="/deptUpdate.do"&&req.method==="POST"){
+            let postquery="";
+            let update=0;
+            req.on("data",(p)=>{
+                postquery+=p;
+            });
+            req.on("end",async ()=>{
+                const postPs=querystring.parse(postquery);
+                try{
+                    let sql=`UPDATE DEPT SET DNAME=?,LOC=? WHERE DEPTNO=?`;
+                    const[result] = await pool.execute(sql,[postPs.dname,postPs.loc,postPs.deptno]);
+                    update=result.affectedRows;
+                }catch (e) {
+                    console.error(e);
+                }
+                if(update>0){
+                    res.writeHead(302,{location:"/deptDetail.do?deptno="+postPs.deptno});
+                    res.end();
+                }else{
+                    res.writeHead(302,{location:"/deptUpdate.do?deptno="+postPs.deptno});
+                    red.end();
+                }
+            });
+        }else if(urlObj.pathname==="/deptDelete.do"){
+            try{
+                let deptno = Number(params.deptno)
+                let sql="DELETE FROM DEPT WHERE DEPTNO=?";
+                let del=0;
+                try{
+                    const [result] = await pool.execute(sql,[deptno]);
+                    del=result.affectedRows;
+                }catch (e) {
+                    console.error(e);
+                }
+                if(del>0){
+                    res.writeHead(302,{location:"/deptList.do"});
+                    res.end();
+                }else{
+                    res.writeHead(302,{location:"/deptUpdate.do?deptno="+params.deptno});
+                    res.end();
+                }
+            }catch (e) {
+                console.error(e);
+                res.write("<h1>에러코드 400: 존재하지 않는 페이지 입니다.</h1>");
+                res.end();
+            }
+        }else {
             res.statusCode = 404;
             res.setHeader("content-type", "text/html;charset=UTF-8");
             res.write("<h1>존재하지 않는 페이지 입니다. 404 😂</h1>");
