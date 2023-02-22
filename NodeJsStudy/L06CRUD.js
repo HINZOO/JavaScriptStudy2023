@@ -292,7 +292,7 @@ server.on("request", async (req, res) => {
                     res.end();
                 }else{
                     res.writeHead(302,{location:"/deptUpdate.do?deptno="+postPs.deptno});
-                    red.end();
+                    res.end();
                 }
             });
         }else if(urlObj.pathname==="/deptDelete.do"){

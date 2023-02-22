@@ -1,0 +1,22 @@
+html(lang="en")
+    head
+        title SCOTT.DEPT CRUD
+        meta(charset="UTF-8")
+        //link(rel="stylesheet" href="/public/css/empList.css")
+    body
+        h1 📗 DEPT LIST
+            table
+                thead
+                    tr
+                        th 부서번호
+                        th 부서이름
+                        th 부서지역
+                tbody
+                    -for(const dept of deptList)
+                        tr
+                            td=dept.DEPTNO
+                            td=dept.DNAME
+                            td=dept.LOC
+                            td
+                                a(href="deptDetail.do?deptno="+dept.DEPTNO) 상세정보
+

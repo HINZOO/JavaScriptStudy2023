@@ -1,0 +1,19 @@
+html(lang="en")
+    head
+        title SCOTT.DEPT CRUD
+        meta(charset="UTF-8")
+
+    body
+        h1 📕 DEPT 상세정보
+        div
+            p
+                span 부서번호 : &nbsp
+                strong=dept.DEPTNO
+            p
+                span 부서이름 : &nbsp
+                strong=dept.DNAME
+            p
+                span 부서지역 : &nbsp
+                strong=dept.LOC
+            p
+                a(href="deptUpdate.do?deptno="+dept.DEPTNO) 수정FORM
