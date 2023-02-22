@@ -43,3 +43,44 @@ empInsertForm.empno.onchange= async function (e) {//empno에 onchange 가 발생
     }
 
 }
+empInsertForm.mgr.onchange= async function (e) {//empno에 onchange 가 발생하면 콜백 함수실행.
+    //AJAX (XMLHttpRequest,fetch)
+    let val = this.value;
+    let url="/empnoCheck.do?empno="+val;
+    const res=await fetch(url);//.then((res)=>{return res.json()}) await가 then을 실행하고 반환되는 resp를 받는다.
+    if(res.status===200){//통신에 성공
+        const obj=await res.json();//.then((obj)=>{...})
+        //console.log(obj)
+        if(obj.checkId){//true
+            mgrMsg.innerText= " "+obj.emp.ENAME+"의 상사번호 입니다."
+        }else{
+            mgrMsg.innerText="해당 번호의 상사가 없습니다."
+        }
+    }else if(res.status===400){
+        this.value="";//잘못된 값 입력 후 초기화 됨.
+        alert(res.status+"오류입니다. 정수만 입력하세요.");
+    }else{
+        alert(res.status+"오류입니다. 다시시도!");
+    }
+}
+
+empInsertForm.deptno.onchange= async function (e) {
+    //AJAX (XMLHttpRequest,fetch)
+    let val = this.value;
+    let url="/deptnoCheck.do?deptno="+val;
+    const res=await fetch(url);
+    if(res.status===200){//통신에 성공
+        const obj=await res.json();//.then((obj)=>{...})
+        //console.log(obj)
+        if(obj.checkId){//true
+            deptnoMsg.innerText=" 이미 존재하는 부서 입니다."
+        }else{
+            deptnoMsg.innerText="해당 번호의 부서가 없습니다.."
+        }
+    }else if(res.status===400){
+        this.value="";//잘못된 값 입력 후 초기화 됨.
+        alert(res.status+"오류입니다. 정수만 입력하세요.");
+    }else{
+        alert(res.status+"오류입니다. 다시시도!");
+    }
+}

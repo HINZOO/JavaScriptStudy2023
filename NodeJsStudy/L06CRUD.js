@@ -189,7 +189,31 @@ server.on("request", async (req, res) => {
             res.setHeader("content-type","application/json;charset=UTF-8;");//응답하는 문서 형식
             res.write(JSON.stringify(resObj));
             res.end();
-        }else if(urlObj.pathname==="/empInsert.do"&&req.method==="POST"){//🍒등록 action
+        }
+        else if(urlObj.pathname==="/deptnoCheck.do"){//👉👉👉👉👉👉👉👉AJAX/////////////////////////////////////////
+           if(!params.deptno||isNaN(params.deptno)){
+                res.statusCode=400;
+                res.end(); return;
+            }
+            let deptno=parseInt(params.deptno);
+            const resObj={CheckId:false,emp:null};//Object를 문자열로 응답하는 것을 JSON이라 부른다.
+            let sql="SELECT * FROM EMP WHERE DEPTNO=?";
+            try{
+                const [rows,f]=await pool.query(sql,[deptno]);
+                if(rows.length>0){
+                    resObj.checkId=true;
+                    resObj.emp=rows[0];
+                }
+            }catch (e) {
+                console.error(e);
+                res.statusCode=500; //서버에서 발생하는 오류
+                res.end(); return;
+            }
+            res.setHeader("content-type","application/json;charset=UTF-8;");//응답하는 문서 형식
+            res.write(JSON.stringify(resObj));
+            res.end();
+        }
+        else if(urlObj.pathname==="/empInsert.do"&&req.method==="POST"){//🍒등록 action
             let postQuery=""
             req.on("data",(p)=>{
                 postQuery+=p;
