@@ -115,6 +115,7 @@ server.on("request",async (req,res)=>{
             let sql="SELECT * FROM DEPT WHERE DEPTNO=?";
             const[rows,f]=await pool.query(sql,[deptno]);
             let html=pug.renderFile("./view/deptUpdate.pug",{dept:rows[0]});
+
             res.write(html);
             res.end();
         }else if(urlObj.pathname==="/deptUpdate.do"&&req.method==="POST"){

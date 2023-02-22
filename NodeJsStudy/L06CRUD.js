@@ -18,7 +18,6 @@ const querystring = require("querystring");
 const fs = require("fs/promises");
 const mysql = require("mysql2");
 const pug = require("pug");
-//const {stringify} = require("nodemon/lib/utils");
 //v8 또는 jvm 이 실행될 때 메모리에 등록하는 것 : 백그라운드
 //java java.lang*,java.util.* 패키지가 가지고 있는 라이브러리가 많은 편
 //nodejs 는 백그라운드에서 가지고 있는 모듈이 적은편이라 빠르지만 모듈 등록이 귀찮다.
@@ -36,6 +35,18 @@ const mysqlConInfo = {
 }
 const createPool = mysql.createPool(mysqlConInfo);//서버 접속을 계속 유지 (옵션을 줄수도 있다 npm참고)
 const pool = createPool.promise(); //프라미스 객체를 사용할 수 있다.
+
+function postDataPromise(request){
+    let postQuery="";
+    return new Promise((resolve,reject)=>{
+        request.on("data",(param)=>{
+            postQuery+=param;
+        });
+        request.on("end",()=>{
+            resolve(postQuery);
+        })
+    });
+}
 server.on("request", async (req, res) => {
     const urlObj = url.parse(req.url);
     const params = querystring.parse(urlObj.query);
@@ -110,6 +121,9 @@ server.on("request", async (req, res) => {
             const [rows, f] = await pool.query(sql, [empno]);
             let html=pug.renderFile("./templates/empUpdate.pug",{emp:rows[0]});
             res.write(html);
+            function empnoCheck(){
+
+            }
             res.end();
         } else if(urlObj.pathname==="/empUpdate.do"&&req.method==="POST"){//데이터를 수정하는 동적리소스-> '액션페이지' 라 부른다.//🍒수정action
             //dml 을 실행할때는 오류가 종종 발생하기 때문에 꼭 예외처리를 하세요.
@@ -151,6 +165,30 @@ server.on("request", async (req, res) => {
             let html=pug.renderFile("./templates/empInsert.pug");
             res.write(html);
             res.end();
+        }else if(urlObj.pathname==="/empnoCheck.do"){//👉👉👉👉👉👉👉👉AJAX/////////////////////////////////////////
+            //empno가 동일한 사원이 있으면 true, 없으면 false;
+            if(!params.empno||isNaN(params.empno)){//empno가 null 또는 undefined 또는 "" -> boolean 에서는 모두 false 로 반환
+                                                    // ("0"도 false 지만 여기에선 0이상의 수를 다루기 때문에 조건에서 제외)
+                res.statusCode=400; //해당 동적페이지의 요청을 잘못했다. (꼭 필요한 파라미터가 없다)
+                res.end(); return;
+            }
+            let empno=parseInt(params.empno);
+            const resObj={CheckId:false,emp:null};//Object를 문자열로 응답하는 것을 JSON이라 부른다.
+            let sql="SELECT * FROM EMP WHERE EMPNO=?";
+            try{
+                const [rows,f]=await pool.query(sql,[empno]);
+                if(rows.length>0){
+                    resObj.checkId=true;
+                    resObj.emp=rows[0];
+                }
+            }catch (e) {
+                console.error(e);
+                res.statusCode=500; //서버에서 발생하는 오류
+                res.end(); return;
+            }
+            res.setHeader("content-type","application/json;charset=UTF-8;");//응답하는 문서 형식
+            res.write(JSON.stringify(resObj));
+            res.end();
         }else if(urlObj.pathname==="/empInsert.do"&&req.method==="POST"){//🍒등록 action
             let postQuery=""
             req.on("data",(p)=>{
@@ -185,7 +223,7 @@ server.on("request", async (req, res) => {
             try{
                 let empno=Number(params.empno);
                 let sql="DELETE FROM EMP WHERE EMPNO=?";
-                let del =0;//delete는 필드를 삭제하는 연산자 예약어라 변수로 사용할 수 없다.
+                let del =0;//delete 는 필드를 삭제하는 연산자 예약어라 변수로 사용할 수 없다.
                 try {
                     const [result]=await pool.execute(sql,[empno]);
                     del=result.affectedRows;
