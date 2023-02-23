@@ -2,41 +2,93 @@ html(lang="en")
     head
         title SCOTT.emp CRUD
         meta(charset="UTF-8")
-        script(src="/public/js/empInsert.js", defer=true)
+        script(src="/public/js/empInsertT.js", defer=true)
             //html은 defer 만 쓴다.
             //https://ko.javascript.info/onload-ondomcontentloaded 참고
+    style.
+        form[name=empInsertForm] input {
+            border-top-style: none;
+            border-left-style: none;
+            border-right-style: none;
+        }
+
+        form[name=empInsertForm] input:focus {
+            outline-style: none;
+        }
+
+        .inputCont.error {
+            color: darkred;
+        }
+
+        .inputCont.success {
+            color: seagreen;
+        }
+
+        .inputCont.success input {
+            border-color: seagreen;
+        }
+
+        .inputCont.error input {
+            border-color: darkred;
+        }
     body
+
         h1 📁 사원 등록 폼
-        form(id="empInsertForm",action="/empInsert.do",method="POST")
-            p
-                span 사번:
-                input(value="",name="empno")
-                span#empnoMsg
-                    //id주는법.
-            p
-                span 이름:
-                input(value="",name="ename")
-            p
-                span 직책:
-                input(value="",name="job")
-            p
+        form(id="empInsertForm",name="empInsertForm",action="/empInsert.do",method="POST")
+            div.inputCont
+                p
+                    span 사번 :
+                    input(value="",name="empno")
+                p#empnoMsg
+
+            div.inputCont
+                p
+                    span 이름:
+                    input(value="",name="ename")
+                p#enameMsg
+            div.inputCont
+                p
+                    span 직책:
+                    input(value="",name="job")
+                p#jobMsg
+            div.inputCont
+                p
                 span 급여:
                 input(value="",name="sal")
-            p
+                p#salMsg
+            div.inputCont
+                p
                 span 상여금:
                 input(value="",name="comm")
+                p#commMsg
+            div.inputCont
             p
-                span 입사일: mysql.now()
+                span 입사일:
+                -const now=new Date() //-자바스크립트코드를 쓰고싶을때
+                -let y=now.getUTCFullYear()
+                -let m=now.getUTCMonth()+1
+                -m=(m<10)?"0"+m:m
+                -let d=now.getUTCDate()
+                -d=(d<10)?"0"+d:d
+                -let nowStr=`${y}-${m}-${d}`
+                input(type="date",name="hiredate",value=nowStr)
+                //strong=nowStr
+                //strong=now.toLocaleDateString()
+                //input(type="datetime-local" value="2023-02-23T12:30")
+                //type="datetime-local" value="2023-02-23T12:30" 시와 분을 넣고싶으면 사용
 
-            p
-                span 상사:
-                input(value="", name="mgr")
-                span#mgrMsg
+            div.inputCont
+                p
+                    span 상사:
+                    input(value="", name="mgr")
+                p#mgrMsg
                     //empnoCheck.do로 참조 가능한 상사 구현
-            p
-                span 부서:
-                input(value="", name="deptno")
-                span#deptnoMsg
+
+            div.inputCont
+                p
+                    span 부서:
+                    input(value="", name="deptno")
+                p#deptnoMsg
                 //deptnoCheck.do를 구현하여 참조가능한 부서번호
             p
                 button(type="submit") 제출

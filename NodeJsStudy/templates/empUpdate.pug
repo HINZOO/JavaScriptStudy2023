@@ -43,8 +43,15 @@ html(lang="en")
                 span 상여금:
                 input(value=emp.COMM,name="comm")
             p
+                -let y=emp.HIREDATE.getUTCFullYear();
+                -let m=emp.HIREDATE.getUTCMonth()+1;
+                -m=(m<10)?"0"+m:m
+                -let d=emp.HIREDATE.getUTCDate();
+                -d=(d<10)?"0"+d:d
+
                 span 입사일:
-                input(value=emp.HIREDATE.toLocaleDateString("ko-KR"),name="hiredate",type="date")
+                input(value=`${y}-${m}-${d}`,name="hiredate",type="date")
+                //emp.HIREDATE type Date : mysql에 있는 Hiredate(Y/M/d)의 값을 js의 Data(Y,M,d,h,m,s,ss)로 파싱
                 //yyyy-MM-dd -> type이 date인 value
                 //yyyy-MM-dd HH:mm -> type이 datelocaltime인 value
             p

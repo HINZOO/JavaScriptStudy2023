@@ -142,11 +142,19 @@ server.on("request", async (req, res) => {
                 try{
                     let sql=`UPDATE EMP SET 
                                 ENAME=?,SAL=?,COMM=?,
-                                JOB=?,MGR=?,DEPTNO=? 
+                                JOB=?,MGR=?,DEPTNO=?,HIREDATE=? 
                                 WHERE EMPNO=?`;
-                    const[result]=await pool.execute(sql,[postPs.ename,postPs.sal,postPs.comm,postPs.job,postPs.mgr,postPs.deptno,postPs.empno]);//execute ;실행하다: DML(데이터 조작어)할 때 사용
-                        update=result.affectedRows;//changedRows 를 써도 된다.
-                        console.log(result);//affectedRows 체크
+                    const[result]=await pool.execute(sql,[
+                        postPs.ename,
+                        (!postPs.sal.trim())?null:Number(postPs.sal),
+                        (!postPs.comm.trim())?null:Number(postPs.comm),
+                        postPs.job,
+                        (!postPs.mgr.trim())?null:Number(postPs.mgr),
+                        (!postPs.deptno.trim())?null:Number(postPs.deptno),
+                        postPs.hiredate,
+                        Number(postPs.empno)]);//execute ;실행하다: DML(데이터 조작어)할 때 사용
+                    update=result.affectedRows;//changedRows 를 써도 된다.
+                   // console.log(result);//affectedRows 체크
                 }catch (e) {
                     console.error(e);
                 }
@@ -226,10 +234,10 @@ server.on("request", async (req, res) => {
                     //본래 Line170에서 해야함.
                 }
                 let sql=`INSERT INTO EMP(EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) 
-                                    VALUE(?,?,?,?,NOW(),?,?,?)`;
+                                    VALUE(?,?,?,?,?,?,?,?)`;
                 let insert=0;
                 try{
-                    const [result]=await pool.execute(sql,[postPs.empno,postPs.ename,postPs.job,postPs.mgr,postPs.sal,postPs.comm,postPs.deptno]);
+                    const [result]=await pool.execute(sql,[postPs.empno,postPs.ename,postPs.job,postPs.mgr,postPs.hiredate,postPs.sal,postPs.comm,postPs.deptno]);
                     insert=result.affectedRows;
                 }catch (e) {
                     console.error(e);
