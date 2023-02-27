@@ -16,5 +16,19 @@
     <li><a href="/board/d.do">/board/d.do 요청</a></li>
   </ul>
 
+  <h2>미들웨어 정의 방법 및 개념</h2>
+  <ul>
+    <li>정의방법 : app.use("urlPattern",(req,res,next)=>{...next()})</li>
+    <li> 👉 urlPattern: * (와일드카드)를 이용해 요청의 복수를 한꺼번에 처리 예)/a/b*, *.do, /**/login.do </li>
+    <li> 👉 next() : 브라우저가 요청한 url 을 미들웨어가 요청하는 함수</li>
+    <li>미들웨어는 여러개 작성 가능하다. app.use 를 순서대로 작성하면 미들웨어가 순서대로 처리된다.</li>
+    <li>미들웨어는 중간처리자로 특정 리소스에 대한 요청을 하기 전에 동작하는 동적페이지 이다.</li>
+    <li>사용예제1 : 특정 url 에 대한 검사식 (ex)로그인이 된 유저만 해당 리소스를 요청가능,해당 파라미터가 꼭 존재해야함,..etc)</li>
+    <li>사용예제2 : (express 특✨) 라이브러리를 미들웨어로 적용할 수 있다.(템플릿엔진,post 방식으로 오는 파라미터 처리,**,...etc)</li>
+  <!-- ** 예시
+          /login.do, /user/login.do,/board/user.login.do, a/b/c/d/e/login.do
+          /**/login.do  **이 들어가면 중간에 어떤 폴더가 있던지 login.do 가 들어간 url 을 선택. -->
+  </ul>
+
 </body>
 </html>

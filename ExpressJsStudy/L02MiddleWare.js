@@ -6,7 +6,7 @@ const app=express();
     // * : 내가 가로챌 패턴을 의미; * 모든이라는 의미의 와일드카드
     // next : /a.do 요청을 미들웨어가 중간에 가로챘는데 a.do로 계속 가려면 next()를 호출하면 된다.
 app.use("*",(req, res,next)=>{
-    console.log("* 미들웨어가 가로챔");
+    console.log("* 미들웨어가 가로챔"+req.originalUrl);
     next();
 });
 
@@ -16,11 +16,12 @@ app.get("/",async (req, res)=>{
     res.end();//send()로 하면 다운로드가 되어서... 예전방식을 차용해옴!
 });
 
-app.use("/user/*",(req, res, next)=>{
-    if(req.query.id){
-        next();
+app.use("/user/*",(req, res, next)=>{//특정예외가 있는지 감시하려고 작성.
+    console.log("/user/* 미들웨어가 가로챔"+req.originalUrl);//user로 오는 모든 요청을 미들웨어가 가로챔
+    if(req.query.id){//1.id라는 파라미터가 있어야 user페이지로 갈수 있고
+        next();//원래 요청하던 url로 이동
     }else{
-        res.redirect("/");
+        res.redirect("/");//2. 없으면 메인페이지로 이동한다.
             //위의 페이지는
             // res.writeHead(302,{location:"/"};
             //res.end() 와 같다.

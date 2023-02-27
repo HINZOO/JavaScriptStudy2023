@@ -1,0 +1,53 @@
+html
+    head
+        meta(charset="UTF-8")
+    body
+        h1 안녕!!
+            span=a+b
+        //img(src="/public/img/bird.jpeg",style="width=100px")
+        img(src="/img/참새.jpeg",style="width=100px")
+        h2 미들웨어로 정적리소스 처리
+        ul
+            li app.use(express.static("경로"));
+            li 확장자(jpeg,png,...)가 정적리소스인 경우 public 폴더에서 찾아서 응답.
+            li 이때 응답하는 문서의 형식을 자동으로 처리한다.
+        h2 express 에서 템플릿 엔진 적용 (pug)
+        ul
+            li app.set("view engine","엔진이름");
+            li express 사이트에 명시된 템플릿 엔진이다. 응답으로 사용된다.
+            li app.set("views","경로")로 변경 가능하며(default 경로="./views") 템플릿 엔진의 기본 위치는 views로 되어있다.
+        h2 bodyParser 로 요청헤더로 넘어오는 queryString 을 미들웨어로 처리.
+        h3 회원가입 폼 action=/signup.do
+        //get :
+        //post: http://localhost:8888/signup.do (요청헤더 network - payload 에 저장)
+        form(action="/signup.do" method='post')
+            p
+                label 아이디
+                    input(name="id",value="hong123")
+            p
+                label 이름
+                    input(name="name",value="홍길동")
+            p
+                label 직업
+                    input(name="job",value="의적")
+            p
+                label 나이
+                    input(name="age",value="75")
+            p
+                button(type="submit") 제출
+        h3 bodyParse 가 적용된 /signup2.do
+        form(action="/signup2.do" method="post")
+            p
+                label 아이디
+                    input(name="id",value="hong123")
+            p
+                label 이름
+                    input(name="name",value="홍길동")
+            p
+                label 직업
+                    input(name="job",value="의적")
+            p
+                label 나이
+                    input(name="age",value="75")
+            p
+                button(type="submit") 제출
