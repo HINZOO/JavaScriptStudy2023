@@ -2,7 +2,7 @@ html(lang="en")
     head
         title SCOTT.emp CRUD
         meta(charset="UTF-8")
-        script(src="/public/js/empInsertTempInsert.js", defer=true)
+        script(src="/js/emp/insert.js", defer=true)
             //html은 defer 만 쓴다.
             //https://ko.javascript.info/onload-ondomcontentloaded 참고
     style.
@@ -34,7 +34,7 @@ html(lang="en")
     body
 
         h1 📁 사원 등록 폼
-        form(id="empInsertForm",name="empInsertForm",action="/empInsert.do",method="POST")
+        form(id="empInsertForm",name="empInsertForm",action="/emp/insert.do",method="POST")
             div.inputCont
                 p
                     span 사번 :
@@ -92,7 +92,3 @@ html(lang="en")
                 //deptnoCheck.do를 구현하여 참조가능한 부서번호
             p
                 button(type="submit") 제출
-    //스크립트 쓰는법
-    //script.
-        //script. 하위 요소로 인지하지 않겠다.
-        console.log(empInsertForm.empno);

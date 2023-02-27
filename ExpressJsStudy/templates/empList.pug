@@ -1,0 +1,27 @@
+html(lang="en")
+    head
+        title SCOTT.emp CRUD
+        meta(charset="UTF-8")
+    body
+        h1 📁 사원 리스트 (Read)
+
+            table
+                thead
+                    tr
+                        th 사번
+                        th 이름
+                        th 급여
+                        th 입사일
+                        th 부서
+                        th 상세
+                tbody
+                    -for(const emp of empList)
+                        tr
+                            td=emp.EMPNO
+                            td=emp.ENAME
+                            td=emp.SAL
+                            td=emp.HIREDATE.toLocaleDateString("ko-KR")
+                            td=emp.DEPTNO
+                            td
+                                a(href="/emp/detail.do?empno="+emp.EMPNO) 상세
+
