@@ -12,6 +12,45 @@ router.get("/insert.do",(req, res)=>{
     res.render("empInsert");
 });
 
+router.post("/insert.do",async (req,res)=>{
+    //요청 처리 : 사원 파라미터 처리 후 db의 사원을 등록,
+    //이때 db에 사원을 등록하는 행위를 서비스 또는 모델(Model) 이라하고 사원의 파라미터 처리를 하는 과정을 Controller 라고한다.
+    //응답 처리 : 등록에 성공하면 성공 페이지(View)를 랜더링해서 응답한다. 또는 (성공페이지로 이동하기도 한다.=>redirect)
+    //ModelViewController -> MVC가 다 있으면 model1 이라한다.
+    for(let key in req.body) {
+        if (!req.body[key]) {
+            req.body[key] = null;
+            //공백으로 보내는 파라미터 null 처리
+        }else{
+            if(key==="comm" || key==="sal"){
+                req.body[key]=parseFloat(req.body[key]);
+            }else if(key==="empno"|| key==="deptno" || key==="mgr"){
+                req.body[key]=parseInt(req.body[key]);
+            }
+            if(Number.isNaN(req.body[key])) {    //🤔NaN 처리법..
+                res.status(500).send(`<h1>${key} 이(가) 수가 아닌 값을 입력하셨습니다.</h1>`);
+                return;
+            }
+        }
+    }
+    let insert=0; //등록 성공여부
+    try{
+        let sql="INSERT INTO EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) VALUE(?,?,?,?,?,?,?,?)";
+        const [result]=await scott.execute(sql,[req.body.empno,req.body.ename,req.body.job,req.body.mgr,
+                        req.body.hiredate,req.body.sal,req.body.comm,req.body.deptno]);
+        insert=result.affectedRows;
+    } catch (e) {
+        console.error(e)
+        res.status(500).send(`<h1>DB 등록을 실패했습니다. 다시 시도하세요!</h1>`);
+        return;
+    }
+    if(insert>0){
+        res.redirect("/emp/list.do");
+    }else{
+        res.redirect("/emp/insert.do");
+    }
+})
+
 router.get("/detail.do",async (req,res)=>{
     if(!req.query.empno) res.sendStatus(400);//만약 파라미터를 보내지 않으면 에러가 뜬다.//Bad Request
         //res.status(400).send("<h1>잘못된 요청 ERROR CODE : 400</h1>")
@@ -40,7 +79,6 @@ router.get("/:empno/update.do",async (req, res)=>{
     else res.redirect("list.do");
 });
 router.post("/update.do",async(req, res)=>{
-
    let sql="UPDATE EMP SET ENAME=?,JOB=?,HIREDATE=?,SAL=?,COMM=?,DEPTNO=?,MGR=? WHERE EMPNO=?"
     for(let key in req.body){
         if(!req.body[key]){req.body[key]=null;} //미리 null처리를 다 하는 코드
@@ -49,10 +87,10 @@ router.post("/update.do",async(req, res)=>{
         [   req.body.ename,
             req.body.job,
             req.body.hiredate,
-            parseFloat(req.body.sal),
-            parseFloat(req.body.comm),
-            parseInt(req.body.deptno),
-            parseInt(req.body.mgr),
+            (req.body.sal)&&parseFloat(req.body.sal),
+            (req.body.comm)&&parseFloat(req.body.comm),
+            (req.body.deptno)&&parseInt(req.body.deptno),
+            (req.body.mgr)&&parseInt(req.body.mgr),//()&&() 모두가 true가 될때까지 실행,만약 false면 멈추고 반환
             parseInt(req.body.empno)
         ];
     let update=0;
@@ -74,5 +112,49 @@ router.post("/update.do",async(req, res)=>{
     //json 의 value는 NaN과 undefined 가 없다.
 });
 
+
+router.get("/delete.do",async (req, res) => {
+    if (!req.query.empno || isNaN(req.query.empno)) {
+        res.status(400).send("<h1> 에러코드 400: 잘못된 요청입니다.</h1>")
+        return;
+    }
+    let empno = parseInt(req.query.empno);
+    // 요청처리 🔼//응답처리🔽
+    let del = 0;
+    try {
+        let sql = "DELETE FROM EMP WHERE EMPNO=?";
+        const [result] = await scott.execute(sql, [empno])
+        del = result.affectedRows;
+    } catch (e) {
+        console.error(e)
+    }
+    if (del > 0) {
+        res.redirect("/emp/list.do");
+    } else {
+        res.redirect(`/emp/${empno}/update.do`);
+    }
+})
+
+router.get("/empnoCheck.do",async (req, res)=>{
+    if(!req.query.empno||isNaN(req.query.empno)) {
+        res.sendStatus(400);
+        return;
+    }
+    let empno=parseInt(req.query.empno);
+    const resObj={check:false,emp:null};
+    try{
+        let sql="SELECT * FROM EMP WHERE EMPNO=?";
+        const[rows,f]=await scott.query(sql,[empno]);
+        if(rows.length>0){
+            resObj.check=true;
+            resObj.emp=rows[0]
+        }
+    }catch (e) {
+        console.error(e)
+        res.sendStatus(500);
+        return;
+    }
+    res.send(resObj);
+})
 //=================================================================================================
 module.exports=router;

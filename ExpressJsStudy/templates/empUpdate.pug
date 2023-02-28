@@ -1,8 +1,6 @@
-html(lang="en")
-    head
-        title SCOTT.emp CRUD
-        meta(charset="UTF-8")
-    body
+extends  layout
+block content
+    main
         h1 📁 사원 수정 폼 (Read)
         form(name="empUpdateForm",action="/emp/update.do",method="POST")
             //action : 어디로 보낼껀지 주소 적는 곳
@@ -25,15 +23,20 @@ html(lang="en")
             p
                 span 상여금:
                 input(value=emp.COMM,name="comm")
+                //🤔보안이 취약하지 않을까?
+                    //동적페이지의 일부! 보안은 걱정하지 않아도 된다.
+                    //템플릿 엔진(pug) 동적페이지 => html 렌더링(서버사이드렌더링) => 배포
+                -let nowStr=""
+                -if(emp.HIREDATE)
+                    -let y=emp.HIREDATE.getUTCFullYear();
+                    -let m=emp.HIREDATE.getUTCMonth()+1;
+                    -m=(m<10)?"0"+m:m;
+                    -let d=emp.HIREDATE.getUTCDate();
+                    -d=(d<10)?"0"+d:d;
+                    -nowStr=`${y}-${m}-${d}`;
             p
-                -let y=emp.HIREDATE.getUTCFullYear();
-                -let m=emp.HIREDATE.getUTCMonth()+1;
-                -m=(m<10)?"0"+m:m
-                -let d=emp.HIREDATE.getUTCDate();
-                -d=(d<10)?"0"+d:d
-
                 span 입사일:
-                input(value=`${y}-${m}-${d}`,name="hiredate",type="date")
+                input(value=nowStr,name="hiredate",type="date")
             p
                 span 상사:
                 input(value=emp.MGR, name="mgr")

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/ExpressJsBoardStudy.iml" filepath="$PROJECT_DIR$/ExpressJsBoardStudy.iml" />
       <module fileurl="file://$PROJECT_DIR$/ExpressJsStudy/ExpressJsStudy.iml" filepath="$PROJECT_DIR$/ExpressJsStudy/ExpressJsStudy.iml" />
       <module fileurl="file://$PROJECT_DIR$/JavaScriptStudy/JavaScriptStudy.iml" filepath="$PROJECT_DIR$/JavaScriptStudy/JavaScriptStudy.iml" />
       <module fileurl="file://$PROJECT_DIR$/WebAppStudy/WebAppStudy.iml" filepath="$PROJECT_DIR$/WebAppStudy/WebAppStudy.iml" />

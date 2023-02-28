@@ -1,10 +1,7 @@
-html(lang="en")
-    head
-        title SCOTT.emp CRUD
-        meta(charset="UTF-8")
-        script(src="/js/emp/insert.js", defer=true)
-            //html은 defer 만 쓴다.
-            //https://ko.javascript.info/onload-ondomcontentloaded 참고
+extends layout.pug
+block content
+    script(src="/js/emp/insert.js", defer=true)
+
     style.
         form[name=empInsertForm] input {
             border-top-style: none;
@@ -71,6 +68,7 @@ html(lang="en")
                 -let d=now.getUTCDate()
                 -d=(d<10)?"0"+d:d
                 -let nowStr=`${y}-${m}-${d}`
+
                 input(type="date",name="hiredate",value=nowStr)
                 //strong=nowStr
                 //strong=now.toLocaleDateString()

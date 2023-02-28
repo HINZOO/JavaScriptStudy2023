@@ -1,9 +1,6 @@
-html(lang="en")
-    head
-        title SCOTT.emp CRUD
-        meta(charset="UTF-8")
-        //link(rel="stylesheet" href="/public/css/empDetail.css")
-    body
+extends layout.pug
+block content
+    main
         h1 📁 사원 상세정보 (Read)
         div
             p
@@ -23,7 +20,8 @@ html(lang="en")
                 strong=emp.COMM
             p
                 span 입사일:
-                strong=emp.HIREDATE.toLocaleDateString("ko-KR")
+                strong=emp.HIREDATE && emp.HIREDATE.toLocaleDateString("ko-KR")
+                //&&연산 : true가 계속 될때까지 진행 false가 나오면 멈춤.
             p
                 span 상사:
                 strong=emp.MGR
